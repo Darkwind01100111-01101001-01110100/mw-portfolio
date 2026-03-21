@@ -1,9 +1,9 @@
-// ═══════════════════════════════════════════════════════
+// =======================================================
 // CHELSEA FC ANALYTICS SECTION
-// Design: Terminal Clarity — dark navy, teal accents
+// Design: Terminal Clarity -- dark navy, teal accents
 // Data: Baked-fresh as of Mar 21, 2026 (GW31)
 // Sources: BBC Sport (EPL table), Wikipedia, Sporting News (UCL)
-// ═══════════════════════════════════════════════════════
+// =======================================================
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import CodeShowcase from "@/components/CodeShowcase";
@@ -15,7 +15,7 @@ const FG = "oklch(0.88 0.008 220)";
 const MUTED = "oklch(0.60 0.015 220)";
 const BORDER = "oklch(1 0 0 / 8%)";
 
-// ── EPL 2025-26 Standings (GW31, scraped Mar 21 2026) ──
+// -- EPL 2025-26 Standings (GW31, scraped Mar 21 2026) --
 const EPL_TABLE = [
   { pos:1,  name:"Arsenal",               played:31, won:21, drawn:7,  lost:3,  gf:61, ga:22, gd:39,  pts:70, form:"DDWWWW", projected:86, zone:"title" },
   { pos:2,  name:"Manchester City",        played:30, won:18, drawn:7,  lost:5,  gf:60, ga:28, gd:32,  pts:61, form:"WWWWDD", projected:77, zone:"cl" },
@@ -39,7 +39,7 @@ const EPL_TABLE = [
   { pos:20, name:"Wolverhampton Wanderers", played:31, won:3, drawn:8, lost:20, gf:24, ga:54, gd:-30, pts:17, form:"DDLWWD", projected:21, zone:"rel" },
 ];
 
-// ── Chelsea season data ──────────────────────────────
+// -- Chelsea season data ------------------------------
 const CHELSEA_SEASON = {
   manager: "Liam Rosenior",
   managerNote: "Enzo Maresca dismissed Jan 1; Rosenior appointed Jan 8",
@@ -47,12 +47,12 @@ const CHELSEA_SEASON = {
   topScorerGoals: 14,
   topScorerApps: 30,
   topScorerAssists: 5,
-  biggestWin: "5–1 vs West Ham (A), Aug 22",
-  biggestDefeat: "0–3 vs PSG (H), Mar 17 (8–2 agg)",
-  ucl: "Eliminated R16 — PSG 8–2 agg",
+  biggestWin: "5-1 vs West Ham (A), Aug 22",
+  biggestDefeat: "0-3 vs PSG (H), Mar 17 (8-2 agg)",
+  ucl: "Eliminated R16 -- PSG 8-2 agg",
   homeRecord: { played:15, won:6, drawn:5, lost:4, pts:23 },
   awayRecord: { played:15, won:7, drawn:4, lost:4, pts:25 },
-  // Cumulative points progression (GW1→GW30, sampled)
+  // Cumulative points progression (GW1=GW30, sampled)
   pointsProgression: [
     {gw:1,pts:1},{gw:2,pts:4},{gw:3,pts:7},{gw:4,pts:10},{gw:5,pts:11},
     {gw:6,pts:14},{gw:7,pts:17},{gw:8,pts:17},{gw:9,pts:18},{gw:10,pts:21},
@@ -84,26 +84,26 @@ const CHELSEA_SEASON = {
   },
 };
 
-// ── UCL Quarter-finalists ──────────────────────────────
+// -- UCL Quarter-finalists ------------------------------
 const UCL_QF = [
   { team:"PSG",            nation:"France",   leaguePos:"1st (L1)",  ucl:"R16 def. Chelsea 8-2", status:"QF" },
   { team:"Liverpool",      nation:"England",  leaguePos:"5th (PL)",  ucl:"R16 def. Galatasaray 4-1", status:"QF" },
-  { team:"Real Madrid",    nation:"Spain",    leaguePos:"—",         ucl:"R16 def. Man City 5-1", status:"QF" },
-  { team:"Bayern Munich",  nation:"Germany",  leaguePos:"—",         ucl:"R16 def. Atalanta 10-2", status:"QF" },
-  { team:"Barcelona",      nation:"Spain",    leaguePos:"—",         ucl:"R16 def. Newcastle 8-3", status:"QF" },
-  { team:"Atletico Madrid",nation:"Spain",    leaguePos:"—",         ucl:"R16 def. Tottenham 7-5", status:"QF" },
-  { team:"Sporting CP",    nation:"Portugal", leaguePos:"—",         ucl:"R16 def. Bodo/Glimt 5-3", status:"QF" },
+  { team:"Real Madrid",    nation:"Spain",    leaguePos:"--",         ucl:"R16 def. Man City 5-1", status:"QF" },
+  { team:"Bayern Munich",  nation:"Germany",  leaguePos:"--",         ucl:"R16 def. Atalanta 10-2", status:"QF" },
+  { team:"Barcelona",      nation:"Spain",    leaguePos:"--",         ucl:"R16 def. Newcastle 8-3", status:"QF" },
+  { team:"Atletico Madrid",nation:"Spain",    leaguePos:"--",         ucl:"R16 def. Tottenham 7-5", status:"QF" },
+  { team:"Sporting CP",    nation:"Portugal", leaguePos:"--",         ucl:"R16 def. Bodo/Glimt 5-3", status:"QF" },
   { team:"Arsenal",        nation:"England",  leaguePos:"1st (PL)",  ucl:"R16 def. Leverkusen 3-1", status:"QF" },
 ];
 
 const UCL_BRACKET = [
-  { id:"QF1", home:"PSG",           away:"Liverpool",       leg1:"—", leg2:"—" },
-  { id:"QF2", home:"Real Madrid",   away:"Bayern Munich",   leg1:"—", leg2:"—" },
-  { id:"QF3", home:"Atletico Madrid",away:"Barcelona",      leg1:"—", leg2:"—" },
-  { id:"QF4", home:"Sporting CP",   away:"Arsenal",         leg1:"—", leg2:"—" },
+  { id:"QF1", home:"PSG",           away:"Liverpool",       leg1:"--", leg2:"--" },
+  { id:"QF2", home:"Real Madrid",   away:"Bayern Munich",   leg1:"--", leg2:"--" },
+  { id:"QF3", home:"Atletico Madrid",away:"Barcelona",      leg1:"--", leg2:"--" },
+  { id:"QF4", home:"Sporting CP",   away:"Arsenal",         leg1:"--", leg2:"--" },
 ];
 
-// ── Zone color helper ──────────────────────────────────
+// -- Zone color helper ----------------------------------
 function zoneColor(zone: string, highlight?: boolean) {
   if (highlight) return { bg: "oklch(0.25 0.06 240)", border: "oklch(0.65 0.14 195 / 0.5)" };
   if (zone === "title") return { bg: "oklch(0.22 0.05 145 / 0.3)", border: "transparent" };
@@ -123,7 +123,7 @@ function FormBadge({ result }: { result: string }) {
   );
 }
 
-// ── Mini points progression chart (SVG) ───────────────
+// -- Mini points progression chart (SVG) ---------------
 function PointsChart() {
   const data = CHELSEA_SEASON.pointsProgression;
   const maxPts = 55;
@@ -151,7 +151,7 @@ function PointsChart() {
   return (
     <div>
       <div className="text-xs mb-2" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace" }}>
-        Cumulative Points — GW1 to GW30
+        Cumulative Points -- GW1 to GW30
       </div>
       <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{ overflow: "visible" }}>
         {/* Y-axis gridlines */}
@@ -192,7 +192,7 @@ function PointsChart() {
   );
 }
 
-// ── Metric comparison bar ──────────────────────────────
+// -- Metric comparison bar ------------------------------
 function MetricBar({ label, chelsea, leagueAvg, max, rank, unit = "" }: {
   label: string; chelsea: number; leagueAvg: number; max: number; rank: number; unit?: string;
 }) {
@@ -225,24 +225,24 @@ function MetricBar({ label, chelsea, leagueAvg, max, rank, unit = "" }: {
   );
 }
 
-// ── Matchday data fetcher ─────────────────────────────
+// -- Matchday data fetcher -----------------------------
 type EplRow = typeof EPL_TABLE[0];
 
 async function fetchLiveEplTable(): Promise<EplRow[] | null> {
   // In a full-stack deployment this would call a backend proxy.
   // For the static portfolio we return null so the UI falls back
-  // to baked data gracefully — the button still demonstrates the
+  // to baked data gracefully -- the button still demonstrates the
   // polling pattern and UX intent to any reviewer.
   return null;
 }
 
-// ── Main component ─────────────────────────────────────
+// -- Main component -------------------------------------
 export default function ChelseaSection() {
   const [activeTab, setActiveTab] = useState<"epl" | "chelsea" | "ucl">("epl");
   const [sortCol, setSortCol] = useState<"pts" | "gf" | "gd" | "projected">("pts");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
-  // ── Matchday mode — WIP preview only (no live fetch yet) ──
+  // -- Matchday mode -- WIP preview only (no live fetch yet) --
   const [matchdayMode, setMatchdayMode] = useState(false);
 
   const sortedTable = [...EPL_TABLE].sort((a, b) => {
@@ -270,7 +270,7 @@ export default function ChelseaSection() {
             <span style={{ fontSize: "1.6rem" }}>⚽</span>
             <div className="section-label">// personal projects · sports analytics</div>
           </div>
-          {/* ── Matchday Mode Button (WIP) ── */}
+          {/* -- Matchday Mode Button (WIP) -- */}
           <div className="flex flex-col items-end gap-1">
             <button
               onClick={() => setMatchdayMode(m => !m)}
@@ -288,21 +288,21 @@ export default function ChelseaSection() {
               {matchdayMode ? "Matchday Mode: Preview" : "It's Matchday!"}
             </button>
             <span style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6rem" }}>
-              ⚠️ WIP — coming soon
+              ⚠️ WIP -- coming soon
             </span>
           </div>
         </div>
 
-        {/* Matchday WIP callout — always visible */}
+        {/* Matchday WIP callout -- always visible */}
         <div className="mb-4 p-3 rounded flex items-start gap-2.5"
           style={{ background: "oklch(0.65 0.14 195 / 0.04)", border: "1px dashed oklch(0.65 0.14 195 / 0.18)" }}>
           <span style={{ color: TEAL, fontSize: "0.85rem", marginTop: "1px", flexShrink: 0 }}>🚧</span>
           <div>
             <span className="text-xs font-semibold block mb-0.5" style={{ color: FG, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.68rem" }}>
-              Matchday Mode — WIP Feature
+              Matchday Mode -- WIP Feature
             </span>
             <p className="text-xs" style={{ color: MUTED, lineHeight: "1.65", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.64rem" }}>
-              On a match day, this button will activate hourly polling — scraping the EPL table every 60 minutes
+              On a match day, this button will activate hourly polling -- scraping the EPL table every 60 minutes
               and updating the standings below without a page reload. The React polling hook and countdown logic
               are already written; the remaining piece is a backend proxy route to handle the BBC Sport scrape
               server-side (required to bypass browser CORS restrictions). Planned for a near-future full-stack upgrade.
@@ -314,7 +314,7 @@ export default function ChelseaSection() {
           Chelsea FC Analytics
         </h2>
         <p className="text-sm mb-2 max-w-2xl" style={{ color: MUTED, lineHeight: "1.7" }}>
-          Predictive models and performance analysis built around Chelsea FC and the Premier League — combining sports analytics with the same R and Python patterns used in production work. Data updated <strong style={{ color: FG }}>Mar 21, 2026 (GW31)</strong>.
+          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. Data updated <strong style={{ color: FG }}>Mar 21, 2026 (GW31)</strong>.
         </p>
         <div className="flex items-center gap-2 mb-8">
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
@@ -339,7 +339,7 @@ export default function ChelseaSection() {
           ))}
         </div>
 
-        {/* ── TAB 1: EPL TABLE ── */}
+        {/* -- TAB 1: EPL TABLE -- */}
         {activeTab === "epl" && (
           <div>
             {/* Zone legend */}
@@ -430,7 +430,7 @@ export default function ChelseaSection() {
           </div>
         )}
 
-        {/* ── TAB 2: CHELSEA DEEP-DIVE ── */}
+        {/* -- TAB 2: CHELSEA DEEP-DIVE -- */}
         {activeTab === "chelsea" && (
           <div className="space-y-6">
             {/* Season summary cards */}
@@ -455,14 +455,14 @@ export default function ChelseaSection() {
               <div>
                 <div className="text-xs font-semibold mb-0.5" style={{ color: "#f59e0b" }}>Mid-season manager change</div>
                 <p className="text-xs" style={{ color: MUTED, lineHeight: "1.6" }}>
-                  Enzo Maresca dismissed Jan 1, 2026 after a run of poor form. Liam Rosenior appointed Jan 8. Chelsea were 5th at the time (38 pts, GW19). Under Rosenior: 10 pts from 11 games — form has been inconsistent but UCL exit to PSG (8-2 agg) was the low point.
+                  Enzo Maresca dismissed Jan 1, 2026 after a run of poor form. Liam Rosenior appointed Jan 8. Chelsea were 5th at the time (38 pts, GW19). Under Rosenior: 10 pts from 11 games -- form has been inconsistent but UCL exit to PSG (8-2 agg) was the low point.
                 </p>
               </div>
             </div>
 
             {/* Points progression chart */}
             <div className="panel p-5">
-              <div className="section-label mb-3">Points Progression — 2025/26</div>
+              <div className="section-label mb-3">Points Progression -- 2025/26</div>
               <PointsChart />
             </div>
 
@@ -491,7 +491,7 @@ export default function ChelseaSection() {
                   ))}
                 </div>
                 <p className="text-xs mt-3" style={{ color: MUTED, lineHeight: "1.6" }}>
-                  Chelsea are actually <strong style={{ color: FG }}>stronger away</strong> (25 pts) than at home (23 pts) — unusual for a top-6 side. Stamford Bridge has been inconsistent this season.
+                  Chelsea are actually <strong style={{ color: FG }}>stronger away</strong> (25 pts) than at home (23 pts) -- unusual for a top-6 side. Stamford Bridge has been inconsistent this season.
                 </p>
               </div>
 
@@ -523,7 +523,7 @@ export default function ChelseaSection() {
                         <td className="py-1.5 px-2" style={{ color: MUTED }}>{r.gw}</td>
                         <td className="py-1.5 px-2 font-semibold" style={{ color: FG }}>{r.opp}</td>
                         <td className="py-1.5 px-2" style={{ color: MUTED }}>{r.h_a}</td>
-                        <td className="py-1.5 px-2" style={{ color: FG }}>{r.gf}–{r.ga}</td>
+                        <td className="py-1.5 px-2" style={{ color: FG }}>{r.gf}-{r.ga}</td>
                         <td className="py-1.5 px-2"><FormBadge result={r.result} /></td>
                       </tr>
                     ))}
@@ -532,12 +532,12 @@ export default function ChelseaSection() {
               </div>
             </div>
 
-            {/* R code blocks — tabbed */}
+            {/* R code blocks -- tabbed */}
             <CodeShowcase />
           </div>
         )}
 
-        {/* ── TAB 3: UCL ── */}
+        {/* -- TAB 3: UCL -- */}
         {activeTab === "ucl" && (
           <div className="space-y-6">
             {/* Chelsea UCL summary */}
@@ -545,9 +545,9 @@ export default function ChelseaSection() {
               <div className="flex items-start gap-3">
                 <span style={{ fontSize: "1.4rem" }}>🔵</span>
                 <div>
-                  <div className="text-sm font-bold mb-1" style={{ color: FG }}>Chelsea eliminated — Round of 16</div>
+                  <div className="text-sm font-bold mb-1" style={{ color: FG }}>Chelsea eliminated -- Round of 16</div>
                   <p className="text-xs" style={{ color: MUTED, lineHeight: "1.7" }}>
-                    Chelsea's first UCL campaign since 2022-23 ended in the Round of 16 against holders PSG. Lost 5-2 in Paris (Mar 11) then 0-3 at Stamford Bridge (Mar 17) — <strong style={{ color: FG }}>8-2 on aggregate</strong>, Chelsea's joint-heaviest European two-legged defeat. Trevoh Chalobah stretchered off in the second leg.
+                    Chelsea's first UCL campaign since 2022-23 ended in the Round of 16 against holders PSG. Lost 5-2 in Paris (Mar 11) then 0-3 at Stamford Bridge (Mar 17) -- <strong style={{ color: FG }}>8-2 on aggregate</strong>, Chelsea's joint-heaviest European two-legged defeat. Trevoh Chalobah stretchered off in the second leg.
                   </p>
                 </div>
               </div>
@@ -613,11 +613,11 @@ export default function ChelseaSection() {
           <div className="flex items-start gap-2">
             <span style={{ color: TEAL, fontSize: "0.75rem" }}>&#128736;</span>
             <div>
-              <span className="text-xs font-semibold" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>WIP — Realtime Integration</span>
+              <span className="text-xs font-semibold" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>WIP -- Realtime Integration</span>
               <p className="text-xs mt-0.5" style={{ color: MUTED, lineHeight: "1.6" }}>
                 Current data is refreshed on a daily cadence from public sources. A planned next iteration would connect directly to the
                 {" "}<strong style={{ color: "oklch(0.75 0.012 220)" }}>FBref / Opta API</strong> for live xG, progressive carries, and press intensity metrics
-                {" "}— enabling real-time match-day dashboards and automated post-match reports without manual refresh.
+                {" "}-- enabling real-time match-day dashboards and automated post-match reports without manual refresh.
               </p>
             </div>
           </div>

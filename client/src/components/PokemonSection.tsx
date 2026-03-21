@@ -1,185 +1,104 @@
 // ═══════════════════════════════════════════════════════
 // POKÉMON ANALYSIS SECTION
 // Design: Terminal Clarity — dark navy, teal accents
-// Charts: Pure SVG/CSS — no external chart library
+// Data: Kaggle "The Complete Pokemon Dataset" (801 Pokémon)
+// Processed via Python/pandas — real values, not estimates
 // ═══════════════════════════════════════════════════════
 
 import { useState } from "react";
 import { POKEMON_DATA } from "@/lib/portfolioData";
 
-const TEAL = "#22D3EE";
-const MUTED = "oklch(0.60 0.015 220)";
-const FG = "oklch(0.88 0.008 220)";
-const CARD_BG = "oklch(0.20 0.038 240)";
+const TEAL   = "#22D3EE";
+const MUTED  = "oklch(0.60 0.015 220)";
+const FG     = "oklch(0.88 0.008 220)";
+const PANEL  = "oklch(0.20 0.038 240)";
 const BORDER = "oklch(1 0 0 / 8%)";
+const MONO   = "'JetBrains Mono', monospace";
 
-// ── Horizontal bar chart (pure SVG) ───────────────────
-function HBarChart({
-  data, valueKey, labelKey, colorKey, title, subtitle, insight, maxVal,
-}: {
-  data: any[]; valueKey: string; labelKey: string; colorKey?: string;
-  title: string; subtitle?: string; insight: string; maxVal?: number;
-}) {
-  const max = maxVal ?? Math.max(...data.map(d => d[valueKey])) * 1.08;
+// ── Helpers ────────────────────────────────────────────
+function TypeBadge({ type }: { type: string }) {
+  const color = POKEMON_DATA.typeColors[type] ?? "#888";
   return (
-    <div className="panel p-5">
-      <div className="section-label mb-1" style={{ fontSize: "0.65rem" }}>{subtitle}</div>
-      <div className="text-sm font-semibold mb-4" style={{ color: FG }}>{title}</div>
-      <div className="space-y-2">
-        {data.map((d, i) => {
-          const pct = (d[valueKey] / max) * 100;
-          const color = colorKey ? (POKEMON_DATA.typeColors[d[colorKey]] ?? TEAL) : TEAL;
-          return (
-            <div key={i} className="flex items-center gap-2">
-              <div className="text-xs w-16 text-right shrink-0 truncate"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.70 0.012 220)", fontSize: "0.7rem" }}>
-                {d[labelKey]}
-              </div>
-              <div className="flex-1 relative h-5 rounded overflow-hidden"
-                style={{ background: "oklch(1 0 0 / 5%)" }}>
-                <div className="h-full rounded transition-all duration-700"
-                  style={{ width: `${pct}%`, background: color, opacity: 0.82 }} />
-              </div>
-              <div className="text-xs w-8 shrink-0"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL, fontSize: "0.7rem" }}>
-                {d[valueKey]}
-              </div>
-            </div>
-          );
-        })}
+    <span className="capitalize px-1.5 py-0.5 rounded text-xs"
+      style={{ background: color + "22", color, border: `1px solid ${color}44`, fontFamily: MONO, fontSize: "0.6rem" }}>
+      {type}
+    </span>
+  );
+}
+
+function StatBar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-1">
+      <span className="text-xs w-16 text-right flex-shrink-0" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.62rem" }}>{label}</span>
+      <div className="flex-1 rounded-full overflow-hidden" style={{ height: "6px", background: "oklch(1 0 0 / 6%)" }}>
+        <div className="h-full rounded-full" style={{ width: `${(value / max) * 100}%`, background: color }} />
       </div>
-      <p className="text-xs mt-4" style={{ color: MUTED, lineHeight: "1.6" }}>
-        <strong style={{ color: FG }}>Insight:</strong> {insight}
-      </p>
+      <span className="w-8 text-xs flex-shrink-0" style={{ color: FG, fontFamily: MONO, fontSize: "0.62rem" }}>{value}</span>
     </div>
   );
 }
 
-// ── Grouped comparison bars ────────────────────────────
-function ComparisonChart() {
-  const { legendary, regular } = POKEMON_DATA.legendaryVsRegular;
-  const metrics = [
-    { label: "Avg Total", leg: legendary.avgTotal, reg: regular.avgTotal, max: 700 },
-    { label: "Avg HP",    leg: legendary.avgHp,    reg: regular.avgHp,    max: 130 },
-    { label: "Avg Atk",  leg: legendary.avgAttack, reg: regular.avgAttack, max: 140 },
-  ];
+function CodeBlock({ code, lang = "python" }: { code: string; lang?: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => { navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1500); };
+  const hi = code
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/(#[^\n]*)/g, '<span style="color:#6A9955">$1</span>')
+    .replace(/\b(import|from|as|def|return|for|in|if|elif|else|print|True|False|None|and|or|not)\b/g, '<span style="color:#569CD6">$1</span>')
+    .replace(/(".*?"|'.*?')/g, '<span style="color:#CE9178">$1</span>')
+    .replace(/\b(\d+\.?\d*)\b/g, '<span style="color:#B5CEA8">$1</span>');
   return (
-    <div className="panel p-5">
-      <div className="section-label mb-1" style={{ fontSize: "0.65rem" }}>Analysis · Legendary vs. Regular</div>
-      <div className="text-sm font-semibold mb-4" style={{ color: FG }}>Stat Gap: Legendary vs. Regular Pokémon</div>
-      <div className="space-y-4">
-        {metrics.map(m => (
-          <div key={m.label}>
-            <div className="flex justify-between mb-1">
-              <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.65 0.015 220)", fontSize: "0.7rem" }}>{m.label}</span>
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs w-16 text-right shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F8D030", fontSize: "0.65rem" }}>Legendary</span>
-                <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "oklch(1 0 0 / 5%)" }}>
-                  <div className="h-full rounded" style={{ width: `${(m.leg / m.max) * 100}%`, background: "#F8D030", opacity: 0.85 }} />
-                </div>
-                <span className="text-xs w-8 shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#F8D030", fontSize: "0.7rem" }}>{m.leg}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs w-16 text-right shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL, fontSize: "0.65rem" }}>Regular</span>
-                <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "oklch(1 0 0 / 5%)" }}>
-                  <div className="h-full rounded" style={{ width: `${(m.reg / m.max) * 100}%`, background: TEAL, opacity: 0.7 }} />
-                </div>
-                <span className="text-xs w-8 shrink-0" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL, fontSize: "0.7rem" }}>{m.reg}</span>
-              </div>
-            </div>
-          </div>
-        ))}
+    <div className="rounded overflow-hidden" style={{ background: "oklch(0.13 0.03 240)", border: `1px solid ${BORDER}` }}>
+      <div className="flex items-center justify-between px-3 py-1.5" style={{ background: "oklch(0.15 0.03 240)", borderBottom: `1px solid ${BORDER}` }}>
+        <span style={{ color: MUTED, fontFamily: MONO, fontSize: "0.6rem" }}>{lang}</span>
+        <button onClick={copy} style={{ color: copied ? TEAL : MUTED, fontFamily: MONO, fontSize: "0.6rem" }}>{copied ? "✓ copied" : "copy"}</button>
       </div>
-      <p className="text-xs mt-4" style={{ color: MUTED, lineHeight: "1.6" }}>
-        <strong style={{ color: FG }}>Insight:</strong> Legendaries average 637 base total vs. 417 for regular Pokémon — a <strong style={{ color: FG }}>53% stat premium</strong>. Only ~8.7% of all Pokémon are Legendary. Difference is statistically significant (p &lt; 0.001).
-      </p>
+      <pre className="p-4 overflow-x-auto" style={{ fontFamily: MONO, fontSize: "0.68rem", color: "#D4D4D4", lineHeight: "1.6" }}>
+        <code dangerouslySetInnerHTML={{ __html: hi }} />
+      </pre>
     </div>
   );
 }
 
-// ── Umbreon stat hexagon (SVG radar) ──────────────────
+// ── Umbreon SVG Radar ──────────────────────────────────
 function UmbreonRadar() {
   const u = POKEMON_DATA.umbreon;
   const stats = [
-    { label: "HP",     value: u.hp,      max: 255 },
-    { label: "Atk",   value: u.attack,  max: 255 },
-    { label: "Def",   value: u.defense, max: 255 },
-    { label: "SpA",   value: u.sp_atk,  max: 255 },
-    { label: "SpD",   value: u.sp_def,  max: 255 },
-    { label: "Spd",   value: u.speed,   max: 255 },
+    { label: "HP",    value: u.hp },
+    { label: "Atk",  value: u.attack },
+    { label: "Def",  value: u.defense },
+    { label: "SpA",  value: u.sp_atk },
+    { label: "SpD",  value: u.sp_def },
+    { label: "Spd",  value: u.speed },
   ];
-  const cx = 100, cy = 100, r = 70;
-  const n = stats.length;
+  const cx = 100, cy = 100, r = 72, n = stats.length;
   const angles = stats.map((_, i) => (i * 2 * Math.PI) / n - Math.PI / 2);
-
-  const toXY = (angle: number, radius: number) => ({
-    x: cx + radius * Math.cos(angle),
-    y: cy + radius * Math.sin(angle),
-  });
-
-  const gridLevels = [0.25, 0.5, 0.75, 1.0];
-  const statPoints = stats.map((s, i) => toXY(angles[i], (s.value / s.max) * r));
-  const polyPoints = statPoints.map(p => `${p.x},${p.y}`).join(" ");
+  const xy = (a: number, rad: number) => ({ x: cx + rad * Math.cos(a), y: cy + rad * Math.sin(a) });
+  const statPts = stats.map((s, i) => xy(angles[i], (s.value / 160) * r));
+  const poly = statPts.map(p => `${p.x},${p.y}`).join(" ");
+  const darkColor = POKEMON_DATA.typeColors["dark"];
 
   return (
-    <div className="panel p-5">
-      <div className="flex items-center gap-3 mb-4">
-        <span style={{ fontSize: "2rem" }}>🌑</span>
-        <div>
-          <div className="text-base font-bold" style={{ color: FG }}>Umbreon <span style={{ color: TEAL }}>#197</span></div>
-          <div className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace" }}>Dark Type · Base Total: 525</div>
-        </div>
-        <div className="ml-auto text-right">
-          <div className="text-xs" style={{ color: MUTED }}>Sp. Def</div>
-          <div className="text-xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}>130</div>
-          <div className="text-xs" style={{ color: MUTED }}>92nd pct</div>
-        </div>
-      </div>
-
-      <div className="flex justify-center">
-        <svg width="200" height="200" viewBox="0 0 200 200">
-          {/* Grid */}
-          {gridLevels.map(level => {
-            const pts = angles.map(a => toXY(a, r * level));
-            return (
-              <polygon key={level}
-                points={pts.map(p => `${p.x},${p.y}`).join(" ")}
-                fill="none" stroke="oklch(1 0 0 / 10%)" strokeWidth="1" />
-            );
-          })}
-          {/* Spokes */}
-          {angles.map((a, i) => {
-            const end = toXY(a, r);
-            return <line key={i} x1={cx} y1={cy} x2={end.x} y2={end.y} stroke="oklch(1 0 0 / 10%)" strokeWidth="1" />;
-          })}
-          {/* Stat polygon */}
-          <polygon points={polyPoints} fill={TEAL} fillOpacity="0.18" stroke={TEAL} strokeWidth="2" strokeLinejoin="round" />
-          {/* Stat dots */}
-          {statPoints.map((p, i) => (
-            <circle key={i} cx={p.x} cy={p.y} r="3" fill={TEAL} />
-          ))}
-          {/* Labels */}
-          {stats.map((s, i) => {
-            const labelPos = toXY(angles[i], r + 16);
-            return (
-              <text key={i} x={labelPos.x} y={labelPos.y + 4}
-                textAnchor="middle" fontSize="9" fill="oklch(0.65 0.015 220)"
-                fontFamily="'JetBrains Mono', monospace">
-                {s.label}
-              </text>
-            );
-          })}
-        </svg>
-      </div>
-
-      <div className="grid grid-cols-3 gap-2 mt-1">
+    <div className="flex flex-col items-center">
+      <svg width="200" height="200" viewBox="0 0 200 200">
+        {[0.25, 0.5, 0.75, 1].map(lv => (
+          <polygon key={lv} points={angles.map(a => { const p = xy(a, r * lv); return `${p.x},${p.y}`; }).join(" ")}
+            fill="none" stroke="oklch(1 0 0 / 10%)" strokeWidth="1" />
+        ))}
+        {angles.map((a, i) => { const e = xy(a, r); return <line key={i} x1={cx} y1={cy} x2={e.x} y2={e.y} stroke="oklch(1 0 0 / 10%)" strokeWidth="1" />; })}
+        <polygon points={poly} fill={darkColor} fillOpacity="0.22" stroke={darkColor} strokeWidth="2" strokeLinejoin="round" />
+        {statPts.map((p, i) => <circle key={i} cx={p.x} cy={p.y} r="3" fill={darkColor} />)}
+        {stats.map((s, i) => { const lp = xy(angles[i], r + 16); return (
+          <text key={i} x={lp.x} y={lp.y + 4} textAnchor="middle" fontSize="9"
+            fill="oklch(0.65 0.015 220)" fontFamily={MONO}>{s.label}</text>
+        ); })}
+      </svg>
+      <div className="grid grid-cols-3 gap-1.5 w-full mt-1">
         {stats.map(s => (
-          <div key={s.label} className="flex items-center justify-between px-2 py-1 rounded text-xs"
-            style={{ background: "oklch(1 0 0 / 4%)", fontFamily: "'JetBrains Mono', monospace" }}>
-            <span style={{ color: MUTED }}>{s.label}</span>
-            <span style={{ color: s.value >= 100 ? TEAL : FG, fontWeight: s.value >= 100 ? 700 : 400 }}>{s.value}</span>
+          <div key={s.label} className="flex justify-between px-2 py-1 rounded text-xs"
+            style={{ background: "oklch(1 0 0 / 4%)", fontFamily: MONO }}>
+            <span style={{ color: MUTED, fontSize: "0.6rem" }}>{s.label}</span>
+            <span style={{ color: s.value >= 100 ? darkColor : FG, fontWeight: s.value >= 100 ? 700 : 400, fontSize: "0.65rem" }}>{s.value}</span>
           </div>
         ))}
       </div>
@@ -188,246 +107,431 @@ function UmbreonRadar() {
 }
 
 // ── Python code samples ────────────────────────────────
-const PYTHON_SAMPLES = [
-  {
-    id: "load",
-    label: "Load & Explore",
-    code: `import pandas as pd
+const PY = {
+  load: `import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load the classic Pokémon dataset (800 Pokémon, Gen 1–6)
+# Load the Kaggle Pokémon dataset (801 Pokémon, 41 features)
 df = pd.read_csv('pokemon.csv')
+print(f"Shape: {df.shape}")   # (801, 41)
 
-# Basic exploration
-print(df.shape)          # (800, 13)
-print(df.dtypes)
-print(df.describe())
+# Key columns for analysis
+cols = ['name','type1','type2','base_total',
+        'hp','attack','defense',
+        'sp_attack','sp_defense','speed',
+        'generation','is_legendary']
 
-# Check for nulls
-print(df.isnull().sum())
-# Type 2 has 386 nulls — expected (many are single-type)
+# Check for nulls — type2 has ~380 nulls (expected)
+print(df[cols].isnull().sum())
 
-# Quick look at the data
-df[['Name','Type 1','Type 2','Total','HP','Attack',
-    'Defense','Sp. Atk','Sp. Def','Speed']].head(10)`,
-  },
-  {
-    id: "type_analysis",
-    label: "Type Analysis",
-    code: `# ── Type distribution ──────────────────────────────────
-type_counts = df['Type 1'].value_counts()
-print(f"Most common: {type_counts.index[0]} ({type_counts.iloc[0]} Pokémon)")
-# → Water (126 Pokémon)
+# Quick summary stats
+print(df[['base_total','hp','attack']].describe())`,
 
-# ── Average stats by type ───────────────────────────────
-type_stats = df.groupby('Type 1')['Total'].agg(['mean','std','count'])
-type_stats = type_stats.sort_values('mean', ascending=False)
-print(type_stats.head(5))
-#          mean   std  count
-# Dragon  550.0  79.2     50
-# Steel   486.4  64.1     49
-# Psychic 467.1  78.3     77
+  analysis: `# ── Type distribution ──────────────────────────────────
+type_counts = df['type1'].value_counts()
+print(f"Most common: {type_counts.index[0]} ({type_counts[0]})")
+# → water (114 Pokémon)
 
-# ── Visualization ───────────────────────────────────────
-fig, ax = plt.subplots(figsize=(12, 5))
-type_stats['mean'].plot(kind='bar', ax=ax,
-    color='steelblue', edgecolor='none')
-ax.axhline(df['Total'].mean(), color='red',
-    linestyle='--', label='Overall avg')
-ax.set_title('Average Base Total by Primary Type')
-ax.set_ylabel('Avg Base Total')
-ax.legend()
-plt.tight_layout()`,
-  },
-  {
-    id: "legendary",
-    label: "Legendary Analysis",
-    code: `# ── Legendary vs. Regular comparison ──────────────────
-legendary = df[df['Legendary'] == True]
-regular   = df[df['Legendary'] == False]
+# ── Avg stats by type ───────────────────────────────────
+stat_cols = ['hp','attack','defense',
+             'sp_attack','sp_defense','speed','base_total']
+type_stats = (df.groupby('type1')[stat_cols]
+               .mean().round(1)
+               .sort_values('base_total', ascending=False))
 
-stat_cols = ['HP','Attack','Defense',
-             'Sp. Atk','Sp. Def','Speed','Total']
+print(type_stats[['base_total','attack','defense']].head(5))
+#          base_total  attack  defense
+# dragon        522.8   106.4     86.3
+# steel         491.6    93.1    120.2
+# psychic       461.3    65.6     69.3
 
-comparison = pd.DataFrame({
-    'Legendary': legendary[stat_cols].mean(),
-    'Regular':   regular[stat_cols].mean(),
-})
-comparison['Premium %'] = (
-    (comparison['Legendary'] - comparison['Regular'])
-    / comparison['Regular'] * 100
-).round(1)
+# ── Legendary vs. non-legendary ─────────────────────────
+leg = df.groupby('is_legendary')[stat_cols].mean().round(1)
+gap = leg.loc[1,'base_total'] - leg.loc[0,'base_total']
+print(f"Legendary avg BST:     {leg.loc[1,'base_total']}")
+print(f"Non-legendary avg BST: {leg.loc[0,'base_total']}")
+print(f"Stat premium:          +{gap:.0f} ({gap/leg.loc[0,'base_total']*100:.0f}%)")
+# → +204 (50% premium)`,
 
-print(comparison)
-#          Legendary  Regular  Premium %
-# HP            92.0     68.0       35.3
-# Attack       116.0     76.0       52.6
-# Total        637.0    417.0       52.8
+  eevee: `# ── Eevee evolution controlled comparison ──────────────
+# All 8 Eeveelutions share BST=525 — perfect for stat
+# distribution analysis without confounding total power
 
-# ── Statistical significance test ──────────────────────
-from scipy import stats
-t_stat, p_value = stats.ttest_ind(
-    legendary['Total'], regular['Total']
-)
-print(f"t={t_stat:.2f}, p={p_value:.2e}")
-# p < 0.001 — highly significant`,
-  },
-  {
-    id: "umbreon",
-    label: "Umbreon Deep Dive",
-    code: `# ── Umbreon's percentile ranking ───────────────────────
-umbreon = df[df['Name'] == 'Umbreon'].iloc[0]
+eeveelutions = ['Vaporeon','Jolteon','Flareon','Espeon',
+                'Umbreon','Leafeon','Glaceon','Sylveon']
+ev = df[df['name'].isin(eeveelutions)].copy()
 
-stat_cols = ['HP','Attack','Defense',
-             'Sp. Atk','Sp. Def','Speed']
-for stat in stat_cols:
-    pct = (df[stat] < umbreon[stat]).mean() * 100
-    print(f"{stat:10s}: {umbreon[stat]:3.0f} → {pct:.0f}th pct")
+stats = ['hp','attack','defense',
+         'sp_attack','sp_defense','speed']
 
-# HP        :  95 → 79th pct
-# Attack    :  65 → 30th pct
-# Defense   : 110 → 84th pct
-# Sp. Atk   :  60 → 24th pct
-# Sp. Def   : 130 → 92nd pct  ← standout
-# Speed     :  65 → 30th pct
+# Each Pokémon's "specialty" = their highest stat
+ev['specialty'] = ev[stats].idxmax(axis=1)
+print(ev[['name','specialty'] + stats].to_string(index=False))
 
-# ── Find similar defensive walls ───────────────────────
-walls = df[
-    (df['Defense'] >= 100) &
-    (df['Sp. Def'] >= 100) &
-    (df['HP'] >= 80)
-][['Name','Type 1','HP','Defense','Sp. Def','Total']]
-print(f"Defensive walls: {len(walls)}")
-# → 23 Pokémon qualify — Umbreon is elite company`,
-  },
-];
+# Umbreon: the defensive wall
+# → defense=110, sp_defense=130 (highest in family)
+# → attack=65, sp_attack=60   (lowest offensive)
 
-function PythonCodeBlock({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+# Radar chart
+import numpy as np
+fig, ax = plt.subplots(figsize=(7,7), subplot_kw=dict(polar=True))
+angles = np.linspace(0, 2*np.pi, len(stats), endpoint=False).tolist()
+angles += angles[:1]
+for _, row in ev.iterrows():
+    vals = [row[s] for s in stats] + [row[stats[0]]]
+    ax.plot(angles, vals, label=row['name'])
+    ax.fill(angles, vals, alpha=0.08)
+ax.set_xticks(angles[:-1])
+ax.set_xticklabels(stats)
+ax.set_title("Eeveelution Stat Radar (BST=525 each)")
+ax.legend(loc='upper right', bbox_to_anchor=(1.35, 1.1))
+plt.tight_layout()
+plt.savefig("eevee_radar.png", dpi=150, bbox_inches='tight')`,
+};
 
-  const highlighted = code
-    .replace(/#[^\n]*/g, m => `<span style="color:oklch(0.55 0.015 220);font-style:italic">${m}</span>`)
-    .replace(/\b(import|from|as|def|class|return|for|in|if|else|elif|print|True|False|None|and|or|not|with|lambda)\b/g,
-      m => `<span style="color:oklch(0.72 0.13 195);font-weight:600">${m}</span>`)
-    .replace(/(['"])(.*?)\1/g, m => `<span style="color:oklch(0.75 0.18 55)">${m}</span>`)
-    .replace(/\b(\d+\.?\d*)\b/g, m => `<span style="color:oklch(0.75 0.15 30)">${m}</span>`);
-
-  return (
-    <div className="terminal-block relative">
-      <div className="flex items-center justify-between px-4 py-2 border-b" style={{ borderColor: "oklch(0.65 0.14 195 / 0.2)" }}>
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full" style={{ background: "oklch(0.65 0.22 25)" }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: "oklch(0.75 0.18 80)" }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: "oklch(0.65 0.20 145)" }} />
-        </div>
-        <span className="section-label" style={{ fontSize: "0.65rem" }}>Python · pandas / scipy</span>
-        <button onClick={handleCopy} className="text-xs px-2 py-0.5 rounded transition-colors"
-          style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem",
-            background: copied ? "oklch(0.65 0.14 195 / 0.2)" : "transparent",
-            color: copied ? "oklch(0.72 0.13 195)" : "oklch(0.55 0.015 220)",
-            border: "1px solid oklch(0.65 0.14 195 / 0.2)" }}>
-          {copied ? "✓ copied" : "copy"}
-        </button>
-      </div>
-      <pre className="p-4 overflow-x-auto text-xs leading-relaxed"
-        style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.82 0.008 220)", maxHeight: "340px" }}
-        dangerouslySetInnerHTML={{ __html: highlighted }} />
-    </div>
-  );
-}
-
-// ── Main export ────────────────────────────────────────
+// ── Main component ─────────────────────────────────────
 export default function PokemonSection() {
-  const [activeCode, setActiveCode] = useState("load");
-  const activeSnippet = PYTHON_SAMPLES.find(s => s.id === activeCode)!;
+  const [tab, setTab] = useState<"types" | "stats" | "eevee" | "code">("types");
+  const [codeTab, setCodeTab] = useState<"load" | "analysis" | "eevee">("load");
+  const [statSort, setStatSort] = useState<"total" | "attack" | "defense" | "speed">("total");
 
-  const typeData = POKEMON_DATA.typeDistribution.slice(0, 12);
-  const statData = [...POKEMON_DATA.avgStatsByType].sort((a, b) => b.total - a.total);
+  const { typeDistribution, avgStatsByType, legendaryVsRegular, topPokemon,
+          eeveelutions, genCounts, totalDistribution, typeColors,
+          totalCount, legendaryCount, dualTypePct } = POKEMON_DATA;
+
+  const maxType = Math.max(...typeDistribution.map(d => d.count));
+  const sortedStats = [...avgStatsByType].sort((a, b) => {
+    if (statSort === "total")   return b.total - a.total;
+    if (statSort === "attack")  return b.attack - a.attack;
+    if (statSort === "defense") return b.defense - a.defense;
+    return b.speed - a.speed;
+  });
+  const maxStat = Math.max(...sortedStats.map(d =>
+    statSort === "total" ? d.total : statSort === "attack" ? d.attack : statSort === "defense" ? d.defense : d.speed
+  ));
+
+  const tabs = [
+    { id: "types" as const,  label: "01 · Type Distribution",  sub: "18 types · 801 Pokémon" },
+    { id: "stats" as const,  label: "02 · Stat Analysis",       sub: "avg by type · top 10" },
+    { id: "eevee" as const,  label: "03 · Eevee Evolutions",    sub: "🌙 umbreon spotlight" },
+    { id: "code"  as const,  label: "04 · Python Code",         sub: "pandas · matplotlib" },
+  ];
 
   return (
-    <section id="pokemon" className="py-20">
+    <section id="pokemon" className="py-20" style={{ background: "oklch(0.17 0.04 240)", borderTop: `1px solid ${BORDER}` }}>
       <div className="container max-w-5xl mx-auto px-6">
+
         {/* Header */}
         <div className="flex items-center gap-3 mb-3">
-          <span style={{ fontSize: "1.8rem" }}>🌑</span>
-          <div className="section-label">// personal projects · data analysis</div>
+          <span style={{ fontSize: "1.4rem" }}>🔴</span>
+          <div className="section-label">// personal projects · exploratory data analysis</div>
         </div>
-        <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>
-          Pokémon Dataset Analysis
+        <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'DM Serif Display', serif", color: FG }}>
+          Pokémon Data Analysis
         </h2>
-        <p className="text-sm mb-10 max-w-2xl" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
-          Exploratory data analysis on the classic Pokémon dataset (800 Pokémon, Gen 1–6) — demonstrating core data analysis fundamentals: loading and cleaning data, groupby aggregations, statistical testing, percentile ranking, and visualization. Built with Python (pandas, matplotlib, seaborn, scipy).
+        <p className="text-sm mb-2 max-w-2xl" style={{ color: MUTED, lineHeight: "1.7" }}>
+          Exploratory analysis of the{" "}
+          <a href="https://www.kaggle.com/datasets/rounakbanik/pokemon" target="_blank" rel="noopener noreferrer"
+            style={{ color: TEAL, textDecoration: "underline" }}>
+            Kaggle Pokémon dataset
+          </a>{" "}
+          (801 Pokémon, 41 features) using Python, pandas, and matplotlib. Demonstrates core analytical patterns —
+          distribution analysis, group aggregation, comparative stats, and visualization — applied to a public dataset.
+          The same techniques power production operational dashboards.
         </p>
 
-        {/* Charts grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <UmbreonRadar />
-          <HBarChart
-            data={typeData}
-            valueKey="count"
-            labelKey="type"
-            colorKey="type"
-            title="Pokémon Count by Primary Type"
-            subtitle="Analysis · Type Distribution"
-            insight="Water dominates at 126 Pokémon — nearly 2× the next type. Flying has only 3 as a primary type; most Flying-types carry it as a secondary."
-          />
-          <HBarChart
-            data={statData}
-            valueKey="total"
-            labelKey="type"
-            colorKey="type"
-            title="Which Types Are Statistically Strongest?"
-            subtitle="Analysis · Avg Base Total by Type"
-            insight="Dragon-types average 550 base total — 32% higher than Bug-types (374). This reflects game design intent: Dragon is a late-game, hard-to-obtain type."
-            maxVal={600}
-          />
-          <ComparisonChart />
-        </div>
-
-        {/* Python code samples */}
-        <div className="panel overflow-hidden">
-          <div className="p-5 border-b" style={{ borderColor: BORDER }}>
-            <div className="section-label mb-1">Python Code Samples</div>
-            <p className="text-sm" style={{ color: MUTED }}>The analysis behind the charts above — pandas, scipy, matplotlib/seaborn.</p>
-          </div>
-          <div className="flex border-b overflow-x-auto" style={{ borderColor: BORDER }}>
-            {PYTHON_SAMPLES.map(s => (
-              <button key={s.id} onClick={() => setActiveCode(s.id)}
-                className="px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition-all"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  color: activeCode === s.id ? TEAL : "oklch(0.55 0.015 220)",
-                  borderBottom: activeCode === s.id ? `2px solid ${TEAL}` : "2px solid transparent",
-                  background: "transparent",
-                }}>
-                {s.label}
-              </button>
-            ))}
-          </div>
-          <div className="p-4">
-            <PythonCodeBlock code={activeSnippet.code} />
-          </div>
-        </div>
-
-        {/* Key insights callout */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+        {/* Key stats */}
+        <div className="grid grid-cols-4 gap-3 mb-6">
           {[
-            { emoji: "💧", stat: "Water", insight: "Most common primary type — 126 Pokémon, nearly 2× the next type" },
-            { emoji: "🐉", stat: "Dragon", insight: "Highest avg base total (550) — 47% above the dataset average of 435" },
-            { emoji: "⚡", stat: "53%", insight: "Stat premium for Legendary Pokémon over regular — statistically significant (p < 0.001)" },
-          ].map(c => (
-            <div key={c.stat} className="panel p-4">
-              <div className="text-2xl mb-2">{c.emoji}</div>
-              <div className="text-base font-bold mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}>{c.stat}</div>
-              <p className="text-xs" style={{ color: MUTED, lineHeight: "1.6" }}>{c.insight}</p>
+            { v: totalCount.toString(),          l: "Total Pokémon",     s: "Gen 1–7" },
+            { v: legendaryCount.toString(),       l: "Legendaries",       s: `${((legendaryCount/totalCount)*100).toFixed(1)}% of roster` },
+            { v: `${dualTypePct}%`,               l: "Dual-type",         s: "417 Pokémon" },
+            { v: "522.8",                         l: "Dragon avg BST",    s: "highest of 18 types" },
+          ].map(s => (
+            <div key={s.l} className="p-3 rounded" style={{ background: PANEL, border: `1px solid ${BORDER}` }}>
+              <div className="text-lg font-bold" style={{ color: TEAL, fontFamily: MONO }}>{s.v}</div>
+              <div className="text-xs font-semibold mt-0.5" style={{ color: FG, fontSize: "0.68rem" }}>{s.l}</div>
+              <div className="text-xs" style={{ color: MUTED, fontSize: "0.6rem" }}>{s.s}</div>
             </div>
           ))}
+        </div>
+
+        {/* Tabs */}
+        <div className="flex border-b mb-6 overflow-x-auto" style={{ borderColor: BORDER }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              className="px-4 py-3 text-xs font-semibold whitespace-nowrap transition-all"
+              style={{
+                fontFamily: MONO, color: tab === t.id ? TEAL : MUTED,
+                borderBottom: tab === t.id ? `2px solid ${TEAL}` : "2px solid transparent",
+                background: "transparent",
+              }}>
+              <div style={{ fontSize: "0.68rem" }}>{t.label}</div>
+              <div style={{ fontSize: "0.58rem", opacity: 0.7, marginTop: "2px" }}>{t.sub}</div>
+            </button>
+          ))}
+        </div>
+
+        {/* ── TAB 1: TYPE DISTRIBUTION ── */}
+        {tab === "types" && (
+          <div className="space-y-8">
+            <div>
+              <p className="text-xs mb-4" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.68rem", lineHeight: "1.7" }}>
+                Primary type frequency across all 801 Pokémon. Water dominates at 114 (14.2%). Flying has only 3 as a primary type — most Flying-types use it as secondary.
+              </p>
+              <div className="space-y-1.5">
+                {typeDistribution.map(d => (
+                  <div key={d.type} className="flex items-center gap-3">
+                    <span className="capitalize text-xs w-16 text-right flex-shrink-0"
+                      style={{ color: typeColors[d.type] ?? MUTED, fontFamily: MONO, fontSize: "0.62rem" }}>{d.type}</span>
+                    <div className="flex-1 rounded-full overflow-hidden" style={{ height: "13px", background: "oklch(1 0 0 / 5%)" }}>
+                      <div className="h-full rounded-full" style={{ width: `${(d.count / maxType) * 100}%`, background: (typeColors[d.type] ?? TEAL) + "CC" }} />
+                    </div>
+                    <span className="text-xs w-8 flex-shrink-0" style={{ color: FG, fontFamily: MONO, fontSize: "0.62rem" }}>{d.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Generation counts */}
+            <div>
+              <h3 className="text-sm font-semibold mb-3" style={{ color: FG, fontFamily: MONO, fontSize: "0.72rem" }}>Pokémon per Generation</h3>
+              <div className="flex gap-2 flex-wrap">
+                {Object.entries(genCounts).map(([gen, count]) => (
+                  <div key={gen} className="flex flex-col items-center p-3 rounded" style={{ background: PANEL, border: `1px solid ${BORDER}`, minWidth: "68px" }}>
+                    <span className="text-lg font-bold" style={{ color: TEAL, fontFamily: MONO }}>{count}</span>
+                    <span className="text-xs" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.6rem" }}>Gen {gen}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* BST distribution histogram */}
+            <div>
+              <h3 className="text-sm font-semibold mb-2" style={{ color: FG, fontFamily: MONO, fontSize: "0.72rem" }}>Base Stat Total Distribution</h3>
+              <p className="text-xs mb-4" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.64rem" }}>
+                Most Pokémon cluster in the 400–500 range. The 700+ tier (6 Pokémon) are all legendaries.
+              </p>
+              <div className="flex items-end gap-2" style={{ height: "110px" }}>
+                {totalDistribution.map(d => {
+                  const maxC = Math.max(...totalDistribution.map(x => x.count));
+                  const h = Math.round((d.count / maxC) * 95);
+                  return (
+                    <div key={d.bucket} className="flex flex-col items-center gap-1 flex-1">
+                      <span className="text-xs" style={{ color: TEAL, fontFamily: MONO, fontSize: "0.58rem" }}>{d.count}</span>
+                      <div className="w-full rounded-t" style={{ height: `${h}px`, background: TEAL + "99" }} />
+                      <span className="text-xs text-center" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.52rem", lineHeight: 1.2 }}>{d.bucket}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── TAB 2: STAT ANALYSIS ── */}
+        {tab === "stats" && (
+          <div className="space-y-8">
+            <div>
+              <div className="flex items-center gap-3 mb-4 flex-wrap">
+                <span className="text-xs" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.65rem" }}>Sort by:</span>
+                {(["total", "attack", "defense", "speed"] as const).map(m => (
+                  <button key={m} onClick={() => setStatSort(m)}
+                    className="text-xs px-3 py-1 rounded capitalize transition-all"
+                    style={{
+                      fontFamily: MONO, fontSize: "0.63rem",
+                      background: statSort === m ? TEAL + "22" : "transparent",
+                      border: `1px solid ${statSort === m ? TEAL : BORDER}`,
+                      color: statSort === m ? TEAL : MUTED,
+                    }}>{m === "total" ? "avg BST" : `avg ${m}`}</button>
+                ))}
+              </div>
+              <div className="space-y-1.5">
+                {sortedStats.map((t, i) => {
+                  const val = statSort === "total" ? t.total : statSort === "attack" ? t.attack : statSort === "defense" ? t.defense : t.speed;
+                  return (
+                    <div key={t.type} className="flex items-center gap-3">
+                      <span className="text-xs w-4 text-right flex-shrink-0" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.58rem" }}>{i + 1}</span>
+                      <span className="capitalize text-xs w-16 flex-shrink-0" style={{ color: typeColors[t.type] ?? MUTED, fontFamily: MONO, fontSize: "0.62rem" }}>{t.type}</span>
+                      <div className="flex-1 rounded-full overflow-hidden" style={{ height: "12px", background: "oklch(1 0 0 / 5%)" }}>
+                        <div className="h-full rounded-full transition-all duration-500"
+                          style={{ width: `${(val / maxStat) * 100}%`, background: (typeColors[t.type] ?? TEAL) + "CC" }} />
+                      </div>
+                      <span className="text-xs w-12 text-right flex-shrink-0" style={{ color: FG, fontFamily: MONO, fontSize: "0.62rem" }}>{val}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Top 10 table */}
+            <div>
+              <h3 className="text-sm font-semibold mb-3" style={{ color: FG, fontFamily: MONO, fontSize: "0.72rem" }}>Top 10 by Base Stat Total</h3>
+              <div className="rounded overflow-hidden" style={{ border: `1px solid ${BORDER}` }}>
+                <div className="overflow-x-auto">
+                  <table className="w-full" style={{ fontFamily: MONO }}>
+                    <thead>
+                      <tr style={{ background: "oklch(1 0 0 / 4%)", borderBottom: `1px solid ${BORDER}` }}>
+                        {["#", "Name", "Type", "BST", "Legend"].map(h => (
+                          <th key={h} className="px-3 py-2 text-left font-semibold" style={{ color: MUTED, fontSize: "0.6rem" }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {topPokemon.map((p, i) => (
+                        <tr key={p.name} style={{ borderBottom: `1px solid ${BORDER}`, background: i % 2 === 0 ? "oklch(1 0 0 / 2%)" : "transparent" }}>
+                          <td className="px-3 py-2" style={{ color: MUTED, fontSize: "0.6rem" }}>{i + 1}</td>
+                          <td className="px-3 py-2 font-semibold" style={{ color: FG, fontSize: "0.68rem" }}>{p.name}</td>
+                          <td className="px-3 py-2"><TypeBadge type={p.type} /></td>
+                          <td className="px-3 py-2 font-bold" style={{ color: TEAL, fontSize: "0.68rem" }}>{p.total}</td>
+                          <td className="px-3 py-2" style={{ color: p.legendary ? "#F8D030" : MUTED, fontSize: "0.65rem" }}>
+                            {p.legendary ? "★ Yes" : "—"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Legendary comparison */}
+            <div className="p-4 rounded" style={{ background: PANEL, border: `1px solid ${BORDER}` }}>
+              <h3 className="text-sm font-semibold mb-3" style={{ color: FG, fontFamily: MONO, fontSize: "0.72rem" }}>Legendary vs. Non-Legendary Stat Gap</h3>
+              {[
+                { label: "Avg BST",    leg: legendaryVsRegular.legendary.avgTotal,  reg: legendaryVsRegular.regular.avgTotal,  max: 700 },
+                { label: "Avg HP",     leg: legendaryVsRegular.legendary.avgHp,     reg: legendaryVsRegular.regular.avgHp,     max: 130 },
+                { label: "Avg Attack", leg: legendaryVsRegular.legendary.avgAttack, reg: legendaryVsRegular.regular.avgAttack, max: 140 },
+              ].map(m => (
+                <div key={m.label} className="mb-3">
+                  <span className="text-xs mb-1 block" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.62rem" }}>{m.label}</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs w-20 text-right flex-shrink-0" style={{ color: "#F8D030", fontFamily: MONO, fontSize: "0.6rem" }}>★ Legendary</span>
+                    <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "oklch(1 0 0 / 5%)" }}>
+                      <div className="h-full rounded" style={{ width: `${(m.leg / m.max) * 100}%`, background: "#F8D030CC" }} />
+                    </div>
+                    <span className="text-xs w-8 flex-shrink-0" style={{ color: "#F8D030", fontFamily: MONO, fontSize: "0.62rem" }}>{m.leg}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs w-20 text-right flex-shrink-0" style={{ color: TEAL, fontFamily: MONO, fontSize: "0.6rem" }}>Regular</span>
+                    <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "oklch(1 0 0 / 5%)" }}>
+                      <div className="h-full rounded" style={{ width: `${(m.reg / m.max) * 100}%`, background: TEAL + "99" }} />
+                    </div>
+                    <span className="text-xs w-8 flex-shrink-0" style={{ color: TEAL, fontFamily: MONO, fontSize: "0.62rem" }}>{m.reg}</span>
+                  </div>
+                </div>
+              ))}
+              <p className="text-xs mt-2" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.62rem", lineHeight: "1.65" }}>
+                <strong style={{ color: FG }}>Insight:</strong> Legendaries average {legendaryVsRegular.legendary.avgTotal} BST vs. {legendaryVsRegular.regular.avgTotal} for regular Pokémon — a <strong style={{ color: FG }}>50% stat premium</strong>. Only {((legendaryCount / totalCount) * 100).toFixed(1)}% of all Pokémon are Legendary.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* ── TAB 3: EEVEE EVOLUTIONS ── */}
+        {tab === "eevee" && (
+          <div className="space-y-6">
+            <p className="text-xs" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.68rem", lineHeight: "1.7" }}>
+              All 8 Eevee evolutions share the same Base Stat Total (525) — making them a perfect <strong style={{ color: FG }}>controlled comparison</strong> for stat distribution analysis. Each is optimized for a different combat role.
+            </p>
+
+            {/* Umbreon spotlight */}
+            <div className="p-4 rounded" style={{ background: (typeColors["dark"] ?? "#705848") + "11", border: `1px solid ${(typeColors["dark"] ?? "#705848")}33` }}>
+              <div className="flex items-center gap-2 mb-3">
+                <span style={{ fontSize: "1.2rem" }}>🌙</span>
+                <span className="font-semibold text-sm" style={{ color: FG, fontFamily: "'DM Serif Display', serif" }}>Umbreon — The Defensive Wall</span>
+                <TypeBadge type="dark" />
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs mb-3" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.64rem", lineHeight: "1.7" }}>
+                    Umbreon has the highest Defense (110) and Sp. Defense (130) in the Eevee family, and the lowest offensive stats. A textbook <strong style={{ color: FG }}>wall/staller</strong> archetype — built to absorb hits, not deal them.
+                  </p>
+                  <UmbreonRadar />
+                </div>
+                <div>
+                  <p className="text-xs mb-3 font-semibold" style={{ color: FG, fontFamily: MONO, fontSize: "0.65rem" }}>Full family comparison (BST = 525 each)</p>
+                  <div className="space-y-2">
+                    {eeveelutions.map(e => {
+                      const maxVal = Math.max(e.hp, e.attack, e.defense, e.sp_atk, e.sp_def, e.speed);
+                      const roles: Record<string, string> = {
+                        Vaporeon: "Bulky Water", Jolteon: "Speed Sweeper", Flareon: "Phys. Attacker",
+                        Espeon: "Sp. Sweeper", Umbreon: "Defensive Wall", Leafeon: "Phys. Attacker",
+                        Glaceon: "Sp. Attacker", Sylveon: "Sp. Wall",
+                      };
+                      const isUmbreon = e.name === "Umbreon";
+                      return (
+                        <div key={e.name} className="flex items-center gap-2 p-2 rounded"
+                          style={{ background: isUmbreon ? (typeColors["dark"] ?? "#705848") + "18" : "oklch(1 0 0 / 2%)", border: `1px solid ${isUmbreon ? (typeColors["dark"] ?? "#705848") + "44" : BORDER}` }}>
+                          <span className="text-xs w-16 font-semibold flex-shrink-0" style={{ color: isUmbreon ? typeColors["dark"] ?? TEAL : FG, fontFamily: MONO, fontSize: "0.62rem" }}>
+                            {isUmbreon ? "🌙 " : ""}{e.name}
+                          </span>
+                          <div className="flex gap-1 flex-1">
+                            {[e.hp, e.attack, e.defense, e.sp_atk, e.sp_def, e.speed].map((v, i) => (
+                              <div key={i} className="flex-1 rounded" style={{ height: "16px", background: v === maxVal ? (typeColors[e.type] ?? TEAL) + "CC" : "oklch(1 0 0 / 8%)", position: "relative" }}>
+                                <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.5rem", fontFamily: MONO, color: v === maxVal ? "#fff" : MUTED }}>{v}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <span className="text-xs flex-shrink-0" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.55rem", width: "70px" }}>{roles[e.name]}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="text-xs mt-2" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.58rem" }}>
+                    Columns: HP · Atk · Def · SpA · SpD · Spe · Highlighted = highest stat
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── TAB 4: PYTHON CODE ── */}
+        {tab === "code" && (
+          <div className="space-y-4">
+            <p className="text-xs" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.68rem", lineHeight: "1.7" }}>
+              Python/pandas pipeline used to generate all insights on this page. The same patterns — groupby aggregation, distribution binning, comparative analysis — apply directly to production operational datasets.
+            </p>
+            <div className="flex gap-2 flex-wrap">
+              {([
+                { id: "load" as const,     label: "01 · Load & Explore" },
+                { id: "analysis" as const, label: "02 · Type & Legendary Analysis" },
+                { id: "eevee" as const,    label: "03 · Eevee Radar Chart" },
+              ]).map(t => (
+                <button key={t.id} onClick={() => setCodeTab(t.id)}
+                  className="text-xs px-3 py-1.5 rounded transition-all"
+                  style={{
+                    fontFamily: MONO, fontSize: "0.63rem",
+                    background: codeTab === t.id ? TEAL + "22" : "transparent",
+                    border: `1px solid ${codeTab === t.id ? TEAL : BORDER}`,
+                    color: codeTab === t.id ? TEAL : MUTED,
+                  }}>{t.label}</button>
+              ))}
+            </div>
+            <CodeBlock code={PY[codeTab]} lang="python" />
+            <div className="p-3 rounded flex items-start gap-2" style={{ background: TEAL + "08", border: `1px solid ${BORDER}` }}>
+              <span style={{ color: TEAL, fontSize: "0.8rem" }}>📦</span>
+              <p className="text-xs" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.63rem", lineHeight: "1.65" }}>
+                <strong style={{ color: FG }}>Stack:</strong> Python 3.11 · pandas · matplotlib · seaborn · numpy.{" "}
+                The <code style={{ color: TEAL }}>groupby → agg → sort_values</code> pattern used here mirrors the CTE → aggregate → ORDER BY pattern in production SQL.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="mt-8 pt-4 flex items-center justify-between flex-wrap gap-2" style={{ borderTop: `1px solid ${BORDER}` }}>
+          <span className="text-xs" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.6rem" }}>
+            Source: Kaggle · "The Complete Pokemon Dataset" · Rounak Banik · 801 Pokémon · 41 features · processed Mar 2026
+          </span>
+          <div className="flex gap-1.5 flex-wrap">
+            {["Python", "pandas", "matplotlib", "Kaggle API"].map(t => (
+              <span key={t} className="text-xs px-2 py-0.5 rounded"
+                style={{ background: TEAL + "11", color: TEAL, fontFamily: MONO, fontSize: "0.58rem", border: `1px solid ${TEAL}22` }}>{t}</span>
+            ))}
+          </div>
         </div>
       </div>
     </section>

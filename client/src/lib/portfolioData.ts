@@ -294,50 +294,102 @@ ORDER BY cp.category`,
 ];
 
 export const POKEMON_DATA = {
+  // Source: Kaggle "The Complete Pokemon Dataset" — Rounak Banik
+  // Processed via Python/pandas from 801 Pokémon, 41 features
+  totalCount: 801,
+  legendaryCount: 70,
+  dualTypePct: 52.1,
+
   umbreon: {
     name: 'Umbreon', type: 'Dark', hp: 95, attack: 65,
     defense: 110, sp_atk: 60, sp_def: 130, speed: 65, total: 525,
   },
+
+  // Real type counts from df['type1'].value_counts()
   typeDistribution: [
-    { type: 'Water', count: 126 }, { type: 'Normal', count: 102 },
-    { type: 'Grass', count: 97 }, { type: 'Bug', count: 77 },
-    { type: 'Psychic', count: 77 }, { type: 'Fire', count: 64 },
-    { type: 'Ground', count: 67 }, { type: 'Poison', count: 62 },
-    { type: 'Rock', count: 60 }, { type: 'Fighting', count: 53 },
-    { type: 'Electric', count: 50 }, { type: 'Dragon', count: 50 },
-    { type: 'Steel', count: 49 }, { type: 'Dark', count: 47 },
-    { type: 'Ghost', count: 46 }, { type: 'Fairy', count: 40 },
-    { type: 'Ice', count: 38 }, { type: 'Flying', count: 3 },
+    { type: 'water',    count: 114 }, { type: 'normal',   count: 105 },
+    { type: 'grass',    count: 78  }, { type: 'bug',      count: 72  },
+    { type: 'psychic',  count: 53  }, { type: 'fire',     count: 52  },
+    { type: 'rock',     count: 45  }, { type: 'electric', count: 39  },
+    { type: 'poison',   count: 32  }, { type: 'ground',   count: 32  },
+    { type: 'dark',     count: 29  }, { type: 'fighting', count: 28  },
+    { type: 'dragon',   count: 27  }, { type: 'ghost',    count: 27  },
+    { type: 'steel',    count: 24  }, { type: 'ice',      count: 23  },
+    { type: 'fairy',    count: 18  }, { type: 'flying',   count: 3   },
   ],
+
+  // Real avg stats by type from df.groupby('type1')[stat_cols].mean()
   avgStatsByType: [
-    { type: 'Dragon',  total: 550, attack: 112, defense: 86,  sp_def: 90  },
-    { type: 'Steel',   total: 486, attack: 92,  defense: 126, sp_def: 80  },
-    { type: 'Psychic', total: 467, attack: 71,  defense: 67,  sp_def: 85  },
-    { type: 'Fire',    total: 457, attack: 84,  defense: 67,  sp_def: 73  },
-    { type: 'Electric',total: 441, attack: 69,  defense: 66,  sp_def: 72  },
-    { type: 'Grass',   total: 418, attack: 73,  defense: 70,  sp_def: 70  },
-    { type: 'Water',   total: 428, attack: 74,  defense: 72,  sp_def: 70  },
-    { type: 'Poison',  total: 399, attack: 74,  defense: 68,  sp_def: 64  },
-    { type: 'Normal',  total: 392, attack: 73,  defense: 59,  sp_def: 61  },
-    { type: 'Bug',     total: 374, attack: 70,  defense: 70,  sp_def: 64  },
+    { type: 'dragon',   total: 522.8, attack: 106.4, defense: 86.3,  speed: 76.1 },
+    { type: 'steel',    total: 491.6, attack: 93.1,  defense: 120.2, speed: 56.6 },
+    { type: 'psychic',  total: 461.3, attack: 65.6,  defense: 69.3,  speed: 75.2 },
+    { type: 'flying',   total: 453.3, attack: 66.7,  defense: 65.0,  speed: 99.7 },
+    { type: 'fire',     total: 450.6, attack: 81.5,  defense: 67.8,  speed: 73.3 },
+    { type: 'dark',     total: 449.8, attack: 87.8,  defense: 70.5,  speed: 75.3 },
+    { type: 'rock',     total: 447.3, attack: 90.7,  defense: 96.3,  speed: 57.4 },
+    { type: 'electric', total: 436.2, attack: 70.8,  defense: 61.8,  speed: 85.4 },
+    { type: 'ghost',    total: 434.7, attack: 72.7,  defense: 79.5,  speed: 58.3 },
+    { type: 'ice',      total: 433.6, attack: 73.3,  defense: 71.9,  speed: 62.7 },
+    { type: 'fairy',    total: 427.2, attack: 62.1,  defense: 68.2,  speed: 53.7 },
+    { type: 'water',    total: 426.8, attack: 73.3,  defense: 73.5,  speed: 63.9 },
+    { type: 'ground',   total: 426.1, attack: 94.8,  defense: 83.9,  speed: 60.0 },
+    { type: 'fighting', total: 414.8, attack: 99.2,  defense: 66.4,  speed: 64.3 },
+    { type: 'grass',    total: 412.6, attack: 73.8,  defense: 70.9,  speed: 59.0 },
+    { type: 'normal',   total: 401.3, attack: 75.2,  defense: 59.7,  speed: 69.5 },
+    { type: 'poison',   total: 399.6, attack: 72.7,  defense: 70.0,  speed: 64.2 },
+    { type: 'bug',      total: 380.4, attack: 70.1,  defense: 70.8,  speed: 63.6 },
   ],
+
+  // Real legendary vs non-legendary from df.groupby('is_legendary').mean()
   legendaryVsRegular: {
-    legendary: { count: 70,  avgTotal: 637, avgHp: 92, avgAttack: 116 },
-    regular:   { count: 730, avgTotal: 417, avgHp: 68, avgAttack: 76  },
+    legendary: { count: 70,  avgTotal: 615, avgHp: 95, avgAttack: 109 },
+    regular:   { count: 731, avgTotal: 411, avgHp: 66, avgAttack: 75  },
   },
+
+  // Real top Pokémon by base_total
   topPokemon: [
-    { name: 'Mewtwo (Mega X)',  total: 780, type: 'Psychic/Fighting' },
-    { name: 'Rayquaza (Mega)',  total: 780, type: 'Dragon/Flying'    },
-    { name: 'Mewtwo (Mega Y)',  total: 780, type: 'Psychic'          },
-    { name: 'Arceus',           total: 720, type: 'Normal'           },
-    { name: 'Kyurem (White)',   total: 700, type: 'Dragon/Ice'       },
+    { name: 'Mewtwo',    total: 780, type: 'psychic', legendary: true  },
+    { name: 'Rayquaza',  total: 780, type: 'dragon',  legendary: true  },
+    { name: 'Kyogre',    total: 770, type: 'water',   legendary: true  },
+    { name: 'Groudon',   total: 770, type: 'ground',  legendary: true  },
+    { name: 'Arceus',    total: 720, type: 'normal',  legendary: true  },
+    { name: 'Zygarde',   total: 708, type: 'dragon',  legendary: true  },
+    { name: 'Tyranitar', total: 700, type: 'rock',    legendary: false },
+    { name: 'Salamence', total: 700, type: 'dragon',  legendary: false },
+    { name: 'Metagross', total: 700, type: 'steel',   legendary: false },
+    { name: 'Garchomp',  total: 700, type: 'dragon',  legendary: false },
   ],
+
+  // Eevee family — all share BST 525, different stat spreads
+  eeveelutions: [
+    { name: 'Vaporeon', type: 'water',    hp: 130, attack: 65,  defense: 60,  sp_atk: 110, sp_def: 95,  speed: 65  },
+    { name: 'Jolteon',  type: 'electric', hp: 65,  attack: 65,  defense: 60,  sp_atk: 110, sp_def: 95,  speed: 130 },
+    { name: 'Flareon',  type: 'fire',     hp: 65,  attack: 130, defense: 60,  sp_atk: 95,  sp_def: 110, speed: 65  },
+    { name: 'Espeon',   type: 'psychic',  hp: 65,  attack: 65,  defense: 60,  sp_atk: 130, sp_def: 95,  speed: 110 },
+    { name: 'Umbreon',  type: 'dark',     hp: 95,  attack: 65,  defense: 110, sp_atk: 60,  sp_def: 130, speed: 65  },
+    { name: 'Leafeon',  type: 'grass',    hp: 65,  attack: 110, defense: 130, sp_atk: 60,  sp_def: 65,  speed: 95  },
+    { name: 'Glaceon',  type: 'ice',      hp: 65,  attack: 60,  defense: 110, sp_atk: 130, sp_def: 95,  speed: 65  },
+    { name: 'Sylveon',  type: 'fairy',    hp: 95,  attack: 65,  defense: 65,  sp_atk: 110, sp_def: 130, speed: 60  },
+  ],
+
+  genCounts: { '1': 151, '2': 100, '3': 135, '4': 107, '5': 156, '6': 72, '7': 80 },
+
+  totalDistribution: [
+    { bucket: '<200',    count: 11  },
+    { bucket: '200-300', count: 122 },
+    { bucket: '300-400', count: 189 },
+    { bucket: '400-500', count: 272 },
+    { bucket: '500-600', count: 163 },
+    { bucket: '600-700', count: 38  },
+    { bucket: '700+',    count: 6   },
+  ],
+
   typeColors: {
-    Water: '#6390F0', Normal: '#A8A878', Grass: '#78C850', Bug: '#A8B820',
-    Psychic: '#F85888', Fire: '#F08030', Ground: '#E0C068', Poison: '#A040A0',
-    Rock: '#B8A038', Fighting: '#C03028', Electric: '#F8D030', Dragon: '#7038F8',
-    Steel: '#B8B8D0', Dark: '#705848', Ghost: '#705898', Fairy: '#EE99AC',
-    Ice: '#98D8D8', Flying: '#A890F0',
+    water: '#6390F0', normal: '#A8A878', grass: '#78C850', bug: '#A8B820',
+    psychic: '#F85888', fire: '#F08030', ground: '#E0C068', poison: '#A040A0',
+    rock: '#B8A038', fighting: '#C03028', electric: '#F8D030', dragon: '#7038F8',
+    steel: '#B8B8D0', dark: '#705848', ghost: '#705898', fairy: '#EE99AC',
+    ice: '#98D8D8', flying: '#A890F0',
   } as Record<string, string>,
 };
 

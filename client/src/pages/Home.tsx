@@ -427,10 +427,10 @@ export default function Home() {
       </section>
 
       {/* ── POKÉMON ANALYSIS ── */}
-      <div id="pokemon"><PokemonSection /></div>
+      <div><PokemonSection /></div>
 
       {/* ── CHELSEA FC ANALYTICS ── */}
-      <div id="chelsea"><ChelseaSection /></div>
+      <div><ChelseaSection /></div>
 
       {/* ── CONTACT ── */}
       <section id="contact" className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
