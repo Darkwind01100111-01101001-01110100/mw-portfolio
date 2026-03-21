@@ -1,7 +1,7 @@
-// CHELSEA FC — CODE SHOWCASE COMPONENT
-// Design: Terminal Clarity — dark navy, teal accents
+// CHELSEA FC -- CODE SHOWCASE COMPONENT
+// Design: Terminal Clarity -- dark navy, teal accents
 // Purpose: Show annotated R pipeline (scrape → project → SoS)
-// ═══════════════════════════════════════════════════════
+// =======================================================
 
 import { useState } from "react";
 
@@ -164,7 +164,7 @@ const CODE_TABS = [
     label: "2. Projection Model",
     lang: "R · dplyr + purrr",
     description:
-      "Points-per-game projection to 38 games, rolling form scoring (last 5 results), and zone classification. The case_when block is a direct analogue of CASE WHEN in production SQL — same logic, different syntax.",
+      "Points-per-game projection to 38 games, rolling form scoring (last 5 results), and zone classification. The case_when block is a direct analogue of CASE WHEN in production SQL -- same logic, different syntax.",
     code: PROJECTION_MODEL,
   },
   {
@@ -172,7 +172,7 @@ const CODE_TABS = [
     label: "3. Strength of Schedule",
     lang: "R · dplyr + tidyr",
     description:
-      "Remaining fixture difficulty per team, weighted by opponent current points. Uses pivot_longer to get both home and away perspectives from a fixtures table — the same unpivot pattern used in production data modelling.",
+      "Remaining fixture difficulty per team, weighted by opponent current points. Uses pivot_longer to get both home and away perspectives from a fixtures table -- the same unpivot pattern used in production data modelling.",
     code: STRENGTH_OF_SCHEDULE,
   },
 ];
@@ -193,7 +193,7 @@ export default function CodeShowcase() {
           textTransform: "uppercase",
         }}
       >
-        // how it&apos;s built — annotated R pipeline
+        // how it&apos;s built -- annotated R pipeline
       </div>
 
       {/* Tab selector */}
