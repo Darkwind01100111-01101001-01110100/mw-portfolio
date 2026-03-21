@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { METRICS, SKILLS, DASHBOARDS, SQL_QUERIES, TECHNICAL_PATTERNS } from "@/lib/portfolioData";
 import PokemonSection from "@/components/PokemonSection";
+import ChelseaSection from "@/components/ChelseaSection";
 
 // ── Animated counter hook ──────────────────────────────
 function useCounter(target: number, duration = 1500, trigger: boolean) {
@@ -421,23 +422,8 @@ export default function Home() {
       {/* ── POKÉMON ANALYSIS ── */}
       <PokemonSection />
 
-      {/* ── CHELSEA FC (PLACEHOLDER) ── */}
-      <section className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-3">// personal projects</div>
-          <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>Chelsea FC Analytics</h2>
-          <p className="text-sm mb-8 max-w-2xl" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
-            Predictive models and season-tracking queries built around Chelsea FC match data — combining sports analytics with the same SQL and Python patterns used in production work.
-          </p>
-          <div className="panel p-8 flex flex-col items-center justify-center text-center" style={{ minHeight: "200px", border: "1px dashed oklch(0.65 0.14 195 / 0.25)" }}>
-            <div className="text-4xl mb-4">⚽</div>
-            <div className="section-label mb-2">Coming Soon</div>
-            <p className="text-sm max-w-md" style={{ color: "oklch(0.55 0.012 220)", lineHeight: "1.7" }}>
-              Predictive match models, season-tracking SQL queries, and performance visualizations. Content being finalized — check back soon.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* ── CHELSEA FC ANALYTICS ── */}
+      <ChelseaSection />
 
       {/* ── CONTACT ── */}
       <section id="contact" className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
