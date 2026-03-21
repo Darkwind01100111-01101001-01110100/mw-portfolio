@@ -1,11 +1,12 @@
 // ═══════════════════════════════════════════════════════
 // HOME PAGE — Mike Winters Portfolio
 // Design: Terminal Clarity — dark navy, teal accents
-// Sections: Hero → Metrics → About → Dashboards → SQL → Patterns → Chelsea → Contact
+// Sections: Hero → Metrics → About → Dashboards → SQL → Patterns → Pokémon → Chelsea → Contact
 // ═══════════════════════════════════════════════════════
 
 import { useEffect, useRef, useState } from "react";
 import { METRICS, SKILLS, DASHBOARDS, SQL_QUERIES, TECHNICAL_PATTERNS } from "@/lib/portfolioData";
+import PokemonSection from "@/components/PokemonSection";
 
 // ── Animated counter hook ──────────────────────────────
 function useCounter(target: number, duration = 1500, trigger: boolean) {
@@ -126,7 +127,7 @@ function SampleTable({ rows, columns }: { rows: Record<string, string>[]; column
 // ── Nav ────────────────────────────────────────────────
 function Nav() {
   const [active, setActive] = useState("hero");
-  const sections = ["about", "dashboards", "sql", "patterns", "contact"];
+  const sections = ["about", "dashboards", "sql", "patterns", "pokemon", "contact"];
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
@@ -156,7 +157,7 @@ function Nav() {
               color: active === s ? "oklch(0.72 0.13 195)" : "oklch(0.60 0.015 220)",
               background: active === s ? "oklch(0.65 0.14 195 / 0.12)" : "transparent",
             }}>
-            {s === "sql" ? "SQL" : s}
+            {s === "sql" ? "SQL" : s === "pokemon" ? "Pokémon" : s}
           </button>
         ))}
       </div>
@@ -286,7 +287,7 @@ export default function Home() {
                 style={{ background: "oklch(0.65 0.14 195)", color: "oklch(0.12 0.03 240)" }}>
                 Get in Touch
               </a>
-              <a href="https://linkedin.com/in/mwinters123" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.linkedin.com/in/mwinters123/" target="_blank" rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
                 style={{ background: "transparent", border: "1px solid oklch(0.65 0.14 195 / 0.4)", color: "oklch(0.72 0.13 195)" }}>
                 LinkedIn ↗
@@ -417,8 +418,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── POKÉMON ANALYSIS ── */}
+      <PokemonSection />
+
       {/* ── CHELSEA FC (PLACEHOLDER) ── */}
-      <section className="py-20">
+      <section className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
         <div className="container max-w-5xl mx-auto px-6">
           <div className="section-label mb-3">// personal projects</div>
           <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>Chelsea FC Analytics</h2>
@@ -452,7 +456,7 @@ export default function Home() {
               style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.82 0.008 220)" }}>
               775-848-2670
             </a>
-            <a href="https://linkedin.com/in/mwinters123" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/mwinters123/" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-3 rounded font-semibold text-sm transition-all"
               style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: "oklch(0.72 0.13 195)" }}>
               LinkedIn ↗

@@ -293,6 +293,54 @@ ORDER BY cp.category`,
   },
 ];
 
+export const POKEMON_DATA = {
+  umbreon: {
+    name: 'Umbreon', type: 'Dark', hp: 95, attack: 65,
+    defense: 110, sp_atk: 60, sp_def: 130, speed: 65, total: 525,
+  },
+  typeDistribution: [
+    { type: 'Water', count: 126 }, { type: 'Normal', count: 102 },
+    { type: 'Grass', count: 97 }, { type: 'Bug', count: 77 },
+    { type: 'Psychic', count: 77 }, { type: 'Fire', count: 64 },
+    { type: 'Ground', count: 67 }, { type: 'Poison', count: 62 },
+    { type: 'Rock', count: 60 }, { type: 'Fighting', count: 53 },
+    { type: 'Electric', count: 50 }, { type: 'Dragon', count: 50 },
+    { type: 'Steel', count: 49 }, { type: 'Dark', count: 47 },
+    { type: 'Ghost', count: 46 }, { type: 'Fairy', count: 40 },
+    { type: 'Ice', count: 38 }, { type: 'Flying', count: 3 },
+  ],
+  avgStatsByType: [
+    { type: 'Dragon',  total: 550, attack: 112, defense: 86,  sp_def: 90  },
+    { type: 'Steel',   total: 486, attack: 92,  defense: 126, sp_def: 80  },
+    { type: 'Psychic', total: 467, attack: 71,  defense: 67,  sp_def: 85  },
+    { type: 'Fire',    total: 457, attack: 84,  defense: 67,  sp_def: 73  },
+    { type: 'Electric',total: 441, attack: 69,  defense: 66,  sp_def: 72  },
+    { type: 'Grass',   total: 418, attack: 73,  defense: 70,  sp_def: 70  },
+    { type: 'Water',   total: 428, attack: 74,  defense: 72,  sp_def: 70  },
+    { type: 'Poison',  total: 399, attack: 74,  defense: 68,  sp_def: 64  },
+    { type: 'Normal',  total: 392, attack: 73,  defense: 59,  sp_def: 61  },
+    { type: 'Bug',     total: 374, attack: 70,  defense: 70,  sp_def: 64  },
+  ],
+  legendaryVsRegular: {
+    legendary: { count: 70,  avgTotal: 637, avgHp: 92, avgAttack: 116 },
+    regular:   { count: 730, avgTotal: 417, avgHp: 68, avgAttack: 76  },
+  },
+  topPokemon: [
+    { name: 'Mewtwo (Mega X)',  total: 780, type: 'Psychic/Fighting' },
+    { name: 'Rayquaza (Mega)',  total: 780, type: 'Dragon/Flying'    },
+    { name: 'Mewtwo (Mega Y)',  total: 780, type: 'Psychic'          },
+    { name: 'Arceus',           total: 720, type: 'Normal'           },
+    { name: 'Kyurem (White)',   total: 700, type: 'Dragon/Ice'       },
+  ],
+  typeColors: {
+    Water: '#6390F0', Normal: '#A8A878', Grass: '#78C850', Bug: '#A8B820',
+    Psychic: '#F85888', Fire: '#F08030', Ground: '#E0C068', Poison: '#A040A0',
+    Rock: '#B8A038', Fighting: '#C03028', Electric: '#F8D030', Dragon: '#7038F8',
+    Steel: '#B8B8D0', Dark: '#705848', Ghost: '#705898', Fairy: '#EE99AC',
+    Ice: '#98D8D8', Flying: '#A890F0',
+  } as Record<string, string>,
+};
+
 export const TECHNICAL_PATTERNS = [
   { pattern: "VALUES-based task mapping", usage: "Queries 1, 6", why: "New projects onboard without query rewrites" },
   { pattern: "CASE-based team classification", usage: "Queries 2, 3", why: "No native team field in source data" },
