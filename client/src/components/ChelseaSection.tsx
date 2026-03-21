@@ -242,50 +242,10 @@ export default function ChelseaSection() {
   const [sortCol, setSortCol] = useState<"pts" | "gf" | "gd" | "projected">("pts");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
-  // ── Matchday mode state ──────────────────────────────
+  // ── Matchday mode — WIP preview only (no live fetch yet) ──
   const [matchdayMode, setMatchdayMode] = useState(false);
-  const [liveTable, setLiveTable] = useState<EplRow[] | null>(null);
-  const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
-  const [nextRefreshIn, setNextRefreshIn] = useState(3600);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const doRefresh = useCallback(async () => {
-    setRefreshing(true);
-    const data = await fetchLiveEplTable();
-    if (data) setLiveTable(data);
-    setLastRefreshed(new Date());
-    setNextRefreshIn(3600);
-    setRefreshing(false);
-  }, []);
-
-  useEffect(() => {
-    if (matchdayMode) {
-      doRefresh();
-      // Refresh every hour
-      intervalRef.current = setInterval(doRefresh, 3600 * 1000);
-      // Countdown every second
-      countdownRef.current = setInterval(() => {
-        setNextRefreshIn(s => (s > 0 ? s - 1 : 3600));
-      }, 1000);
-    } else {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (countdownRef.current) clearInterval(countdownRef.current);
-      setLiveTable(null);
-      setLastRefreshed(null);
-      setNextRefreshIn(3600);
-    }
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (countdownRef.current) clearInterval(countdownRef.current);
-    };
-  }, [matchdayMode, doRefresh]);
-
-  const displayTable = liveTable ?? EPL_TABLE;
-  const formatCountdown = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-
-  const sortedTable = [...displayTable].sort((a, b) => {
+  const sortedTable = [...EPL_TABLE].sort((a, b) => {
     const diff = sortDir === "desc" ? b[sortCol] - a[sortCol] : a[sortCol] - b[sortCol];
     return diff !== 0 ? diff : a.pos - b.pos;
   });
@@ -310,75 +270,45 @@ export default function ChelseaSection() {
             <span style={{ fontSize: "1.6rem" }}>⚽</span>
             <div className="section-label">// personal projects · sports analytics</div>
           </div>
-          {/* ── Matchday Mode Button ── */}
-          <button
-            onClick={() => setMatchdayMode(m => !m)}
-            className="flex items-center gap-2 px-4 py-2 rounded font-semibold text-sm transition-all duration-300"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: "0.75rem",
-              background: matchdayMode
-                ? "oklch(0.55 0.22 145 / 0.2)"
-                : "oklch(0.65 0.14 195 / 0.1)",
-              border: `1px solid ${matchdayMode ? "#22c55e" : "oklch(0.65 0.14 195 / 0.3)"}`,
-              color: matchdayMode ? "#22c55e" : TEAL,
-              boxShadow: matchdayMode ? "0 0 12px oklch(0.55 0.22 145 / 0.3)" : "none",
-            }}
-          >
-            <span style={{ fontSize: "1rem" }}>{matchdayMode ? "🟢" : "⚽"}</span>
-            {matchdayMode ? "Matchday Mode: ON" : "It's Matchday!"}
-          </button>
+          {/* ── Matchday Mode Button (WIP) ── */}
+          <div className="flex flex-col items-end gap-1">
+            <button
+              onClick={() => setMatchdayMode(m => !m)}
+              className="flex items-center gap-2 px-4 py-2 rounded font-semibold transition-all duration-300"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "0.75rem",
+                background: matchdayMode ? "oklch(0.55 0.22 145 / 0.15)" : "oklch(0.65 0.14 195 / 0.08)",
+                border: `1px solid ${matchdayMode ? "#22c55e66" : "oklch(0.65 0.14 195 / 0.25)"}`,
+                color: matchdayMode ? "#22c55e" : TEAL,
+                cursor: "pointer",
+              }}
+            >
+              <span style={{ fontSize: "1rem" }}>⚽</span>
+              {matchdayMode ? "Matchday Mode: Preview" : "It's Matchday!"}
+            </button>
+            <span style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6rem" }}>
+              ⚠️ WIP — coming soon
+            </span>
+          </div>
         </div>
 
-        {/* Matchday status banner */}
-        {matchdayMode && (
-          <div className="mb-4 p-3 rounded flex items-center justify-between flex-wrap gap-2"
-            style={{ background: "oklch(0.55 0.22 145 / 0.08)", border: "1px solid oklch(0.55 0.22 145 / 0.25)" }}>
-            <div className="flex items-center gap-3">
-              <span className="inline-block w-2 h-2 rounded-full animate-pulse" style={{ background: "#22c55e" }} />
-              <span className="text-xs font-semibold" style={{ color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem" }}>
-                MATCHDAY MODE ACTIVE — refreshing EPL table every hour
-              </span>
-            </div>
-            <div className="flex items-center gap-4">
-              {lastRefreshed && (
-                <span className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-                  last: {lastRefreshed.toLocaleTimeString()}
-                </span>
-              )}
-              <span className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-                next: {formatCountdown(nextRefreshIn)}
-              </span>
-              <button
-                onClick={doRefresh}
-                disabled={refreshing}
-                className="text-xs px-2 py-0.5 rounded transition-all"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: "0.65rem",
-                  background: "oklch(0.65 0.14 195 / 0.15)",
-                  border: `1px solid ${TEAL}44`,
-                  color: refreshing ? MUTED : TEAL,
-                }}
-              >
-                {refreshing ? "refreshing..." : "↻ refresh now"}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Matchday mode explainer (visible when mode is OFF) */}
-        {!matchdayMode && (
-          <div className="mb-4 p-2.5 rounded flex items-start gap-2"
-            style={{ background: "oklch(0.65 0.14 195 / 0.04)", border: "1px dashed oklch(0.65 0.14 195 / 0.15)" }}>
-            <span style={{ color: TEAL, fontSize: "0.8rem", marginTop: "1px" }}>💡</span>
-            <p className="text-xs" style={{ color: MUTED, lineHeight: "1.6", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-              <strong style={{ color: FG }}>Matchday Mode</strong> — click the button above on a match day to switch the EPL table
-              into hourly-refresh mode. The polling logic is wired and ready; a full-stack deployment would
-              connect it to a backend scraper proxy for live standings updates without a page reload.
+        {/* Matchday WIP callout — always visible */}
+        <div className="mb-4 p-3 rounded flex items-start gap-2.5"
+          style={{ background: "oklch(0.65 0.14 195 / 0.04)", border: "1px dashed oklch(0.65 0.14 195 / 0.18)" }}>
+          <span style={{ color: TEAL, fontSize: "0.85rem", marginTop: "1px", flexShrink: 0 }}>🚧</span>
+          <div>
+            <span className="text-xs font-semibold block mb-0.5" style={{ color: FG, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.68rem" }}>
+              Matchday Mode — WIP Feature
+            </span>
+            <p className="text-xs" style={{ color: MUTED, lineHeight: "1.65", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.64rem" }}>
+              On a match day, this button will activate hourly polling — scraping the EPL table every 60 minutes
+              and updating the standings below without a page reload. The React polling hook and countdown logic
+              are already written; the remaining piece is a backend proxy route to handle the BBC Sport scrape
+              server-side (required to bypass browser CORS restrictions). Planned for a near-future full-stack upgrade.
             </p>
           </div>
-        )}
+        </div>
 
         <h2 className="text-2xl font-bold text-foreground mb-2" style={{ fontFamily: "'DM Serif Display', serif" }}>
           Chelsea FC Analytics

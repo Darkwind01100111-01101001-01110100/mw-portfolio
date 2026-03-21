@@ -293,6 +293,13 @@ export default function Home() {
                 style={{ background: "transparent", border: "1px solid oklch(0.65 0.14 195 / 0.4)", color: "oklch(0.72 0.13 195)" }}>
                 LinkedIn ↗
               </a>
+              <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/MikeWinters_CV_Final_c1537159.pdf"
+                download="MikeWinters_CV.pdf"
+                target="_blank" rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
+                style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.82 0.008 220)" }}>
+                Download CV ↓
+              </a>
               <button onClick={() => document.getElementById("dashboards")?.scrollIntoView({ behavior: "smooth" })}
                 className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
                 style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.82 0.008 220)" }}>
