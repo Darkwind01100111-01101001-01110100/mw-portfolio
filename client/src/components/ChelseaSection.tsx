@@ -21,21 +21,21 @@ const EPL_TABLE = [
   { pos:2,  name:"Manchester City",        played:30, won:18, drawn:7,  lost:5,  gf:60, ga:28, gd:32,  pts:61, form:"WWWWDD", projected:77, zone:"cl" },
   { pos:3,  name:"Manchester United",      played:31, won:15, drawn:10, lost:6,  gf:56, ga:43, gd:13,  pts:55, form:"DWWLWD", projected:67, zone:"cl" },
   { pos:4,  name:"Aston Villa",            played:30, won:15, drawn:6,  lost:9,  gf:40, ga:37, gd:3,   pts:51, form:"DWDLLL", projected:65, zone:"cl" },
-  { pos:5,  name:"Liverpool",              played:31, won:14, drawn:7,  lost:10, gf:50, ga:42, gd:8,   pts:49, form:"WWWLDL", projected:60, zone:"cl" },
-  { pos:6,  name:"Chelsea",               played:31, won:13, drawn:9,  lost:9,  gf:53, ga:36, gd:17,  pts:48, form:"DDLWLL", projected:59, zone:"el", highlight:true },
-  { pos:7,  name:"Brentford",             played:30, won:13, drawn:6,  lost:11, gf:46, ga:42, gd:4,   pts:45, form:"WDLWDD", projected:57, zone:"el" },
-  { pos:8,  name:"Fulham",                played:31, won:13, drawn:5,  lost:13, gf:43, ga:44, gd:-1,  pts:44, form:"LWWLDW", projected:54, zone:"mid" },
-  { pos:9,  name:"Brighton",              played:31, won:11, drawn:10, lost:10, gf:41, ga:37, gd:4,   pts:43, form:"LWWLWW", projected:53, zone:"mid" },
-  { pos:10, name:"Everton",               played:31, won:13, drawn:7,  lost:11, gf:35, ga:35, gd:0,   pts:46, form:"LLWWLW", projected:56, zone:"mid" },
+  { pos:5,  name:"Liverpool",              played:31, won:15, drawn:7,  lost:9,  gf:52, ga:42, gd:10,  pts:52, form:"WWWLDW", projected:64, zone:"cl" },
+  { pos:6,  name:"Chelsea",               played:31, won:13, drawn:9,  lost:9,  gf:53, ga:38, gd:15,  pts:48, form:"DDLWLL", projected:59, zone:"el", highlight:true },
+  { pos:7,  name:"Brentford",             played:31, won:14, drawn:6,  lost:11, gf:47, ga:42, gd:5,   pts:48, form:"WDLWDW", projected:59, zone:"el" },
+  { pos:8,  name:"Everton",               played:31, won:13, drawn:7,  lost:11, gf:37, ga:35, gd:2,   pts:46, form:"LLWWLW", projected:56, zone:"mid" },
+  { pos:9,  name:"Fulham",                played:31, won:13, drawn:5,  lost:13, gf:44, ga:44, gd:0,   pts:44, form:"LWWLDW", projected:54, zone:"mid" },
+  { pos:10, name:"Brighton",              played:31, won:11, drawn:10, lost:10, gf:41, ga:38, gd:3,   pts:43, form:"LWWLWL", projected:53, zone:"mid" },
   { pos:11, name:"Newcastle United",      played:30, won:12, drawn:6,  lost:12, gf:43, ga:43, gd:0,   pts:42, form:"LWLLWW", projected:53, zone:"mid" },
   { pos:12, name:"AFC Bournemouth",       played:31, won:9,  drawn:15, lost:7,  gf:46, ga:48, gd:-2,  pts:42, form:"WDDDDD", projected:51, zone:"mid" },
   { pos:13, name:"Sunderland",            played:30, won:10, drawn:10, lost:10, gf:30, ga:35, gd:-5,  pts:40, form:"LLLDWL", projected:51, zone:"mid" },
   { pos:14, name:"Crystal Palace",        played:30, won:10, drawn:9,  lost:11, gf:33, ga:35, gd:-2,  pts:39, form:"WLWLWD", projected:49, zone:"mid" },
-  { pos:15, name:"Leeds United",          played:30, won:7,  drawn:11, lost:12, gf:37, ga:48, gd:-11, pts:32, form:"WDDLLD", projected:41, zone:"mid" },
+  { pos:15, name:"Leeds United",          played:31, won:7,  drawn:11, lost:13, gf:37, ga:49, gd:-12, pts:32, form:"WDDLLL", projected:39, zone:"mid" },
   { pos:16, name:"Tottenham Hotspur",     played:30, won:7,  drawn:9,  lost:14, gf:40, ga:47, gd:-7,  pts:30, form:"LLLLLD", projected:38, zone:"rel" },
   { pos:17, name:"Nottingham Forest",     played:30, won:7,  drawn:8,  lost:15, gf:28, ga:43, gd:-15, pts:29, form:"LDLLDD", projected:37, zone:"rel" },
   { pos:18, name:"West Ham United",       played:30, won:7,  drawn:8,  lost:15, gf:36, ga:55, gd:-19, pts:29, form:"WDDLWD", projected:37, zone:"rel" },
-  { pos:19, name:"Burnley",               played:31, won:4,  drawn:8,  lost:19, gf:33, ga:61, gd:-28, pts:20, form:"WDLLDL", projected:25, zone:"rel" },
+  { pos:19, name:"Burnley",               played:31, won:4,  drawn:8,  lost:19, gf:33, ga:62, gd:-29, pts:20, form:"WDLLDL", projected:25, zone:"rel" },
   { pos:20, name:"Wolverhampton Wanderers", played:31, won:3, drawn:8, lost:20, gf:24, ga:54, gd:-30, pts:17, form:"DDLWWD", projected:21, zone:"rel" },
 ];
 
@@ -63,7 +63,7 @@ const CHELSEA_SEASON = {
   ],
   // Last 10 results
   recentResults: [
-    { gw:31, opp:"Everton",     h_a:"A", gf:0, ga:1, result:"L" },
+    { gw:31, opp:"Everton",     h_a:"A", gf:0, ga:3, result:"L" },
     { gw:30, opp:"West Ham",    h_a:"H", gf:2, ga:4, result:"L" },
     { gw:29, opp:"Arsenal",     h_a:"A", gf:1, ga:2, result:"L" },
     { gw:28, opp:"Everton",     h_a:"H", gf:2, ga:1, result:"W" },
@@ -80,7 +80,7 @@ const CHELSEA_SEASON = {
     goalsConceded: { chelsea: 1.17, leagueAvg: 1.43, rank: 5  },
     winPct:        { chelsea: 43.3, leagueAvg: 35.0, rank: 6  },
     drawPct:       { chelsea: 30.0, leagueAvg: 26.0, rank: 2  },
-    projectedPts:  { chelsea: 61,   leagueAvg: 50,   rank: 6  },
+    projectedPts:  { chelsea: 59,   leagueAvg: 50,   rank: 6  },
   },
 };
 
@@ -142,7 +142,7 @@ function PointsChart() {
   const areaD = `${pathD} L${xScale(data[data.length-1].gw)},${pad.t + chartH} L${xScale(data[0].gw)},${pad.t + chartH} Z`;
 
   // Projected line (current pts/gw * 38)
-  const ppg = 48 / 30;
+  const ppg = 48 / 31;
   const projEnd = ppg * 38;
   const projY = yScale(Math.min(projEnd, maxPts));
   const lastX = xScale(data[data.length-1].gw);
@@ -176,7 +176,7 @@ function PointsChart() {
           fontFamily="'JetBrains Mono', monospace">48</text>
         {/* Projected label */}
         <text x={endX - 2} y={projY - 4} textAnchor="end" fontSize="7.5"
-          fill={TEAL} fillOpacity="0.6" fontFamily="'JetBrains Mono', monospace">~61 proj.</text>
+          fill={TEAL} fillOpacity="0.6" fontFamily="'JetBrains Mono', monospace">~59 proj.</text>
         {/* Manager change marker */}
         <line x1={xScale(19)} y1={pad.t} x2={xScale(19)} y2={pad.t + chartH}
           stroke="#f59e0b" strokeWidth="1" strokeDasharray="3 2" opacity="0.6" />
@@ -425,7 +425,7 @@ export default function ChelseaSection() {
             {/* Insight callout */}
             <div className="mt-4 p-4 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.06)", border: `1px solid oklch(0.65 0.14 195 / 0.15)` }}>
               <p className="text-xs" style={{ color: MUTED, lineHeight: "1.7" }}>
-                <strong style={{ color: TEAL }}>Analytical note:</strong> Projected points = (current pts ÷ games played) × 38. Chelsea's 61-pt projection places them on the Europa League boundary. Arsenal's 86-pt trajectory would be their highest points tally since the 2003-04 Invincibles (90 pts). Tottenham's 5-game losing streak (LLLLL) is the worst current form run in the league.
+                <strong style={{ color: TEAL }}>Analytical note:</strong> Projected points = (current pts ÷ games played) × 38. Chelsea's 59-pt projection places them on the Europa League boundary. Arsenal's 86-pt trajectory would be their highest points tally since the 2003-04 Invincibles (90 pts). Tottenham's 5-game losing streak (LLLLL) is the worst current form run in the league.
               </p>
             </div>
           </div>
