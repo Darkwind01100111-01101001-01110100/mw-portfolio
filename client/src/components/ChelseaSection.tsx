@@ -1,7 +1,7 @@
 // =======================================================
 // CHELSEA FC ANALYTICS SECTION
 // Design: Terminal Clarity -- dark navy, teal accents
-// Data: Baked-fresh as of Mar 22, 2026 (MW32)
+// Data: Verified as of Mar 22, 2026 (MW31 complete)
 // Sources: BBC Sport (EPL table), Wikipedia, Sporting News (UCL)
 // =======================================================
 
@@ -15,15 +15,15 @@ const FG = "oklch(0.88 0.008 220)";
 const MUTED = "oklch(0.60 0.015 220)";
 const BORDER = "oklch(1 0 0 / 8%)";
 
-// -- EPL 2025-26 Standings (MW32, updated Mar 22 2026) --
+// -- EPL 2025-26 Standings (MW31, verified Mar 22 2026) --
 const EPL_TABLE = [
   { pos:1,  name:"Arsenal",               played:31, won:21, drawn:7,  lost:3,  gf:61, ga:22, gd:39,  pts:70, form:"DDWWWW", projected:86, zone:"title" },
   { pos:2,  name:"Manchester City",        played:30, won:18, drawn:7,  lost:5,  gf:60, ga:28, gd:32,  pts:61, form:"WWWWDD", projected:77, zone:"cl" },
   { pos:3,  name:"Manchester United",      played:31, won:15, drawn:10, lost:6,  gf:56, ga:43, gd:13,  pts:55, form:"DWWLWD", projected:67, zone:"cl" },
   { pos:4,  name:"Aston Villa",            played:30, won:15, drawn:6,  lost:9,  gf:40, ga:37, gd:3,   pts:51, form:"DWDLLL", projected:65, zone:"cl" },
-  { pos:5,  name:"Liverpool",              played:31, won:15, drawn:7,  lost:9,  gf:52, ga:42, gd:10,  pts:52, form:"WWWLDW", projected:64, zone:"cl" },
+  { pos:5,  name:"Liverpool",              played:31, won:14, drawn:7,  lost:10, gf:50, ga:42, gd:8,   pts:49, form:"WWWLDL", projected:60, zone:"cl" },
   { pos:6,  name:"Chelsea",               played:31, won:13, drawn:9,  lost:9,  gf:53, ga:38, gd:15,  pts:48, form:"DDLWLL", projected:59, zone:"el", highlight:true },
-  { pos:7,  name:"Brentford",             played:31, won:14, drawn:6,  lost:11, gf:47, ga:42, gd:5,   pts:48, form:"WDLWDW", projected:59, zone:"el" },
+  { pos:7,  name:"Brentford",             played:31, won:13, drawn:7,  lost:11, gf:46, ga:42, gd:4,   pts:46, form:"WDLWDD", projected:56, zone:"el" },
   { pos:8,  name:"Everton",               played:31, won:13, drawn:7,  lost:11, gf:37, ga:35, gd:2,   pts:46, form:"LLWWLW", projected:56, zone:"mid" },
   { pos:9,  name:"Fulham",                played:31, won:13, drawn:5,  lost:13, gf:44, ga:44, gd:0,   pts:44, form:"LWWLDW", projected:54, zone:"mid" },
   { pos:10, name:"Brighton",              played:31, won:11, drawn:10, lost:10, gf:41, ga:38, gd:3,   pts:43, form:"LWWLWL", projected:53, zone:"mid" },
@@ -51,7 +51,7 @@ const CHELSEA_SEASON = {
   biggestDefeat: "0-3 vs PSG (H), Mar 17 (8-2 agg)",
   ucl: "Eliminated R16 -- PSG 8-2 agg",
   homeRecord: { played:15, won:6, drawn:5, lost:4, pts:23 },
-  awayRecord: { played:15, won:7, drawn:4, lost:4, pts:25 },
+  awayRecord: { played:16, won:7, drawn:4, lost:5, pts:25 },
   // Cumulative points progression (MW1-MW31, sampled)
   pointsProgression: [
     {gw:1,pts:1},{gw:2,pts:4},{gw:3,pts:7},{gw:4,pts:10},{gw:5,pts:11},
@@ -76,10 +76,10 @@ const CHELSEA_SEASON = {
   ],
   // Key metrics vs league averages
   metrics: {
-    goalsPerGame:  { chelsea: 1.77, leagueAvg: 1.43, rank: 3  },
-    goalsConceded: { chelsea: 1.17, leagueAvg: 1.43, rank: 5  },
-    winPct:        { chelsea: 43.3, leagueAvg: 35.0, rank: 6  },
-    drawPct:       { chelsea: 30.0, leagueAvg: 26.0, rank: 2  },
+    goalsPerGame:  { chelsea: 1.71, leagueAvg: 1.43, rank: 4  },
+    goalsConceded: { chelsea: 1.23, leagueAvg: 1.43, rank: 7  },
+    winPct:        { chelsea: 41.9, leagueAvg: 35.0, rank: 6  },
+    drawPct:       { chelsea: 29.0, leagueAvg: 26.0, rank: 2  },
     projectedPts:  { chelsea: 59,   leagueAvg: 50,   rank: 6  },
   },
 };
@@ -256,7 +256,7 @@ export default function ChelseaSection() {
   };
 
   const tabs = [
-    { id: "epl",     label: "// EPL Table",       sub: "MW32 · Mar 22" },
+    { id: "epl",     label: "// EPL Table",       sub: "MW31 · Mar 22" },
     { id: "chelsea", label: "// Chelsea Deep-Dive", sub: "2025-26 Season" },
     { id: "ucl",     label: "// UCL",              sub: "QF Bracket" },
   ] as const;
@@ -314,11 +314,11 @@ export default function ChelseaSection() {
           Chelsea FC Analytics
         </h2>
         <p className="text-sm mb-2 max-w-2xl" style={{ color: MUTED, lineHeight: "1.7" }}>
-          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. Data updated <strong style={{ color: FG }}>Mar 22, 2026 (MW32)</strong>.
+          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. Data updated <strong style={{ color: FG }}>Mar 22, 2026 (MW31)</strong>.
         </p>
         <div className="flex items-center gap-2 mb-8">
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>MW32 · updated Mar 22</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>MW31 · verified Mar 22</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Python · pandas</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>BBC Sport · Wikipedia</span>
         </div>
@@ -439,7 +439,7 @@ export default function ChelseaSection() {
               {[
                 { label: "Position",    value: "6th",    sub: "48 pts · MW31" },
                 { label: "Top Scorer",  value: "14",     sub: "João Pedro (PL)" },
-                { label: "Goals For",   value: "53",     sub: "3rd in league" },
+                { label: "Goals For",   value: "53",     sub: "4th in league" },
                 { label: "UCL",         value: "R16",    sub: "Out vs PSG 8-2" },
               ].map(c => (
                 <div key={c.label} className="panel p-4 text-center">
@@ -492,16 +492,16 @@ export default function ChelseaSection() {
                   ))}
                 </div>
                 <p className="text-xs mt-3" style={{ color: MUTED, lineHeight: "1.6" }}>
-                  Chelsea are actually <strong style={{ color: FG }}>stronger away</strong> (25 pts) than at home (23 pts) -- unusual for a top-6 side. Stamford Bridge has been inconsistent this season.
+                  Chelsea have been <strong style={{ color: FG }}>stronger away</strong> (25 pts) than at home (23 pts) for most of the season, though the 0-3 loss at Everton has narrowed that gap. Stamford Bridge has been inconsistent this season.
                 </p>
               </div>
 
               <div className="panel p-4">
                 <div className="section-label mb-3">Key Metrics vs. League Average</div>
                 <div className="space-y-3">
-                  <MetricBar label="Goals/Game" chelsea={1.77} leagueAvg={1.43} max={2.5} rank={3} />
-                  <MetricBar label="Goals Conceded/Game" chelsea={1.17} leagueAvg={1.43} max={2.5} rank={5} />
-                  <MetricBar label="Win %" chelsea={43.3} leagueAvg={35.0} max={70} rank={6} unit="%" />
+                  <MetricBar label="Goals/Game" chelsea={1.71} leagueAvg={1.43} max={2.5} rank={4} />
+                  <MetricBar label="Goals Conceded/Game" chelsea={1.23} leagueAvg={1.43} max={2.5} rank={7} />
+                  <MetricBar label="Win %" chelsea={41.9} leagueAvg={35.0} max={70} rank={6} unit="%" />
                 </div>
               </div>
             </div>
