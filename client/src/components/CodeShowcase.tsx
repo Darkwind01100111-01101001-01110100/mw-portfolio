@@ -98,7 +98,7 @@ calculate_projected_finish <- function(team_data) {
     arrange(desc(pts))
 }
 
-# Chelsea output (GW30):
+# Chelsea output (MW30):
 # ppg: 1.60 | projected: 61 pts | zone: Europa League
 # form_pts: 5 | momentum: negative`;
 
@@ -146,7 +146,7 @@ calculate_sos <- function(epl_table, fixtures_remaining) {
     )
 }
 
-# Chelsea SoRS (GW31):
+# Chelsea SoRS (MW31):
 # avg_opp_pts = 44.2 | rank = 8th hardest
 # SoS-adjusted projection: 59 pts (vs 61 raw)`;
 
@@ -280,6 +280,7 @@ export default function CodeShowcase() {
             fontSize: "0.72rem",
             margin: 0,
             whiteSpace: "pre",
+            fontStyle: "normal",
           }}
         >
           {active.code}

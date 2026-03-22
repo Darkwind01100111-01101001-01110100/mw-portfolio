@@ -53,7 +53,7 @@ function CodeBlock({ code, lang = "python" }: { code: string; lang?: string }) {
         <span style={{ color: MUTED, fontFamily: MONO, fontSize: "0.6rem" }}>{lang}</span>
         <button onClick={copy} style={{ color: copied ? TEAL : MUTED, fontFamily: MONO, fontSize: "0.6rem" }}>{copied ? "✓ copied" : "copy"}</button>
       </div>
-      <pre className="p-4 overflow-x-auto" style={{ fontFamily: MONO, fontSize: "0.68rem", color: "#D4D4D4", lineHeight: "1.6" }}>
+      <pre className="p-4 overflow-x-auto" style={{ fontFamily: MONO, fontSize: "0.68rem", color: "#D4D4D4", lineHeight: "1.6", fontStyle: "normal" }}>
         <code dangerouslySetInnerHTML={{ __html: hi }} />
       </pre>
     </div>

@@ -128,7 +128,7 @@ function SampleTable({ rows, columns }: { rows: Record<string, string>[]; column
 // ── Nav ────────────────────────────────────────────────
 function Nav() {
   const [active, setActive] = useState("hero");
-  const sections = ["about", "dashboards", "sql", "pokemon", "chelsea", "contact"];
+  const sections = ["about", "dashboards", "sql", "chelsea", "pokemon", "contact"];
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
@@ -454,11 +454,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── POKÉMON ANALYSIS ── */}
-      <div><PokemonSection /></div>
-
       {/* ── CHELSEA FC ANALYTICS ── */}
       <div><ChelseaSection /></div>
+      {/* ── POKÉMON ANALYSIS ── */}
+      <div><PokemonSection /></div>
 
       {/* ── CONTACT ── */}
       <section id="contact" className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
