@@ -65,7 +65,7 @@ function SqlBlock({ code }: { code: string }) {
     setTimeout(() => setCopied(false), 2000);
   };
   const highlighted = code
-    .replace(/--[^\n]*/g, m => `<span style="color:oklch(0.55 0.015 220);font-style:italic">${m}</span>`)
+    .replace(/--[^\n]*/g, m => `<span style="color:oklch(0.55 0.015 220)">${m}</span>`)
     .replace(/\b(WITH|SELECT|FROM|WHERE|JOIN|LEFT JOIN|GROUP BY|ORDER BY|HAVING|AND|OR|NOT|IN|AS|ON|CASE|WHEN|THEN|ELSE|END|DISTINCT|COUNT|SUM|AVG|ROUND|CAST|NULLIF|COALESCE|VALUES|NULL|TRUE|FALSE)\b/g,
       m => `<span style="color:oklch(0.72 0.13 195);font-weight:600">${m}</span>`)
     .replace(/\{\{[^}]+\}\}/g, m => `<span style="color:oklch(0.78 0.18 55)">${m}</span>`)
@@ -171,49 +171,77 @@ function Nav() {
   );
 }
 
+// ── Dashboard lightbox ────────────────────────────────
+function DashboardLightbox({ dash, onClose }: { dash: typeof DASHBOARDS[0]; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+  }, [onClose]);
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ background: "oklch(0.08 0.02 240 / 0.95)", backdropFilter: "blur(8px)" }}
+      onClick={onClose}>
+      <div className="relative max-w-6xl w-full" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose}
+          className="absolute -top-10 right-0 text-sm px-3 py-1 rounded transition-colors"
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.72 0.13 195)", background: "oklch(0.65 0.14 195 / 0.12)", border: "1px solid oklch(0.65 0.14 195 / 0.3)" }}>
+          ✕ close
+        </button>
+        <div className="section-label mb-2 text-center">{dash.subtitle}</div>
+        <h3 className="text-xl font-bold text-center mb-4" style={{ fontFamily: "'DM Serif Display', serif", color: "oklch(0.94 0.008 220)" }}>{dash.title}</h3>
+        <img src={dash.image} alt={dash.title} className="w-full rounded-lg" style={{ border: "1px solid oklch(1 0 0 / 12%)", boxShadow: "0 24px 80px oklch(0 0 0 / 0.6)" }} />
+        <p className="text-sm mt-4 text-center" style={{ color: "oklch(0.70 0.012 220)" }}>{dash.description}</p>
+      </div>
+    </div>
+  );
+}
+
 // ── Dashboard card ─────────────────────────────────────
 function DashboardCard({ dash, index }: { dash: typeof DASHBOARDS[0]; index: number }) {
   const { ref, inView } = useInView();
-  const [expanded, setExpanded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   return (
-    <div ref={ref} className="panel overflow-hidden transition-all duration-500"
-      style={{ opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(30px)", transitionDelay: `${index * 120}ms` }}>
-      {/* Screenshot */}
-      <div className="relative overflow-hidden cursor-pointer" style={{ background: "oklch(0.13 0.03 240)" }}
-        onClick={() => setExpanded(!expanded)}>
-        <img src={dash.image} alt={dash.title} className="w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
-          style={{ maxHeight: expanded ? "none" : "260px", objectPosition: "top" }} />
-        {!expanded && (
-          <div className="absolute bottom-0 left-0 right-0 h-16 flex items-end justify-center pb-3"
-            style={{ background: "linear-gradient(transparent, oklch(0.20 0.038 240))" }}>
-            <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.65 0.14 195)" }}>
-              click to expand ↓
+    <>
+      {lightboxOpen && <DashboardLightbox dash={dash} onClose={() => setLightboxOpen(false)} />}
+      <div ref={ref} className="panel overflow-hidden transition-all duration-500"
+        style={{ opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(30px)", transitionDelay: `${index * 120}ms` }}>
+        {/* Screenshot — fixed aspect ratio, click opens lightbox */}
+        <div className="relative overflow-hidden cursor-pointer group" style={{ background: "oklch(0.13 0.03 240)", aspectRatio: "16/9" }}
+          onClick={() => setLightboxOpen(true)}>
+          <img src={dash.image} alt={dash.title} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: "oklch(0.08 0.02 240 / 0.55)" }}>
+            <span className="px-4 py-2 rounded text-sm font-semibold"
+              style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.72 0.13 195)", background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.4)" }}>
+              ⤢ view full size
             </span>
           </div>
-        )}
-      </div>
-      {/* Info */}
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <div>
-            <div className="section-label mb-1">{dash.subtitle}</div>
-            <h3 className="text-lg font-bold text-foreground">{dash.title}</h3>
+        </div>
+        {/* Info */}
+        <div className="p-5">
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <div>
+              <div className="section-label mb-1">{dash.subtitle}</div>
+              <h3 className="text-lg font-bold text-foreground">{dash.title}</h3>
+            </div>
+          </div>
+          <p className="text-sm mb-4" style={{ color: "oklch(0.70 0.012 220)", lineHeight: "1.65" }}>{dash.description}</p>
+          <div className="flex flex-wrap gap-2 mb-3">
+            {dash.metrics.map(m => <span key={m} className="metric-pill">{m}</span>)}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {dash.tags.map(t => (
+              <span key={t} className="text-xs px-2 py-0.5 rounded"
+                style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.65 0.015 220)" }}>
+                {t}
+              </span>
+            ))}
           </div>
         </div>
-        <p className="text-sm mb-4" style={{ color: "oklch(0.70 0.012 220)", lineHeight: "1.65" }}>{dash.description}</p>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {dash.metrics.map(m => <span key={m} className="metric-pill">{m}</span>)}
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {dash.tags.map(t => (
-            <span key={t} className="text-xs px-2 py-0.5 rounded"
-              style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.65 0.015 220)" }}>
-              {t}
-            </span>
-          ))}
-        </div>
       </div>
-    </div>
+    </>
   );
 }
 
