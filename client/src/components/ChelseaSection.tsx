@@ -256,7 +256,7 @@ export default function ChelseaSection() {
   };
 
   const tabs = [
-    { id: "epl",     label: "// EPL Table",       sub: "MW31 · Mar 22" },
+    { id: "epl",     label: "// EPL Table",       sub: "snapshot · end of MW31" },
     { id: "chelsea", label: "// Chelsea Deep-Dive", sub: "2025-26 Season" },
     { id: "ucl",     label: "// UCL",              sub: "QF Bracket" },
   ] as const;
@@ -314,11 +314,11 @@ export default function ChelseaSection() {
           Chelsea FC Analytics
         </h2>
         <p className="text-sm mb-2 max-w-2xl" style={{ color: MUTED, lineHeight: "1.7" }}>
-          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. Data updated <strong style={{ color: FG }}>Mar 22, 2026 (MW31)</strong>.
+          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. <strong style={{ color: FG }}>Static snapshot: end of Matchweek 31 · Mar 22, 2026.</strong>
         </p>
         <div className="flex items-center gap-2 mb-8">
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>MW31 · verified Mar 22</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>static snapshot · end of MW31 · Mar 22 2026</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Python · pandas</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>BBC Sport · Wikipedia</span>
         </div>
@@ -662,11 +662,9 @@ export default function ChelseaSection() {
           <div className="flex items-start gap-2">
             <span style={{ color: TEAL, fontSize: "0.75rem" }}>&#128736;</span>
             <div>
-              <span className="text-xs font-semibold" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>WIP -- Realtime Integration</span>
+              <span className="text-xs font-semibold" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Data Notes</span>
               <p className="text-xs mt-0.5" style={{ color: MUTED, lineHeight: "1.6" }}>
-                Current data is refreshed on a daily cadence from public sources. A planned next iteration would connect directly to the
-                {" "}<strong style={{ color: "oklch(0.75 0.012 220)" }}>FBref / Opta API</strong> for live xG, progressive carries, and press intensity metrics
-                {" "}-- enabling real-time match-day dashboards and automated post-match reports without manual refresh.
+                This section is a static data snapshot as of end of Matchweek 31 (Mar 22, 2026). All figures -- standings, results, projections -- are manually verified from public sources (BBC Sport, Sky Sports) and will be updated at season end to compare predictions against final outcomes.
               </p>
             </div>
           </div>
@@ -675,10 +673,10 @@ export default function ChelseaSection() {
         {/* Data freshness footer */}
         <div className="mt-4 pt-4 border-t flex items-center justify-between" style={{ borderColor: BORDER }}>
           <span className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-            Data: BBC Sport · Wikipedia · Sporting News · Last updated: Mar 22, 2026
+            Data: BBC Sport · Wikipedia · Sporting News · Static snapshot: end of MW31 · Mar 22, 2026
           </span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.1)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-            ● baked-fresh
+            ● static snapshot
           </span>
         </div>
       </div>
