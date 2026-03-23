@@ -302,10 +302,7 @@ export default function ChelseaSection() {
               Matchday Mode -- WIP Feature
             </span>
             <p className="text-xs" style={{ color: MUTED, lineHeight: "1.65", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.64rem" }}>
-              On a match day, this button will activate hourly polling -- scraping the EPL table every 60 minutes
-              and updating the standings below without a page reload. The React polling hook and countdown logic
-              are already written; the remaining piece is a backend proxy route to handle the BBC Sport scrape
-              server-side (required to bypass browser CORS restrictions). Planned for a near-future full-stack upgrade.
+              On a match day, this will poll the EPL table hourly and update standings live — pending a backend proxy to handle the scrape server-side.
             </p>
           </div>
         </div>
@@ -578,6 +575,12 @@ export default function ChelseaSection() {
                 <p className="text-xs" style={{ color: MUTED, lineHeight: "1.75" }}>
                   <strong style={{ color: FG }}>Comparable seasons:</strong> Chelsea's current trajectory (48 pts, MW31) mirrors their 2022-23 season under Potter/Lampard, which ended 12th on 44 pts -- but Rosenior's squad is objectively stronger. A more optimistic comp is 2020-21 (67 pts, 4th). The 57–62 range sits between those two outcomes.
                 </p>
+                <div className="mt-3 pt-3 border-t flex items-center gap-2" style={{ borderColor: "oklch(0.65 0.14 195 / 0.15)" }}>
+                  <span style={{ color: TEAL, fontSize: "0.75rem", flexShrink: 0 }}>&#128197;</span>
+                  <p className="text-xs" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem", opacity: 0.8 }}>
+                    To be revisited at end of season — predictions above will be compared against Chelsea's actual final position and points total.
+                  </p>
+                </div>
               </div>
             </div>
 
