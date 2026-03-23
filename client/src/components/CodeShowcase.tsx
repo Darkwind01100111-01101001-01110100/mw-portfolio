@@ -98,9 +98,9 @@ calculate_projected_finish <- function(team_data) {
     arrange(desc(pts))
 }
 
-# Chelsea output (MW30):
-# ppg: 1.60 | projected: 61 pts | zone: Europa League
-# form_pts: 5 | momentum: negative`;
+# Chelsea output (MW31):
+# ppg: 1.55 | projected: 59 pts | zone: Europa League
+# form_pts: 4 | momentum: negative`;
 
 const STRENGTH_OF_SCHEDULE = `# -- Strength of Remaining Schedule (SoRS) ---------------
 # For each team: average pts of remaining opponents.
