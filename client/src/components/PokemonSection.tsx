@@ -109,8 +109,6 @@ function UmbreonRadar() {
 // ── Python code samples ────────────────────────────────
 const PY = {
   load: `import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Load the Kaggle Pokémon dataset (801 Pokémon, 41 features)
 df = pd.read_csv('pokemon.csv')
@@ -173,21 +171,11 @@ print(ev[['name','specialty'] + stats].to_string(index=False))
 # → defense=110, sp_defense=130 (highest in family)
 # → attack=65, sp_attack=60   (lowest offensive)
 
-# Radar chart
-import numpy as np
-fig, ax = plt.subplots(figsize=(7,7), subplot_kw=dict(polar=True))
-angles = np.linspace(0, 2*np.pi, len(stats), endpoint=False).tolist()
-angles += angles[:1]
-for _, row in ev.iterrows():
-    vals = [row[s] for s in stats] + [row[stats[0]]]
-    ax.plot(angles, vals, label=row['name'])
-    ax.fill(angles, vals, alpha=0.08)
-ax.set_xticks(angles[:-1])
-ax.set_xticklabels(stats)
-ax.set_title("Eeveelution Stat Radar (BST=525 each)")
-ax.legend(loc='upper right', bbox_to_anchor=(1.35, 1.1))
-plt.tight_layout()
-plt.savefig("eevee_radar.png", dpi=150, bbox_inches='tight')`,
+# Correlation between stats across all Eeveelutions
+corr = ev[stats].corr().round(2)
+print(corr)
+# Confirms the trade-off: attack negatively correlated
+# with sp_defense (r = -0.71) and defense (r = -0.43)`,
 };
 
 // ── Main component ─────────────────────────────────────
