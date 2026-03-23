@@ -1,7 +1,7 @@
 // =======================================================
 // CHELSEA FC ANALYTICS SECTION
 // Design: Terminal Clarity -- dark navy, teal accents
-// Data: Verified as of Mar 22, 2026 (MW31 complete)
+// Data: Verified as of Mar 23, 2026 (MW31 complete — all 10 fixtures)
 // Sources: BBC Sport (EPL table), Wikipedia, Sporting News (UCL)
 // =======================================================
 
@@ -15,26 +15,26 @@ const FG = "oklch(0.88 0.008 220)";
 const MUTED = "oklch(0.60 0.015 220)";
 const BORDER = "oklch(1 0 0 / 8%)";
 
-// -- EPL 2025-26 Standings (MW31, verified Mar 22 2026) --
+// -- EPL 2025-26 Standings (MW31, verified Mar 23 2026) --
 const EPL_TABLE = [
   { pos:1,  name:"Arsenal",               played:31, won:21, drawn:7,  lost:3,  gf:61, ga:22, gd:39,  pts:70, form:"DDWWWW", projected:86, zone:"title" },
   { pos:2,  name:"Manchester City",        played:30, won:18, drawn:7,  lost:5,  gf:60, ga:28, gd:32,  pts:61, form:"WWWWDD", projected:77, zone:"cl" },
   { pos:3,  name:"Manchester United",      played:31, won:15, drawn:10, lost:6,  gf:56, ga:43, gd:13,  pts:55, form:"DWWLWD", projected:67, zone:"cl" },
-  { pos:4,  name:"Aston Villa",            played:30, won:15, drawn:6,  lost:9,  gf:40, ga:37, gd:3,   pts:51, form:"DWDLLL", projected:65, zone:"cl" },
+  { pos:4,  name:"Aston Villa",            played:31, won:16, drawn:6,  lost:9,  gf:42, ga:37, gd:5,   pts:54, form:"WDWDLL", projected:66, zone:"cl" },
   { pos:5,  name:"Liverpool",              played:31, won:14, drawn:7,  lost:10, gf:50, ga:42, gd:8,   pts:49, form:"WWWLDL", projected:60, zone:"cl" },
   { pos:6,  name:"Chelsea",               played:31, won:13, drawn:9,  lost:9,  gf:53, ga:38, gd:15,  pts:48, form:"DDLWLL", projected:59, zone:"el", highlight:true },
   { pos:7,  name:"Brentford",             played:31, won:13, drawn:7,  lost:11, gf:46, ga:42, gd:4,   pts:46, form:"WDLWDD", projected:56, zone:"el" },
   { pos:8,  name:"Everton",               played:31, won:13, drawn:7,  lost:11, gf:37, ga:35, gd:2,   pts:46, form:"LLWWLW", projected:56, zone:"mid" },
   { pos:9,  name:"Fulham",                played:31, won:13, drawn:5,  lost:13, gf:44, ga:44, gd:0,   pts:44, form:"LWWLDW", projected:54, zone:"mid" },
-  { pos:10, name:"Brighton",              played:31, won:11, drawn:10, lost:10, gf:41, ga:38, gd:3,   pts:43, form:"LWWLWL", projected:53, zone:"mid" },
-  { pos:11, name:"Newcastle United",      played:30, won:12, drawn:6,  lost:12, gf:43, ga:43, gd:0,   pts:42, form:"LWLLWW", projected:53, zone:"mid" },
-  { pos:12, name:"AFC Bournemouth",       played:31, won:9,  drawn:15, lost:7,  gf:46, ga:48, gd:-2,  pts:42, form:"WDDDDD", projected:51, zone:"mid" },
-  { pos:13, name:"Sunderland",            played:30, won:10, drawn:10, lost:10, gf:30, ga:35, gd:-5,  pts:40, form:"LLLDWL", projected:51, zone:"mid" },
+  { pos:10, name:"Sunderland",            played:31, won:11, drawn:10, lost:10, gf:32, ga:36, gd:-4,  pts:43, form:"LLDWLW", projected:53, zone:"mid" },
+  { pos:11, name:"Brighton",              played:31, won:11, drawn:10, lost:10, gf:41, ga:38, gd:3,   pts:43, form:"LWWLWL", projected:53, zone:"mid" },
+  { pos:12, name:"Newcastle United",      played:31, won:12, drawn:6,  lost:13, gf:43, ga:45, gd:-2,  pts:42, form:"LWLLWL", projected:51, zone:"mid" },
+  { pos:13, name:"AFC Bournemouth",       played:31, won:9,  drawn:15, lost:7,  gf:46, ga:48, gd:-2,  pts:42, form:"WDDDDD", projected:51, zone:"mid" },
   { pos:14, name:"Crystal Palace",        played:30, won:10, drawn:9,  lost:11, gf:33, ga:35, gd:-2,  pts:39, form:"WLWLWD", projected:49, zone:"mid" },
   { pos:15, name:"Leeds United",          played:31, won:7,  drawn:11, lost:13, gf:37, ga:49, gd:-12, pts:32, form:"WDDLLL", projected:39, zone:"mid" },
-  { pos:16, name:"Tottenham Hotspur",     played:30, won:7,  drawn:9,  lost:14, gf:40, ga:47, gd:-7,  pts:30, form:"LLLLLD", projected:38, zone:"rel" },
-  { pos:17, name:"Nottingham Forest",     played:30, won:7,  drawn:8,  lost:15, gf:28, ga:43, gd:-15, pts:29, form:"LDLLDD", projected:37, zone:"rel" },
-  { pos:18, name:"West Ham United",       played:30, won:7,  drawn:8,  lost:15, gf:36, ga:55, gd:-19, pts:29, form:"WDDLWD", projected:37, zone:"rel" },
+  { pos:16, name:"Nottingham Forest",     played:31, won:8,  drawn:8,  lost:15, gf:31, ga:43, gd:-12, pts:32, form:"DLLDDW", projected:39, zone:"mid" },
+  { pos:17, name:"Tottenham Hotspur",     played:31, won:7,  drawn:9,  lost:15, gf:40, ga:50, gd:-10, pts:30, form:"LLLLLL", projected:37, zone:"rel" },
+  { pos:18, name:"West Ham United",       played:31, won:7,  drawn:8,  lost:16, gf:36, ga:57, gd:-21, pts:29, form:"DDLWDL", projected:36, zone:"rel" },
   { pos:19, name:"Burnley",               played:31, won:4,  drawn:8,  lost:19, gf:33, ga:62, gd:-29, pts:20, form:"WDLLDL", projected:25, zone:"rel" },
   { pos:20, name:"Wolverhampton Wanderers", played:31, won:3, drawn:8, lost:20, gf:24, ga:54, gd:-30, pts:17, form:"DDLWWD", projected:21, zone:"rel" },
 ];
@@ -311,11 +311,11 @@ export default function ChelseaSection() {
           Chelsea FC Analytics
         </h2>
         <p className="text-sm mb-2 max-w-2xl" style={{ color: MUTED, lineHeight: "1.7" }}>
-          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. <strong style={{ color: FG }}>Static snapshot: end of Matchweek 31 · Mar 22, 2026.</strong>
+          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. <strong style={{ color: FG }}>Static snapshot: end of Matchweek 31 · Mar 23, 2026.</strong>
         </p>
         <div className="flex items-center gap-2 mb-8">
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>static snapshot · end of MW31 · Mar 22 2026</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>static snapshot · end of MW31 · Mar 23 2026</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Python · pandas</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>BBC Sport · Wikipedia</span>
         </div>
@@ -422,7 +422,7 @@ export default function ChelseaSection() {
             {/* Insight callout */}
             <div className="mt-4 p-4 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.06)", border: `1px solid oklch(0.65 0.14 195 / 0.15)` }}>
               <p className="text-xs" style={{ color: MUTED, lineHeight: "1.7" }}>
-                <strong style={{ color: TEAL }}>Analytical note:</strong> Projected points = (current pts ÷ games played) × 38. Chelsea's 59-pt projection places them on the Europa League boundary. Arsenal's 86-pt trajectory would be their highest points tally since the 2003-04 Invincibles (90 pts). Tottenham's 5-game losing streak (LLLLL) is the worst current form run in the league.
+                <strong style={{ color: TEAL }}>Analytical note:</strong> Projected points = (current pts ÷ games played) × 38. Chelsea's 59-pt projection places them on the Europa League boundary. Arsenal's 86-pt trajectory would be their highest points tally since the 2003-04 Invincibles (90 pts). Tottenham's 6-game losing streak (LLLLLL) is the worst current form run in the league — one point above the relegation zone after a 0-3 home defeat to Forest.
               </p>
             </div>
           </div>
@@ -667,7 +667,7 @@ export default function ChelseaSection() {
             <div>
               <span className="text-xs font-semibold" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Data Notes</span>
               <p className="text-xs mt-0.5" style={{ color: MUTED, lineHeight: "1.6" }}>
-                This section is a static data snapshot as of end of Matchweek 31 (Mar 22, 2026). All figures -- standings, results, projections -- are manually verified from public sources (BBC Sport, Sky Sports) and will be updated at season end to compare predictions against final outcomes.
+                This section is a static data snapshot as of end of Matchweek 31 (Mar 23, 2026). All figures -- standings, results, projections -- are manually verified from public sources (BBC Sport, Sky Sports) and will be updated at season end to compare predictions against final outcomes.
               </p>
             </div>
           </div>
@@ -676,7 +676,7 @@ export default function ChelseaSection() {
         {/* Data freshness footer */}
         <div className="mt-4 pt-4 border-t flex items-center justify-between" style={{ borderColor: BORDER }}>
           <span className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-            Data: BBC Sport · Wikipedia · Sporting News · Static snapshot: end of MW31 · Mar 22, 2026
+            Data: BBC Sport · Wikipedia · Sporting News · Static snapshot: end of MW31 · Mar 23, 2026
           </span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.1)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
             ● static snapshot
