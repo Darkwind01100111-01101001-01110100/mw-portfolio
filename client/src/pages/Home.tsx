@@ -128,49 +128,134 @@ function SampleTable({ rows, columns }: { rows: Record<string, string>[]; column
 // ── Nav ────────────────────────────────────────────────
 function Nav() {
   const [active, setActive] = useState("hero");
-  const sections = ["about", "dashboards", "sql", "chelsea", "pokemon", "contact"];
+  const [projectsOpen, setProjectsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const allSections = ["about", "dashboards", "sql", "patterns", "chelsea", "pokemon", "contact"];
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-    }, { threshold: 0.4 });
-    sections.forEach(s => { const el = document.getElementById(s); if (el) obs.observe(el); });
+    }, { threshold: 0.3 });
+    allSections.forEach(s => { const el = document.getElementById(s); if (el) obs.observe(el); });
     return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setProjectsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setProjectsOpen(false);
   };
+
+  const TEAL = "oklch(0.72 0.13 195)";
+  const MUTED = "oklch(0.60 0.015 220)";
+  const TEAL_BG = "oklch(0.65 0.14 195 / 0.12)";
+
+  const standaloneItems = [
+    { id: "about",      label: "About" },
+    { id: "dashboards", label: "Dashboards" },
+    { id: "sql",        label: "SQL" },
+    { id: "patterns",   label: "Patterns" },
+  ];
+
+  const personalProjects = [
+    { id: "chelsea", label: "Chelsea FC" },
+    { id: "pokemon", label: "Pokémon" },
+  ];
+
+  const projectsActive = active === "chelsea" || active === "pokemon";
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
       style={{ background: "oklch(0.16 0.038 240 / 0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
       <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
-        <span className="text-sm font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.72 0.13 195)" }}>MW</span>
+        <span className="text-sm font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}>MW</span>
         <span className="text-sm font-medium text-foreground hidden sm:block">Mike Winters</span>
       </button>
+
       <div className="flex items-center gap-1">
-        {sections.map(s => (
-          <button key={s} onClick={() => scrollTo(s)}
-            className="px-3 py-1.5 rounded text-xs font-medium capitalize transition-all"
+        {standaloneItems.map(({ id, label }) => (
+          <button key={id} onClick={() => scrollTo(id)}
+            className="px-3 py-1.5 rounded text-xs font-medium transition-all"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              color: active === s ? "oklch(0.72 0.13 195)" : "oklch(0.60 0.015 220)",
-              background: active === s ? "oklch(0.65 0.14 195 / 0.12)" : "transparent",
+              color: active === id ? TEAL : MUTED,
+              background: active === id ? TEAL_BG : "transparent",
             }}>
-            {s === "sql" ? "SQL" : s === "pokemon" ? "Pokémon" : s === "chelsea" ? "Chelsea FC" : s}
+            {label}
           </button>
         ))}
+
+        {/* Personal Projects dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setProjectsOpen(o => !o)}
+            className="flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium transition-all"
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              color: projectsActive || projectsOpen ? TEAL : MUTED,
+              background: projectsActive || projectsOpen ? TEAL_BG : "transparent",
+            }}>
+            Projects
+            <span style={{ fontSize: "0.55rem", opacity: 0.7, marginTop: "1px" }}>
+              {projectsOpen ? "▲" : "▼"}
+            </span>
+          </button>
+
+          {projectsOpen && (
+            <div className="absolute top-full right-0 mt-1 rounded overflow-hidden"
+              style={{
+                background: "oklch(0.18 0.04 240)",
+                border: "1px solid oklch(1 0 0 / 12%)",
+                boxShadow: "0 8px 24px oklch(0 0 0 / 0.4)",
+                minWidth: "140px",
+                zIndex: 100,
+              }}>
+              {personalProjects.map(({ id, label }) => (
+                <button key={id} onClick={() => scrollTo(id)}
+                  className="w-full text-left px-4 py-2.5 text-xs transition-all block"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: active === id ? TEAL : MUTED,
+                    background: active === id ? TEAL_BG : "transparent",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = TEAL_BG; (e.currentTarget as HTMLElement).style.color = TEAL; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = active === id ? TEAL_BG : "transparent"; (e.currentTarget as HTMLElement).style.color = active === id ? TEAL : MUTED; }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Contact */}
+        <button onClick={() => scrollTo("contact")}
+          className="px-3 py-1.5 rounded text-xs font-medium transition-all"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            color: active === "contact" ? TEAL : MUTED,
+            background: active === "contact" ? TEAL_BG : "transparent",
+          }}>
+          Contact
+        </button>
       </div>
+
       <a href="mailto:m.winters@me.com"
         className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all"
-        style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: "oklch(0.72 0.13 195)" }}>
+        style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: TEAL }}>
         Hire Me
       </a>
     </nav>
   );
 }
-
 // ── Dashboard lightbox ────────────────────────────────
 function DashboardLightbox({ dash, onClose }: { dash: typeof DASHBOARDS[0]; onClose: () => void }) {
   useEffect(() => {
