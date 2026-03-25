@@ -401,7 +401,7 @@ export default function Home() {
                 style={{ background: "oklch(0.65 0.14 195)", color: "oklch(0.12 0.03 240)" }}>
                 Get in Touch
               </a>
-              <a href="https://www.linkedin.com/in/mwinters123/" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.linkedin.com/in/mwinters123" target="_blank" rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
                 style={{ background: "transparent", border: "1px solid oklch(0.65 0.14 195 / 0.4)", color: "oklch(0.72 0.13 195)" }}>
                 LinkedIn ↗
@@ -557,7 +557,7 @@ export default function Home() {
               style={{ background: "oklch(0.65 0.14 195)", color: "oklch(0.12 0.03 240)" }}>
               m.winters@me.com
             </a>
-            <a href="https://www.linkedin.com/in/mwinters123/" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/mwinters123" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-3 rounded font-semibold text-sm transition-all"
               style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: "oklch(0.72 0.13 195)" }}>
               LinkedIn ↗
