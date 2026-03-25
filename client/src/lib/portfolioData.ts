@@ -17,7 +17,7 @@ export const SKILLS = {
   "BI & Visualization": ["Tableau", "Looker", "Dashboard Design", "Plotly", "Google Sheets"],
   "Analytics": ["Statistical Testing", "KPI Tracking", "Anomaly Detection", "Capacity Planning"],
   "AI & Automation": ["Prompt Engineering", "LLM-augmented Dev", "Automated Reporting"],
-  "Operations": ["Project/Program Management", "Workforce Management", "QA Frameworks", "Cross-functional Leadership"],
+  "Operations": ["Program Management", "Workforce Management", "QA Frameworks", "Cross-functional Leadership"],
 };
 
 export const DASHBOARDS = [
