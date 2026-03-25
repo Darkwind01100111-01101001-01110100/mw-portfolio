@@ -453,7 +453,7 @@ export default function Home() {
                 Data analytics professional who builds <strong style={{ color: "oklch(0.88 0.008 220)" }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the processes around them. In the past year: designed 2 real-time dashboards (29 widgets), authored 15+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 290-person AI program.
               </p>
               <p className="text-sm" style={{ color: "oklch(0.75 0.012 220)", lineHeight: "1.8" }}>
-                15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: "oklch(0.88 0.008 220)" }}>Data Analytics, Data Science, Program Management, and Data Engineering</strong>.
+                15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: "oklch(0.88 0.008 220)" }}>Data Analytics, Data Science, Project/Program Management, and Data Engineering</strong>.
               </p>
             </div>
             <div className="space-y-4">
