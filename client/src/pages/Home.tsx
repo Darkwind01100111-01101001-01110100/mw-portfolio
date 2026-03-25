@@ -129,6 +129,7 @@ function SampleTable({ rows, columns }: { rows: Record<string, string>[]; column
 function Nav() {
   const [active, setActive] = useState("hero");
   const [projectsOpen, setProjectsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const allSections = ["about", "dashboards", "sql", "patterns", "chelsea", "pokemon", "contact"];
 
@@ -153,6 +154,7 @@ function Nav() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setProjectsOpen(false);
+    setMobileOpen(false);
   };
 
   const TEAL = "oklch(0.72 0.13 195)";
@@ -173,87 +175,147 @@ function Nav() {
 
   const projectsActive = active === "chelsea" || active === "pokemon";
 
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
-      style={{ background: "oklch(0.16 0.038 240 / 0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
-      <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
-        <span className="text-sm font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}>MW</span>
-        <span className="text-sm font-medium text-foreground hidden sm:block">Mike Winters</span>
-      </button>
+  // All nav items flattened for mobile menu
+  const allNavItems = [
+    { id: "about",      label: "About" },
+    { id: "dashboards", label: "Dashboards" },
+    { id: "sql",        label: "SQL" },
+    { id: "patterns",   label: "Patterns" },
+    { id: "chelsea",    label: "Projects — Chelsea FC" },
+    { id: "pokemon",    label: "Projects — Pokémon" },
+    { id: "contact",    label: "Contact" },
+  ];
 
-      <div className="flex items-center gap-1">
-        {standaloneItems.map(({ id, label }) => (
-          <button key={id} onClick={() => scrollTo(id)}
+  return (
+    <>
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
+        style={{ background: "oklch(0.16 0.038 240 / 0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
+        {/* Logo */}
+        <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
+          <span className="text-sm font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}>MW</span>
+          <span className="text-sm font-medium text-foreground hidden sm:block">Mike Winters</span>
+        </button>
+
+        {/* Desktop nav — hidden on mobile */}
+        <div className="hidden md:flex items-center gap-1">
+          {standaloneItems.map(({ id, label }) => (
+            <button key={id} onClick={() => scrollTo(id)}
+              className="px-3 py-1.5 rounded text-xs font-medium transition-all"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                color: active === id ? TEAL : MUTED,
+                background: active === id ? TEAL_BG : "transparent",
+              }}>
+              {label}
+            </button>
+          ))}
+
+          {/* Projects dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setProjectsOpen(o => !o)}
+              className="flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium transition-all"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                color: projectsActive || projectsOpen ? TEAL : MUTED,
+                background: projectsActive || projectsOpen ? TEAL_BG : "transparent",
+              }}>
+              Projects
+              <span style={{ fontSize: "0.55rem", opacity: 0.7, marginTop: "1px" }}>
+                {projectsOpen ? "▲" : "▼"}
+              </span>
+            </button>
+
+            {projectsOpen && (
+              <div className="absolute top-full right-0 mt-1 rounded overflow-hidden"
+                style={{
+                  background: "oklch(0.18 0.04 240)",
+                  border: "1px solid oklch(1 0 0 / 12%)",
+                  boxShadow: "0 8px 24px oklch(0 0 0 / 0.4)",
+                  minWidth: "140px",
+                  zIndex: 100,
+                }}>
+                {personalProjects.map(({ id, label }) => (
+                  <button key={id} onClick={() => scrollTo(id)}
+                    className="w-full text-left px-4 py-2.5 text-xs transition-all block"
+                    style={{
+                      fontFamily: "'JetBrains Mono', monospace",
+                      color: active === id ? TEAL : MUTED,
+                      background: active === id ? TEAL_BG : "transparent",
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = TEAL_BG; (e.currentTarget as HTMLElement).style.color = TEAL; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = active === id ? TEAL_BG : "transparent"; (e.currentTarget as HTMLElement).style.color = active === id ? TEAL : MUTED; }}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Contact */}
+          <button onClick={() => scrollTo("contact")}
             className="px-3 py-1.5 rounded text-xs font-medium transition-all"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
-              color: active === id ? TEAL : MUTED,
-              background: active === id ? TEAL_BG : "transparent",
+              color: active === "contact" ? TEAL : MUTED,
+              background: active === "contact" ? TEAL_BG : "transparent",
             }}>
-            {label}
+            Contact
           </button>
-        ))}
-
-        {/* Personal Projects dropdown */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setProjectsOpen(o => !o)}
-            className="flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium transition-all"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              color: projectsActive || projectsOpen ? TEAL : MUTED,
-              background: projectsActive || projectsOpen ? TEAL_BG : "transparent",
-            }}>
-            Projects
-            <span style={{ fontSize: "0.55rem", opacity: 0.7, marginTop: "1px" }}>
-              {projectsOpen ? "▲" : "▼"}
-            </span>
-          </button>
-
-          {projectsOpen && (
-            <div className="absolute top-full right-0 mt-1 rounded overflow-hidden"
-              style={{
-                background: "oklch(0.18 0.04 240)",
-                border: "1px solid oklch(1 0 0 / 12%)",
-                boxShadow: "0 8px 24px oklch(0 0 0 / 0.4)",
-                minWidth: "140px",
-                zIndex: 100,
-              }}>
-              {personalProjects.map(({ id, label }) => (
-                <button key={id} onClick={() => scrollTo(id)}
-                  className="w-full text-left px-4 py-2.5 text-xs transition-all block"
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    color: active === id ? TEAL : MUTED,
-                    background: active === id ? TEAL_BG : "transparent",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = TEAL_BG; (e.currentTarget as HTMLElement).style.color = TEAL; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = active === id ? TEAL_BG : "transparent"; (e.currentTarget as HTMLElement).style.color = active === id ? TEAL : MUTED; }}>
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Contact */}
-        <button onClick={() => scrollTo("contact")}
-          className="px-3 py-1.5 rounded text-xs font-medium transition-all"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            color: active === "contact" ? TEAL : MUTED,
-            background: active === "contact" ? TEAL_BG : "transparent",
-          }}>
-          Contact
-        </button>
-      </div>
+        {/* Right side: Hire Me (desktop) + hamburger (mobile) */}
+        <div className="flex items-center gap-2">
+          <a href="mailto:m.winters@me.com"
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all"
+            style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: TEAL }}>
+            Hire Me
+          </a>
 
-      <a href="mailto:m.winters@me.com"
-        className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all"
-        style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: TEAL }}>
-        Hire Me
-      </a>
-    </nav>
+          {/* Hamburger — mobile only */}
+          <button
+            className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
+            onClick={() => setMobileOpen(o => !o)}
+            aria-label="Toggle menu">
+            <span className="block w-5 h-0.5 transition-all"
+              style={{ background: mobileOpen ? TEAL : MUTED,
+                transform: mobileOpen ? "translateY(8px) rotate(45deg)" : "none" }} />
+            <span className="block w-5 h-0.5 transition-all"
+              style={{ background: mobileOpen ? TEAL : MUTED,
+                opacity: mobileOpen ? 0 : 1 }} />
+            <span className="block w-5 h-0.5 transition-all"
+              style={{ background: mobileOpen ? TEAL : MUTED,
+                transform: mobileOpen ? "translateY(-8px) rotate(-45deg)" : "none" }} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile dropdown menu */}
+      {mobileOpen && (
+        <div className="md:hidden fixed top-[49px] left-0 right-0 z-40"
+          style={{ background: "oklch(0.16 0.038 240 / 0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid oklch(1 0 0 / 10%)" }}>
+          {allNavItems.map(({ id, label }) => (
+            <button key={id} onClick={() => scrollTo(id)}
+              className="w-full text-left px-6 py-3.5 text-sm font-medium transition-all border-b"
+              style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                color: (active === id || (id === "chelsea" && active === "chelsea") || (id === "pokemon" && active === "pokemon")) ? TEAL : MUTED,
+                background: active === id ? TEAL_BG : "transparent",
+                borderColor: "oklch(1 0 0 / 6%)",
+              }}>
+              {label}
+            </button>
+          ))}
+          <div className="px-6 py-4">
+            <a href="mailto:m.winters@me.com"
+              className="block w-full text-center py-2.5 rounded text-sm font-semibold"
+              style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: TEAL }}>
+              Hire Me
+            </a>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 // ── Dashboard lightbox ────────────────────────────────
