@@ -557,10 +557,6 @@ export default function Home() {
               style={{ background: "oklch(0.65 0.14 195)", color: "oklch(0.12 0.03 240)" }}>
               m.winters@me.com
             </a>
-            <a href="tel:7758482670" className="flex items-center gap-2 px-5 py-3 rounded font-semibold text-sm transition-all"
-              style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.82 0.008 220)" }}>
-              775-848-2670
-            </a>
             <a href="https://www.linkedin.com/in/mwinters123/" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-3 rounded font-semibold text-sm transition-all"
               style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: "oklch(0.72 0.13 195)" }}>
