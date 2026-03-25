@@ -241,6 +241,7 @@ export default function ChelseaSection() {
   const [activeTab, setActiveTab] = useState<"epl" | "chelsea" | "ucl">("epl");
   const [sortCol, setSortCol] = useState<"pts" | "gf" | "gd" | "projected">("pts");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
+  const [showProjectionCode, setShowProjectionCode] = useState(false);
 
   // -- Matchday mode -- WIP preview only (no live fetch yet) --
   const [matchdayMode, setMatchdayMode] = useState(false);
@@ -462,6 +463,57 @@ export default function ChelseaSection() {
             <div className="panel p-5">
               <div className="section-label mb-3">Points Progression -- 2025/26</div>
               <PointsChart />
+              <div className="mt-4">
+                <button
+                  onClick={() => setShowProjectionCode(o => !o)}
+                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded transition-all"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem",
+                    color: showProjectionCode ? TEAL : MUTED,
+                    background: showProjectionCode ? "oklch(0.65 0.14 195 / 0.10)" : "oklch(1 0 0 / 4%)",
+                    border: `1px solid ${showProjectionCode ? "oklch(0.65 0.14 195 / 0.35)" : BORDER}`,
+                  }}>
+                  <span>&lt;/&gt;</span>
+                  {showProjectionCode ? "hide code" : "show code \u2014 how this projection was built"}
+                </button>
+                {showProjectionCode && (
+                  <div className="mt-3">
+                    <p className="text-xs mb-2" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.62rem" }}>
+                      R &middot; dplyr + purrr &mdash; PPG projection, zone classification via <code style={{ color: TEAL }}>case_when</code>, rolling form scoring
+                    </p>
+                    <div className="rounded overflow-hidden" style={{ background: "oklch(0.13 0.03 240)", border: `1px solid ${BORDER}` }}>
+                      <div className="flex items-center px-3 py-1.5" style={{ background: "oklch(0.15 0.03 240)", borderBottom: `1px solid ${BORDER}` }}>
+                        <span style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6rem" }}>R &middot; dplyr + purrr</span>
+                      </div>
+                      <pre className="p-4 overflow-x-auto" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.68rem", color: "#D4D4D4", lineHeight: "1.6", fontStyle: "normal", margin: 0 }}>{`calculate_projected_finish <- function(team_data) {
+  team_data |>
+    mutate(
+      ppg            = pts / played,
+      projected_pts  = round(ppg * 38, 0),
+      projected_zone = case_when(
+        projected_pts >= 82 ~ "Title Contention",
+        projected_pts >= 67 ~ "Champions League",
+        projected_pts >= 55 ~ "Europa League",
+        projected_pts >= 40 ~ "Mid-table",
+        TRUE                ~ "Relegation Battle"
+      ),
+      form_pts = purrr::map_dbl(form, ~{
+        chars <- strsplit(.x, "")[[1]]
+        sum(ifelse(chars == "W", 3, ifelse(chars == "D", 1, 0)))
+      }),
+      season_pts_per5 = (won * 3 + drawn) / played * 5,
+      momentum = if_else(form_pts > season_pts_per5, "positive", "negative")
+    ) |>
+    arrange(desc(pts))
+}
+
+# Chelsea output (MW31):
+# ppg: 1.55 | projected: 59 pts | zone: Europa League
+# form_pts: 4 | momentum: negative`}</pre>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Home vs Away */}

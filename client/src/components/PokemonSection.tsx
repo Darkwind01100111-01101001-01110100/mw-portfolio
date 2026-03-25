@@ -182,6 +182,8 @@ print(corr)
 export default function PokemonSection() {
   const [tab, setTab] = useState<"types" | "stats" | "eevee" | "code">("types");
   const [codeTab, setCodeTab] = useState<"load" | "analysis" | "eevee">("load");
+  const [showTypesCode, setShowTypesCode] = useState(false);
+  const [showEeveeCode, setShowEeveeCode] = useState(false);
   const [statSort, setStatSort] = useState<"total" | "attack" | "defense" | "speed">("total");
 
   const { typeDistribution, avgStatsByType, legendaryVsRegular, topPokemon,
@@ -282,6 +284,29 @@ export default function PokemonSection() {
               </div>
             </div>
 
+            {/* Show code toggle — type distribution */}
+            <div>
+              <button
+                onClick={() => setShowTypesCode(o => !o)}
+                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded transition-all"
+                style={{
+                  fontFamily: MONO, fontSize: "0.65rem",
+                  color: showTypesCode ? TEAL : MUTED,
+                  background: showTypesCode ? "oklch(0.65 0.14 195 / 0.10)" : "oklch(1 0 0 / 4%)",
+                  border: `1px solid ${showTypesCode ? "oklch(0.65 0.14 195 / 0.35)" : "oklch(1 0 0 / 8%)"}`,
+                }}>
+                <span style={{ fontFamily: MONO }}>&lt;/&gt;</span>
+                {showTypesCode ? "hide code" : "show code — how this was produced"}
+              </button>
+              {showTypesCode && (
+                <div className="mt-3">
+                  <p className="text-xs mb-2" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.62rem" }}>
+                    Python · pandas — type frequency from <code style={{ color: TEAL }}>df['type1'].value_counts()</code>
+                  </p>
+                  <CodeBlock code={PY.analysis} />
+                </div>
+              )}
+            </div>
             {/* Generation counts */}
             <div>
               <h3 className="text-sm font-semibold mb-3" style={{ color: FG, fontFamily: MONO, fontSize: "0.72rem" }}>Pokémon per Generation</h3>
@@ -473,9 +498,31 @@ export default function PokemonSection() {
                 </div>
               </div>
             </div>
+             {/* Show code toggle — Eevee analysis */}
+            <div className="mt-2">
+              <button
+                onClick={() => setShowEeveeCode(o => !o)}
+                className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded transition-all"
+                style={{
+                  fontFamily: MONO, fontSize: "0.65rem",
+                  color: showEeveeCode ? TEAL : MUTED,
+                  background: showEeveeCode ? "oklch(0.65 0.14 195 / 0.10)" : "oklch(1 0 0 / 4%)",
+                  border: `1px solid ${showEeveeCode ? "oklch(0.65 0.14 195 / 0.35)" : "oklch(1 0 0 / 8%)"}`,
+                }}>
+                <span style={{ fontFamily: MONO }}>&lt;/&gt;</span>
+                {showEeveeCode ? "hide code" : "show code — how this was produced"}
+              </button>
+              {showEeveeCode && (
+                <div className="mt-3">
+                  <p className="text-xs mb-2" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.62rem" }}>
+                    Python · pandas — <code style={{ color: TEAL }}>idxmax()</code> specialty detection + <code style={{ color: TEAL }}>corr()</code> matrix confirming the offensive/defensive trade-off
+                  </p>
+                  <CodeBlock code={PY.eevee} />
+                </div>
+              )}
+            </div>
           </div>
         )}
-
         {/* ── TAB 4: PYTHON CODE ── */}
         {tab === "code" && (
           <div className="space-y-4">
