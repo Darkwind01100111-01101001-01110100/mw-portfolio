@@ -135,7 +135,7 @@ function Nav() {
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+    }, { rootMargin: "-20% 0px -60% 0px", threshold: 0 });
     allSections.forEach(s => { const el = document.getElementById(s); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, []);
@@ -406,7 +406,7 @@ export default function Home() {
                 style={{ background: "transparent", border: "1px solid oklch(0.65 0.14 195 / 0.4)", color: "oklch(0.72 0.13 195)" }}>
                 LinkedIn ↗
               </a>
-              <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/MikeWinters_CV_External_089ac339.pdf"
+              <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/MikeWinters_CV_External_91f7d562.pdf"
                 download="MikeWinters_CV.pdf"
                 target="_blank" rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
