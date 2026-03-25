@@ -80,7 +80,7 @@ function UmbreonRadar() {
 
   return (
     <div className="flex flex-col items-center">
-      <svg width="200" height="200" viewBox="0 0 200 200">
+      <svg width="100%" height="auto" viewBox="0 0 200 200" style={{ maxWidth: "220px" }}>
         {[0.25, 0.5, 0.75, 1].map(lv => (
           <polygon key={lv} points={angles.map(a => { const p = xy(a, r * lv); return `${p.x},${p.y}`; }).join(" ")}
             fill="none" stroke="oklch(1 0 0 / 10%)" strokeWidth="1" />
@@ -456,7 +456,7 @@ export default function PokemonSection() {
                 <span className="font-semibold text-sm" style={{ color: FG, fontFamily: "'DM Serif Display', serif" }}>Umbreon — The Defensive Wall</span>
                 <TypeBadge type="dark" />
               </div>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <p className="text-xs mb-3" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.64rem", lineHeight: "1.7" }}>
                     Umbreon has the highest Defense (110) and Sp. Defense (130) in the Eevee family, and the lowest offensive stats. A textbook <strong style={{ color: FG }}>wall/staller</strong> archetype — built to absorb hits, not deal them.
@@ -480,14 +480,14 @@ export default function PokemonSection() {
                           <span className="text-xs w-16 font-semibold flex-shrink-0" style={{ color: isUmbreon ? typeColors["dark"] ?? TEAL : FG, fontFamily: MONO, fontSize: "0.62rem" }}>
                             {isUmbreon ? "🌙 " : ""}{e.name}
                           </span>
-                          <div className="flex gap-1 flex-1">
+                          <div className="flex gap-0.5 flex-1">
                             {[e.hp, e.attack, e.defense, e.sp_atk, e.sp_def, e.speed].map((v, i) => (
-                              <div key={i} className="flex-1 rounded" style={{ height: "16px", background: v === maxVal ? (typeColors[e.type] ?? TEAL) + "CC" : "oklch(1 0 0 / 8%)", position: "relative" }}>
-                                <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.5rem", fontFamily: MONO, color: v === maxVal ? "#fff" : MUTED }}>{v}</span>
+                              <div key={i} className="flex-1 rounded" style={{ height: "20px", background: v === maxVal ? (typeColors[e.type] ?? TEAL) + "CC" : "oklch(1 0 0 / 8%)", position: "relative", minWidth: 0 }}>
+                                <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.52rem", fontFamily: MONO, color: v === maxVal ? "#fff" : MUTED, overflow: "hidden" }}>{v}</span>
                               </div>
                             ))}
                           </div>
-                          <span className="text-xs flex-shrink-0" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.55rem", width: "70px" }}>{roles[e.name]}</span>
+                          <span className="hidden sm:block text-xs flex-shrink-0" style={{ color: MUTED, fontFamily: MONO, fontSize: "0.55rem", width: "70px" }}>{roles[e.name]}</span>
                         </div>
                       );
                     })}
