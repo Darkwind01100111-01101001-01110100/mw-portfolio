@@ -135,7 +135,7 @@ function Nav() {
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-    }, { threshold: 0.3 });
+    }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
     allSections.forEach(s => { const el = document.getElementById(s); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, []);
@@ -276,7 +276,7 @@ function DashboardLightbox({ dash, onClose }: { dash: typeof DASHBOARDS[0]; onCl
         </button>
         <div className="section-label mb-2 text-center">{dash.subtitle}</div>
         <h3 className="text-xl font-bold text-center mb-4" style={{ fontFamily: "'DM Serif Display', serif", color: "oklch(0.94 0.008 220)" }}>{dash.title}</h3>
-        <img src={dash.image} alt={dash.title} className="w-full rounded-lg" style={{ border: "1px solid oklch(1 0 0 / 12%)", boxShadow: "0 24px 80px oklch(0 0 0 / 0.6)" }} />
+        <img src={dash.image} alt={dash.title} className="w-full rounded-lg" style={{ border: "1px solid oklch(1 0 0 / 12%)", boxShadow: "0 24px 80px oklch(0 0 0 / 0.6)", maxHeight: "72vh", objectFit: "contain" }} />
         <p className="text-sm mt-4 text-center" style={{ color: "oklch(0.70 0.012 220)" }}>{dash.description}</p>
       </div>
     </div>
@@ -406,7 +406,7 @@ export default function Home() {
                 style={{ background: "transparent", border: "1px solid oklch(0.65 0.14 195 / 0.4)", color: "oklch(0.72 0.13 195)" }}>
                 LinkedIn ↗
               </a>
-              <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/MikeWinters_CV_External_4f1f018d.pdf"
+              <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/MikeWinters_CV_External_089ac339.pdf"
                 download="MikeWinters_CV.pdf"
                 target="_blank" rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
