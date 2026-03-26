@@ -312,11 +312,11 @@ export default function ChelseaSection() {
           Chelsea FC Analytics
         </h2>
         <p className="text-sm mb-2 max-w-2xl" style={{ color: MUTED, lineHeight: "1.7" }}>
-          Predictive models and performance analysis built around Chelsea FC and the Premier League -- combining sports analytics with the same R and Python patterns used in production work. <strong style={{ color: FG }}>Static snapshot: end of Matchweek 31 · Mar 23, 2026.</strong>
+          Predictive models and performance analysis built around Chelsea FC and the Premier League — combining sports analytics with the same R and Python patterns used in production work. Data last updated: <strong style={{ color: FG }}>Matchweek 31 · Mar 25, 2026.</strong>
         </p>
         <div className="flex items-center gap-2 mb-8">
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>static snapshot · end of MW31 · Mar 23 2026</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Matchweek 31 · Mar 25, 2026</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Python · pandas</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>BBC Sport · Wikipedia</span>
         </div>
@@ -351,7 +351,7 @@ export default function ChelseaSection() {
                 { color: CHELSEA_BLUE, label: "Chelsea" },
               ].map(z => (
                 <div key={z.label} className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-sm" style={{ background: z.color, opacity: 0.8 }} />
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: z.color, opacity: 0.9 }} />
                   <span className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>{z.label}</span>
                 </div>
               ))}
@@ -728,10 +728,10 @@ export default function ChelseaSection() {
         {/* Data freshness footer */}
         <div className="mt-4 pt-4 border-t flex items-center justify-between" style={{ borderColor: BORDER }}>
           <span className="text-xs" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-            Data: BBC Sport · Wikipedia · Sporting News · Static snapshot: end of MW31 · Mar 25, 2026
+            Data: BBC Sport · Wikipedia · Sporting News · Last updated: Matchweek 31 · Mar 25, 2026
           </span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.1)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>
-            ● static snapshot
+            ● MW31 · Mar 25, 2026
           </span>
         </div>
       </div>
