@@ -5,10 +5,10 @@
 
 export const METRICS = [
   { value: "15+", label: "Years Experience", sublabel: "Data & Operations" },
-  { value: "29", label: "Dashboard Widgets", sublabel: "2 Production Dashboards" },
-  { value: "15+", label: "SQL Queries", sublabel: "Production-Grade" },
+  { value: "29+", label: "Dashboard Widgets", sublabel: "5 Production Dashboards" },
+  { value: "30+", label: "SQL Queries", sublabel: "Production-Grade" },
   { value: "100+", label: "Hrs/Week Saved", sublabel: "Program-Wide" },
-  { value: "290+", label: "Contractors Managed", sublabel: "6 Global Regions" },
+  { value: "400+", label: "Contractors Managed", sublabel: "6 Global Regions" },
 ];
 
 export const SKILLS = {
@@ -25,7 +25,7 @@ export const DASHBOARDS = [
     id: "productivity",
     title: "Productivity Dashboard",
     subtitle: "Sample View",
-    description: "14-widget production dashboard tracking job lifecycle, completion rates, weekly volume trends, per-worker throughput, and team rollups. Covers 140+ task configurations, 15+ projects, 11 teams, and 6 global regions.",
+    description: "14-widget production dashboard tracking job lifecycle, completion rates, weekly volume trends, per-worker throughput, and team rollups. Covers 140+ task configurations, 15+ projects, 11 teams, and 6 global regions. Daily-updated — no manual reporting.",
     tags: ["SQL", "Plotly", "ETL", "Multi-team"],
     metrics: ["14 widgets", "140+ task configs", "11 teams", "6 regions"],
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/ProductivityDashboard-Sample_49aa0a8b.png",
@@ -34,7 +34,7 @@ export const DASHBOARDS = [
     id: "quality",
     title: "Quality Dashboard",
     subtitle: "Sample View",
-    description: "15-widget QA dashboard with pass rates, period-over-period trends, per-annotator scorecards, and QA coverage with statistical significance checks. Drove quality scores from 80% to 98–100% across 3 product verticals.",
+    description: "15-widget QA dashboard with pass rates, period-over-period trends, per-annotator scorecards, and QA coverage with statistical significance checks. Drove measurable quality improvements: one vertical hit 90% (+10pp MoM), another 98%, a third 100%.",
     tags: ["SQL", "Statistical Validation", "QA", "Period Comparison"],
     metrics: ["15 widgets", "3 panels", "3 product verticals", "90→100% quality"],
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/QualityDashboard-Sample_0dc8ee37.png",

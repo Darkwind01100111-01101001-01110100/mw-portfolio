@@ -512,7 +512,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <p className="text-sm mb-4" style={{ color: "oklch(0.75 0.012 220)", lineHeight: "1.8" }}>
-                Data analytics professional who builds <strong style={{ color: "oklch(0.88 0.008 220)" }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the processes around them. In the past year: designed 2 real-time dashboards (29 widgets), authored 15+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 290-person AI program.
+                Data analytics professional who builds <strong style={{ color: "oklch(0.88 0.008 220)" }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the operational frameworks around them. In the past year: built 5 active production dashboards (29+ widgets), authored 30+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
               </p>
               <p className="text-sm" style={{ color: "oklch(0.75 0.012 220)", lineHeight: "1.8" }}>
                 15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: "oklch(0.88 0.008 220)" }}>Data Analytics, Data Science, Program Management, and Data Engineering</strong>.
@@ -543,7 +543,7 @@ export default function Home() {
           <div className="section-label mb-3">// dashboard work</div>
           <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>Production Dashboards</h2>
           <p className="text-sm mb-10 max-w-2xl" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
-            Two production dashboards built from scratch on an enterprise BI platform — 29 total widgets used daily by 20+ team leads across 6 global regions. Sample views shown below with anonymized data.
+            5 active production dashboards built from scratch on an enterprise BI platform — 29+ total widgets covering productivity, quality, and capacity metrics. Used daily by 20+ team leads across 6 global regions. Sample views shown below with anonymized data.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             {DASHBOARDS.slice(0, 2).map((d, i) => <DashboardCard key={d.id} dash={d} index={i} />)}
