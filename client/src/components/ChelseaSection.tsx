@@ -1,7 +1,7 @@
 // =======================================================
 // CHELSEA FC ANALYTICS SECTION
 // Design: Terminal Clarity -- dark navy, teal accents
-// Data: Verified as of Apr 25 2026 (MW34 complete — all 10 fixtures)
+// Data: Verified as of Apr 28 2026 (MW34 complete — Sky Sports)
 // Sources: Football Web Pages (EPL table), Wikipedia, Sporting News (UCL)
 // =======================================================
 
@@ -19,13 +19,13 @@ const BORDER = "oklch(1 0 0 / 8%)";
 const EPL_TABLE = [
   { pos:1  , name:"Arsenal", played:34, won:22, drawn:7, lost:5,  gf:64, ga:26, gd:+38 , pts:73, form:"WWWWDD", projected:82, zone:"title" },
   { pos:2  , name:"Manchester City", played:33, won:21, drawn:7, lost:5,  gf:66, ga:29, gd:+37 , pts:70, form:"WWWWDD", projected:81, zone:"title" },
-  { pos:3  , name:"Manchester United", played:33, won:16, drawn:10, lost:7,  gf:58, ga:45, gd:+13 , pts:58, form:"DWWWDD", projected:67, zone:"cl" },
+  { pos:3  , name:"Manchester United", played:34, won:17, drawn:10, lost:7,  gf:60, ga:46, gd:+14 , pts:61, form:"DWWWDD", projected:68, zone:"cl" },
   { pos:4  , name:"Liverpool", played:34, won:17, drawn:7, lost:10,  gf:57, ga:44, gd:+13 , pts:58, form:"WDWWDL", projected:65, zone:"cl" },
   { pos:5  , name:"Aston Villa", played:34, won:17, drawn:7, lost:10,  gf:47, ga:42, gd:+5  , pts:58, form:"WDWWDL", projected:65, zone:"cl" },
   { pos:6  , name:"Brighton & Hove Albion", played:34, won:13, drawn:11, lost:10,  gf:48, ga:39, gd:+9  , pts:50, form:"WDWDDD", projected:56, zone:"el" },
   { pos:7  , name:"AFC Bournemouth", played:34, won:11, drawn:16, lost:7,  gf:52, ga:52, gd:0   , pts:49, form:"DDDWDD", projected:55, zone:"el" },
   { pos:8  , name:"Chelsea", played:34, won:13, drawn:9, lost:12,  gf:53, ga:45, gd:+8  , pts:48, form:"WDWLLL", projected:54, zone:"el", highlight:true },
-  { pos:9  , name:"Brentford", played:33, won:13, drawn:9, lost:11,  gf:48, ga:44, gd:+4  , pts:48, form:"WDWDDD", projected:55, zone:"el" },
+  { pos:9  , name:"Brentford", played:34, won:13, drawn:9, lost:12,  gf:49, ga:46, gd:+3  , pts:48, form:"WDWDDD", projected:54, zone:"mid" },
   { pos:10 , name:"Fulham", played:34, won:14, drawn:6, lost:14,  gf:44, ga:46, gd:-2  , pts:48, form:"WDWLWL", projected:54, zone:"mid" },
   { pos:11 , name:"Everton", played:34, won:13, drawn:8, lost:13,  gf:41, ga:41, gd:0   , pts:47, form:"WDWLWL", projected:53, zone:"mid" },
   { pos:12 , name:"Sunderland", played:34, won:12, drawn:10, lost:12,  gf:36, ga:45, gd:-9  , pts:46, form:"WDWLLL", projected:51, zone:"mid" },
