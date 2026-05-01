@@ -224,10 +224,10 @@ function Nav() {
         {navItems.map(({ id, label }) => (
           <button key={id} onClick={() => scrollTo(id)} style={navLinkStyle(id)}>{label}</button>
         ))}
-        <a href="/manus-storage/MikeWinters_CV_Final_1812cfac.pdf" target="_blank" rel="noopener noreferrer"
-          style={{ ...navLinkStyle("cv"), color: ACCENT2 }}>
+        <button onClick={() => { /* open modal via global */ (window as any).__openCvPreview?.(); }}
+          style={{ ...navLinkStyle("cv") as React.CSSProperties, color: ACCENT2, background: "none", border: "none", cursor: "pointer" }}>
           CV ↗
-        </a>
+        </button>
       </div>
 
       {/* Right: Hire Me + hamburger */}
@@ -255,10 +255,10 @@ function Nav() {
               {label}
             </button>
           ))}
-          <a href="/manus-storage/MikeWinters_CV_Final_1812cfac.pdf" target="_blank" rel="noopener noreferrer"
-            style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, padding: "0.35rem 0.75rem", textDecoration: "none" }}>
+          <button onClick={() => { (window as any).__openCvPreview?.(); }}
+            style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, padding: "0.35rem 0.75rem", background: "none", border: "none", cursor: "pointer" }}>
             CV ↗
-          </a>
+          </button>
           <a href="mailto:m.winters@me.com"
             style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, color: BG, background: ACCENT, padding: "0.5rem 1rem", borderRadius: 4, textDecoration: "none", textAlign: "center" }}>
             Hire Me
@@ -479,8 +479,17 @@ function ProjectsSection() {
 }
 
 // ── Main page ──────────────────────────────────────────
+const CV_GDRIVE_VIEW = "https://drive.google.com/file/d/1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr/view?usp=sharing";
+const CV_GDRIVE_EMBED = "https://drive.google.com/file/d/1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr/preview";
+
 export default function Home() {
   const { ref: heroRef, inView: heroInView } = useInView(0.1);
+  const [cvPreviewOpen, setCvPreviewOpen] = useState(false);
+  // Wire up global opener for nav buttons (which live outside Home's scope)
+  useEffect(() => {
+    (window as any).__openCvPreview = () => setCvPreviewOpen(true);
+    return () => { delete (window as any).__openCvPreview; };
+  }, []);
 
   return (
     <div style={{ background: BG, color: TEXT, fontFamily: SANS, minHeight: "100vh" }}>
@@ -525,10 +534,10 @@ export default function Home() {
                 style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "#fff", background: ACCENT, border: "none", padding: "0.75rem 1.5rem", borderRadius: 4, cursor: "pointer", transition: "all 0.2s" }}>
                 View Work
               </button>
-              <a href="/manus-storage/MikeWinters_CV_Final_1812cfac.pdf" target="_blank" rel="noopener noreferrer"
-                style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: TEXT2, background: "transparent", border: `1px solid ${BORDER2}`, padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", transition: "all 0.2s" }}>
-                Download CV ↗
-              </a>
+              <button onClick={() => setCvPreviewOpen(true)}
+                style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: TEXT2, background: "transparent", border: `1px solid ${BORDER2}`, padding: "0.75rem 1.5rem", borderRadius: 4, cursor: "pointer", transition: "all 0.2s" }}>
+                View CV ↗
+              </button>
             </div>
           </div>
 
@@ -733,6 +742,66 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── CV PREVIEW MODAL ── */}
+      {cvPreviewOpen && (
+        <div
+          onClick={() => setCvPreviewOpen(false)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 1000,
+            background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: "1.5rem",
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: BG2, border: `1px solid ${BORDER2}`,
+              borderRadius: 8, overflow: "hidden",
+              width: "min(860px, 95vw)", height: "min(90vh, 1100px)",
+              display: "flex", flexDirection: "column",
+              boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
+            }}
+          >
+            {/* Modal header */}
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "0.85rem 1.25rem",
+              borderBottom: `1px solid ${BORDER}`,
+              background: BG3,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <span style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.1em", textTransform: "uppercase" }}>CV Preview</span>
+                <span style={{ fontFamily: MONO, fontSize: "0.65rem", color: TEXT3 }}>Mike Winters · Data Analytics</span>
+              </div>
+              <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                <a
+                  href={CV_GDRIVE_VIEW}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT2, border: `1px solid rgba(124,106,255,0.3)`, padding: "0.3rem 0.75rem", borderRadius: 3, textDecoration: "none", letterSpacing: "0.06em", textTransform: "uppercase" }}
+                >
+                  Open in Drive ↗
+                </a>
+                <button
+                  onClick={() => setCvPreviewOpen(false)}
+                  style={{ fontFamily: MONO, fontSize: "0.75rem", color: TEXT2, background: "none", border: `1px solid ${BORDER}`, borderRadius: 3, padding: "0.3rem 0.6rem", cursor: "pointer", lineHeight: 1 }}
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            {/* iframe */}
+            <iframe
+              src={CV_GDRIVE_EMBED}
+              title="Mike Winters CV"
+              style={{ flex: 1, border: "none", width: "100%" }}
+              allow="autoplay"
+            />
+          </div>
+        </div>
+      )}
 
       {/* ── FOOTER ── */}
       <footer style={{ padding: "1.5rem 2rem", borderTop: `1px solid ${BORDER}`, textAlign: "center" }}>
