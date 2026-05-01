@@ -491,6 +491,13 @@ export default function Home() {
     return () => { delete (window as any).__openCvPreview; };
   }, []);
 
+  // Escape key closes CV modal
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setCvPreviewOpen(false); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   return (
     <div style={{ background: BG, color: TEXT, fontFamily: SANS, minHeight: "100vh" }}>
       <Nav />
@@ -777,12 +784,11 @@ export default function Home() {
               </div>
               <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                 <a
-                  href={CV_GDRIVE_VIEW}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`https://drive.google.com/uc?export=download&id=1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr`}
+                  download="MikeWinters_CV.pdf"
                   style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT2, border: `1px solid rgba(124,106,255,0.3)`, padding: "0.3rem 0.75rem", borderRadius: 3, textDecoration: "none", letterSpacing: "0.06em", textTransform: "uppercase" }}
                 >
-                  Open in Drive ↗
+                  Download PDF ↓
                 </a>
                 <button
                   onClick={() => setCvPreviewOpen(false)}
