@@ -1,6 +1,6 @@
 // =======================================================
 // CHELSEA FC ANALYTICS SECTION
-// Design: Terminal Clarity -- dark navy, teal accents
+// Design: V3 Obsidian — deep black, violet/lavender accents
 // Data: Verified as of Apr 28 2026 (MW34 complete — Sky Sports)
 // Sources: Football Web Pages (EPL table), Wikipedia, Sporting News (UCL)
 // =======================================================
@@ -8,11 +8,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import CodeShowcase from "@/components/CodeShowcase";
 
-const TEAL = "#22D3EE";
-const CHELSEA_BLUE = "#034694";
-const GOLD = "#F8D030";
-const FG = "oklch(0.88 0.008 220)";
-const MUTED = "oklch(0.60 0.015 220)";
+const TEAL = "#a594ff";          // V3 Obsidian lavender accent
+const CHELSEA_BLUE = "#7c6aff";   // V3 Obsidian violet (replaces Chelsea blue for highlights)
+const GOLD = "#f59e0b";           // amber — kept for manager-change marker
+const FG = "oklch(0.88 0.008 260)";
+const MUTED = "oklch(0.58 0.018 260)";
 const BORDER = "oklch(1 0 0 / 8%)";
 
 // -- EPL 2025-26 Standings (MW34, verified Apr 25 2026) --
@@ -106,7 +106,7 @@ const UCL_BRACKET = [
 
 // -- Zone color helper ----------------------------------
 function zoneColor(zone: string, highlight?: boolean) {
-  if (highlight) return { bg: "oklch(0.25 0.06 240)", border: "oklch(0.65 0.14 195 / 0.5)" };
+  if (highlight) return { bg: "oklch(0.22 0.08 280)", border: "oklch(0.60 0.20 280 / 0.6)" };
   if (zone === "title") return { bg: "oklch(0.22 0.05 145 / 0.3)", border: "transparent" };
   if (zone === "cl")    return { bg: "oklch(0.22 0.05 240 / 0.25)", border: "transparent" };
   if (zone === "el")    return { bg: "oklch(0.22 0.06 55 / 0.2)", border: "transparent" };
@@ -263,7 +263,7 @@ export default function ChelseaSection({ embedded = false }: { embedded?: boolea
   ] as const;
 
   return (
-    <section id="chelsea" className="py-20" style={{ background: "oklch(0.17 0.04 240)", borderTop: `1px solid ${BORDER}` }}>
+    <section id="chelsea" className="py-20" style={{ background: "oklch(0.09 0.015 260)", borderTop: `1px solid ${BORDER}` }}>
       <div className="container max-w-5xl mx-auto px-6">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-3 flex-wrap">
@@ -279,7 +279,7 @@ export default function ChelseaSection({ embedded = false }: { embedded?: boolea
               style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: "0.75rem",
-                background: matchdayMode ? "oklch(0.55 0.22 145 / 0.15)" : "oklch(0.65 0.14 195 / 0.08)",
+                background: matchdayMode ? "oklch(0.55 0.22 145 / 0.15)" : "oklch(0.50 0.18 280 / 0.08)",
                 border: `1px solid ${matchdayMode ? "#22c55e66" : "oklch(0.65 0.14 195 / 0.25)"}`,
                 color: matchdayMode ? "#22c55e" : TEAL,
                 cursor: "pointer",
@@ -296,7 +296,7 @@ export default function ChelseaSection({ embedded = false }: { embedded?: boolea
 
         {/* Matchday WIP callout -- always visible */}
         <div className="mb-4 p-3 rounded flex items-start gap-2.5"
-          style={{ background: "oklch(0.65 0.14 195 / 0.04)", border: "1px dashed oklch(0.65 0.14 195 / 0.18)" }}>
+          style={{ background: "oklch(0.50 0.18 280 / 0.04)", border: "1px dashed oklch(0.50 0.18 280 / 0.18)" }}>
           <span style={{ color: TEAL, fontSize: "0.85rem", marginTop: "1px", flexShrink: 0 }}>🚧</span>
           <div>
             <span className="text-xs font-semibold block mb-0.5" style={{ color: FG, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.68rem" }}>
@@ -315,10 +315,10 @@ export default function ChelseaSection({ embedded = false }: { embedded?: boolea
           Predictive models and performance analysis built around Chelsea FC and the Premier League — combining sports analytics with the same R and Python patterns used in production work. Data last updated: <strong style={{ color: FG }}>Matchweek 34 · Apr 25, 2026.</strong>
         </p>
         <div className="flex items-center gap-2 mb-8">
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.50 0.18 280 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>R · rvest · ggplot2</span>
           <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.20 145 / 0.10)", color: "#22c55e", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Matchweek 34 · Apr 25, 2026</span>
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Python · pandas</span>
-          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.65 0.14 195 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>BBC Sport · Wikipedia</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.50 0.18 280 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>Python · pandas</span>
+          <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.50 0.18 280 / 0.12)", color: TEAL, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>BBC Sport · Wikipedia</span>
         </div>
 
         {/* Tabs */}
@@ -390,7 +390,7 @@ export default function ChelseaSection({ embedded = false }: { embedded?: boolea
                       const { bg, border } = zoneColor(team.zone, team.highlight);
                       return (
                         <tr key={team.pos}
-                          style={{ background: bg, borderLeft: team.highlight ? `3px solid ${CHELSEA_BLUE}` : "3px solid transparent", borderBottom: `1px solid ${BORDER}` }}>
+                          style={{ background: bg, borderLeft: team.highlight ? `3px solid #7c6aff` : "3px solid transparent", borderBottom: `1px solid ${BORDER}` }}>
                           <td className="py-2 px-1.5 text-center" style={{ color: MUTED, fontSize: "0.65rem" }}>{team.pos}</td>
                           <td className="py-2 px-1.5 font-semibold" style={{ color: team.highlight ? "#fff" : FG, fontSize: "0.7rem" }}>
                             {team.highlight ? `★ ${team.name}` : team.name}

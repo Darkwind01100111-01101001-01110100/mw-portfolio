@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════
 // POKÉMON ANALYSIS SECTION
-// Design: Terminal Clarity — dark navy, teal accents
+// Design: V3 Obsidian — deep black, violet/lavender accents
 // Data: Kaggle "The Complete Pokemon Dataset" (801 Pokémon)
 // Processed via Python/pandas — real values, not estimates
 // ═══════════════════════════════════════════════════════
@@ -8,10 +8,10 @@
 import { useState } from "react";
 import { POKEMON_DATA } from "@/lib/portfolioData";
 
-const TEAL   = "#22D3EE";
-const MUTED  = "oklch(0.60 0.015 220)";
-const FG     = "oklch(0.88 0.008 220)";
-const PANEL  = "oklch(0.20 0.038 240)";
+const TEAL   = "#a594ff";          // V3 Obsidian lavender accent
+const MUTED  = "oklch(0.58 0.018 260)";
+const FG     = "oklch(0.88 0.008 260)";
+const PANEL  = "oklch(0.14 0.025 260)";
 const BORDER = "oklch(1 0 0 / 8%)";
 const MONO   = "'JetBrains Mono', monospace";
 
@@ -209,7 +209,7 @@ export default function PokemonSection({ embedded = false }: { embedded?: boolea
   ];
 
   return (
-    <section id="pokemon" className="py-20" style={{ background: "oklch(0.17 0.04 240)", borderTop: `1px solid ${BORDER}` }}>
+    <section id="pokemon" className="py-20" style={{ background: "oklch(0.09 0.015 260)", borderTop: `1px solid ${BORDER}` }}>
       <div className="container max-w-5xl mx-auto px-6">
 
         {/* Header */}
