@@ -344,7 +344,8 @@ function DashboardCard({ dash, index }: { dash: typeof DASHBOARDS[0]; index: num
 }
 
 // ── SQL query section ──────────────────────────────────
-function QuerySection({ query, index }: { query: typeof SQL_QUERIES[0]; index: number }) {
+function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; index: number }) {
+  const q = query as any;
   const { ref, inView } = useInView();
   const [tab, setTab] = useState<"sql" | "output">("sql");
   return (
@@ -390,7 +391,7 @@ function QuerySection({ query, index }: { query: typeof SQL_QUERIES[0]; index: n
         {tab === "sql" ? (
           <SqlBlock code={query.code} />
         ) : (
-          <SampleTable rows={(query as any).sampleOutput as Record<string, string>[]} columns={(query as any).outputColumns as string[]} />
+          <SampleTable rows={(q.sampleOutput ?? []) as Record<string, string>[]} columns={(q.outputColumns ?? []) as string[]} />
         )}
       </div>
     </div>
