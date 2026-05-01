@@ -1,13 +1,30 @@
 // ═══════════════════════════════════════════════════════
 // HOME PAGE — Mike Winters Portfolio
-// Design: Terminal Clarity — dark navy, teal accents
-// Sections: Hero → Metrics → About → Dashboards → SQL → Patterns → Pokémon → Chelsea → Contact
+// Design: V3 Obsidian — deep black, violet/lavender accents
+// Fonts: Fraunces (display) · Space Grotesk (body) · JetBrains Mono (code)
+// Sections: Hero (2-col) → Metrics → About → Dashboards → SQL → Patterns → Projects (tabbed) → Contact
 // ═══════════════════════════════════════════════════════
-
 import { useEffect, useRef, useState } from "react";
 import { METRICS, SKILLS, DASHBOARDS, SQL_QUERIES, TECHNICAL_PATTERNS } from "@/lib/portfolioData";
-import PokemonSection from "@/components/PokemonSection";
 import ChelseaSection from "@/components/ChelseaSection";
+import PokemonSection from "@/components/PokemonSection";
+
+// ── Design tokens ──────────────────────────────────────
+const BG   = "#0a0a0b";
+const BG2  = "#111113";
+const BG3  = "#16161a";
+const BORDER  = "rgba(255,255,255,0.07)";
+const BORDER2 = "rgba(255,255,255,0.12)";
+const TEXT  = "#e8e6f0";
+const TEXT2 = "#9b97b0";
+const TEXT3 = "#6b6880";
+const ACCENT  = "#7c6aff";
+const ACCENT2 = "#a594ff";
+const GLOW    = "rgba(124,106,255,0.18)";
+const GLOW2   = "rgba(124,106,255,0.08)";
+const DISPLAY = "'Fraunces', serif";
+const SANS    = "'Space Grotesk', sans-serif";
+const MONO    = "'JetBrains Mono', monospace";
 
 // ── Animated counter hook ──────────────────────────────
 function useCounter(target: number, duration = 1500, trigger: boolean) {
@@ -45,13 +62,24 @@ function MetricCard({ value, label, sublabel, index }: { value: string; label: s
   const suffix = value.replace(/[0-9]/g, "");
   const count = useCounter(numericPart, 1200 + index * 100, inView);
   return (
-    <div ref={ref} className="panel p-5 flex flex-col gap-1 teal-glow transition-all duration-500"
-      style={{ opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(20px)", transitionDelay: `${index * 80}ms` }}>
-      <div className="text-3xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.72 0.13 195)" }}>
+    <div ref={ref} className="transition-all duration-500"
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(20px)",
+        transitionDelay: `${index * 80}ms`,
+        background: BG3,
+        border: `1px solid ${BORDER}`,
+        borderRadius: "0.625rem",
+        padding: "1.25rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.25rem",
+      }}>
+      <div style={{ fontFamily: MONO, fontSize: "2rem", fontWeight: 700, color: ACCENT2, lineHeight: 1 }}>
         {inView ? `${count}${suffix}` : "0"}
       </div>
-      <div className="text-sm font-semibold text-foreground">{label}</div>
-      <div className="text-xs" style={{ color: "oklch(0.60 0.015 220)" }}>{sublabel}</div>
+      <div style={{ fontSize: "0.8rem", fontWeight: 600, color: TEXT }}>{label}</div>
+      <div style={{ fontSize: "0.7rem", color: TEXT3, fontFamily: MONO }}>{sublabel}</div>
     </div>
   );
 }
@@ -65,31 +93,26 @@ function SqlBlock({ code }: { code: string }) {
     setTimeout(() => setCopied(false), 2000);
   };
   const highlighted = code
-    .replace(/--[^\n]*/g, m => `<span style="color:oklch(0.55 0.015 220)">${m}</span>`)
+    .replace(/--[^\n]*/g, m => `<span style="color:${TEXT3}">${m}</span>`)
     .replace(/\b(WITH|SELECT|FROM|WHERE|JOIN|LEFT JOIN|GROUP BY|ORDER BY|HAVING|AND|OR|NOT|IN|AS|ON|CASE|WHEN|THEN|ELSE|END|DISTINCT|COUNT|SUM|AVG|ROUND|CAST|NULLIF|COALESCE|VALUES|NULL|TRUE|FALSE)\b/g,
-      m => `<span style="color:oklch(0.72 0.13 195);font-weight:600">${m}</span>`)
-    .replace(/\{\{[^}]+\}\}/g, m => `<span style="color:oklch(0.78 0.18 55)">${m}</span>`)
-    .replace(/\b(\d+)\b/g, m => `<span style="color:oklch(0.75 0.15 30)">${m}</span>`);
-
+      m => `<span style="color:${ACCENT2};font-weight:600">${m}</span>`)
+    .replace(/\{\{[^}]+\}\}/g, m => `<span style="color:#f59e0b">${m}</span>`)
+    .replace(/\b(\d+)\b/g, m => `<span style="color:#f97316">${m}</span>`);
   return (
-    <div className="terminal-block relative">
-      <div className="flex items-center justify-between px-4 py-2 border-b" style={{ borderColor: "oklch(0.65 0.14 195 / 0.2)" }}>
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full" style={{ background: "oklch(0.65 0.22 25)" }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: "oklch(0.75 0.18 80)" }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: "oklch(0.65 0.20 145)" }} />
+    <div style={{ background: "#0d0d10", border: `1px solid rgba(124,106,255,0.2)`, borderRadius: "0.5rem", fontFamily: MONO }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.5rem 1rem", borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ display: "flex", gap: "0.375rem" }}>
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#ef4444" }} />
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#f59e0b" }} />
+          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#22c55e" }} />
         </div>
-        <span className="section-label" style={{ fontSize: "0.65rem" }}>SQL · Presto/Trino</span>
-        <button onClick={handleCopy} className="text-xs px-2 py-0.5 rounded transition-colors"
-          style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem",
-            background: copied ? "oklch(0.65 0.14 195 / 0.2)" : "transparent",
-            color: copied ? "oklch(0.72 0.13 195)" : "oklch(0.55 0.015 220)",
-            border: "1px solid oklch(0.65 0.14 195 / 0.2)" }}>
+        <span style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, letterSpacing: "0.1em", textTransform: "uppercase" }}>SQL · Presto/Trino</span>
+        <button onClick={handleCopy}
+          style={{ fontFamily: MONO, fontSize: "0.65rem", padding: "0.2rem 0.6rem", borderRadius: 4, border: `1px solid ${BORDER2}`, background: "transparent", color: copied ? ACCENT2 : TEXT3, cursor: "pointer" }}>
           {copied ? "✓ copied" : "copy"}
         </button>
       </div>
-      <pre className="p-4 overflow-x-auto text-xs leading-relaxed"
-        style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.82 0.008 220)", maxHeight: "420px" }}
+      <pre style={{ padding: "1rem", overflowX: "auto", fontSize: "0.75rem", lineHeight: 1.7, color: TEXT, maxHeight: 420, margin: 0 }}
         dangerouslySetInnerHTML={{ __html: highlighted }} />
     </div>
   );
@@ -98,12 +121,12 @@ function SqlBlock({ code }: { code: string }) {
 // ── Sample output table ────────────────────────────────
 function SampleTable({ rows, columns }: { rows: Record<string, string>[]; columns: string[] }) {
   return (
-    <div className="overflow-x-auto rounded-lg" style={{ border: "1px solid oklch(1 0 0 / 8%)" }}>
-      <table className="w-full text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+    <div style={{ overflowX: "auto", borderRadius: "0.5rem", border: `1px solid ${BORDER}` }}>
+      <table style={{ width: "100%", fontSize: "0.75rem", fontFamily: MONO, borderCollapse: "collapse" }}>
         <thead>
-          <tr style={{ background: "oklch(0.24 0.035 240)" }}>
+          <tr style={{ background: BG3 }}>
             {columns.map(c => (
-              <th key={c} className="px-3 py-2 text-left font-semibold" style={{ color: "oklch(0.65 0.14 195)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
+              <th key={c} style={{ padding: "0.5rem 0.75rem", textAlign: "left", fontWeight: 600, color: ACCENT2, borderBottom: `1px solid ${BORDER}`, fontSize: "0.65rem" }}>
                 {c}
               </th>
             ))}
@@ -111,9 +134,9 @@ function SampleTable({ rows, columns }: { rows: Record<string, string>[]; column
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} style={{ background: i % 2 === 0 ? "transparent" : "oklch(1 0 0 / 2%)" }}>
+            <tr key={i} style={{ background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)" }}>
               {columns.map(c => (
-                <td key={c} className="px-3 py-2" style={{ color: "oklch(0.82 0.008 220)", borderBottom: "1px solid oklch(1 0 0 / 5%)" }}>
+                <td key={c} style={{ padding: "0.5rem 0.75rem", color: TEXT, borderBottom: `1px solid ${BORDER}` }}>
                   {Object.values(row)[columns.indexOf(c)]}
                 </td>
               ))}
@@ -128,218 +151,145 @@ function SampleTable({ rows, columns }: { rows: Record<string, string>[]; column
 // ── Nav ────────────────────────────────────────────────
 function Nav() {
   const [active, setActive] = useState("hero");
-  const [projectsOpen, setProjectsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const allSections = ["about", "dashboards", "sql", "patterns", "chelsea", "pokemon", "contact"];
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMobileOpen(false);
+  };
 
   useEffect(() => {
+    const sections = ["hero","about","dashboards","sql","patterns","projects","contact"];
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-    }, { rootMargin: "-20% 0px -60% 0px", threshold: 0 });
-    allSections.forEach(s => { const el = document.getElementById(s); if (el) obs.observe(el); });
+    }, { threshold: 0.3 });
+    sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
     return () => obs.disconnect();
   }, []);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setProjectsOpen(false);
+        // no dropdown in this nav version
       }
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setProjectsOpen(false);
-    setMobileOpen(false);
-  };
-
-  const TEAL = "oklch(0.72 0.13 195)";
-  const MUTED = "oklch(0.60 0.015 220)";
-  const TEAL_BG = "oklch(0.65 0.14 195 / 0.12)";
-
-  const standaloneItems = [
+  const navItems = [
     { id: "about",      label: "About" },
     { id: "dashboards", label: "Dashboards" },
     { id: "sql",        label: "SQL" },
     { id: "patterns",   label: "Patterns" },
-  ];
-
-  const personalProjects = [
-    { id: "chelsea", label: "Chelsea FC" },
-    { id: "pokemon", label: "Pokémon" },
-  ];
-
-  const projectsActive = active === "chelsea" || active === "pokemon";
-
-  // All nav items flattened for mobile menu
-  const allNavItems = [
-    { id: "about",      label: "About" },
-    { id: "dashboards", label: "Dashboards" },
-    { id: "sql",        label: "SQL" },
-    { id: "patterns",   label: "Patterns" },
-    { id: "chelsea",    label: "Projects — Chelsea FC" },
-    { id: "pokemon",    label: "Projects — Pokémon" },
+    { id: "projects",   label: "Projects" },
     { id: "contact",    label: "Contact" },
   ];
 
-  return (
-    <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
-        style={{ background: "oklch(0.16 0.038 240 / 0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
-        {/* Logo */}
-        <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
-          <span className="text-sm font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}>MW</span>
-          <span className="text-sm font-medium text-foreground hidden sm:block">Mike Winters</span>
-        </button>
+  const navLinkStyle = (id: string) => ({
+    fontFamily: MONO,
+    fontSize: "0.72rem",
+    fontWeight: 500,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase" as const,
+    color: active === id ? ACCENT2 : TEXT3,
+    textDecoration: "none",
+    padding: "0.35rem 0.75rem",
+    borderRadius: 4,
+    border: active === id ? `1px solid rgba(124,106,255,0.25)` : "1px solid transparent",
+    background: active === id ? GLOW2 : "transparent",
+    cursor: "pointer",
+    transition: "all 0.2s",
+  });
 
-        {/* Desktop nav — hidden on mobile */}
-        <div className="hidden md:flex items-center gap-1">
-          {standaloneItems.map(({ id, label }) => (
+  return (
+    <nav style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      background: "rgba(10,10,11,0.88)", backdropFilter: "blur(20px)",
+      borderBottom: `1px solid ${BORDER}`,
+      padding: "0 2rem", height: 56,
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+    }}>
+      {/* Logo */}
+      <button onClick={() => scrollTo("hero")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <span style={{ fontFamily: DISPLAY, fontSize: "1.05rem", color: TEXT, letterSpacing: "-0.02em" }}>
+          M<span style={{ color: ACCENT }}>W</span>
+        </span>
+        <span style={{ fontFamily: SANS, fontSize: "0.85rem", fontWeight: 500, color: TEXT2 }} className="hidden sm:block">Mike Winters</span>
+      </button>
+
+      {/* Desktop nav */}
+      <div className="hidden md:flex" style={{ gap: "0.25rem", alignItems: "center" }}>
+        {navItems.map(({ id, label }) => (
+          <button key={id} onClick={() => scrollTo(id)} style={navLinkStyle(id)}>{label}</button>
+        ))}
+        <a href="https://drive.google.com/file/d/1YUEj0JdPnqMBuJJHHRNHGGrpVuNOOFGp/view" target="_blank" rel="noopener noreferrer"
+          style={{ ...navLinkStyle("cv"), color: ACCENT2 }}>
+          CV ↗
+        </a>
+      </div>
+
+      {/* Right: Hire Me + hamburger */}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <a href="mailto:m.winters@me.com" className="hidden md:block"
+          style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: BG, background: ACCENT, textDecoration: "none", padding: "0.4rem 1rem", borderRadius: 4, transition: "all 0.2s" }}>
+          Hire Me
+        </a>
+        <button className="md:hidden" onClick={() => setMobileOpen(o => !o)}
+          style={{ background: "none", border: "none", color: TEXT, cursor: "pointer", fontSize: "1.2rem" }}>
+          {mobileOpen ? "✕" : "☰"}
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div style={{
+          position: "absolute", top: 56, left: 0, right: 0,
+          background: "rgba(10,10,11,0.97)", padding: "1rem",
+          borderBottom: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "0.5rem",
+        }}>
+          {navItems.map(({ id, label }) => (
             <button key={id} onClick={() => scrollTo(id)}
-              className="px-3 py-1.5 rounded text-xs font-medium transition-all"
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                color: active === id ? TEAL : MUTED,
-                background: active === id ? TEAL_BG : "transparent",
-              }}>
+              style={{ ...navLinkStyle(id), textAlign: "left", width: "100%" }}>
               {label}
             </button>
           ))}
-
-          {/* Projects dropdown */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setProjectsOpen(o => !o)}
-              className="flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium transition-all"
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                color: projectsActive || projectsOpen ? TEAL : MUTED,
-                background: projectsActive || projectsOpen ? TEAL_BG : "transparent",
-              }}>
-              Projects
-              <span style={{ fontSize: "0.55rem", opacity: 0.7, marginTop: "1px" }}>
-                {projectsOpen ? "▲" : "▼"}
-              </span>
-            </button>
-
-            {projectsOpen && (
-              <div className="absolute top-full right-0 mt-1 rounded overflow-hidden"
-                style={{
-                  background: "oklch(0.18 0.04 240)",
-                  border: "1px solid oklch(1 0 0 / 12%)",
-                  boxShadow: "0 8px 24px oklch(0 0 0 / 0.4)",
-                  minWidth: "140px",
-                  zIndex: 100,
-                }}>
-                {personalProjects.map(({ id, label }) => (
-                  <button key={id} onClick={() => scrollTo(id)}
-                    className="w-full text-left px-4 py-2.5 text-xs transition-all block"
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      color: active === id ? TEAL : MUTED,
-                      background: active === id ? TEAL_BG : "transparent",
-                    }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = TEAL_BG; (e.currentTarget as HTMLElement).style.color = TEAL; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = active === id ? TEAL_BG : "transparent"; (e.currentTarget as HTMLElement).style.color = active === id ? TEAL : MUTED; }}>
-                    {label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Contact */}
-          <button onClick={() => scrollTo("contact")}
-            className="px-3 py-1.5 rounded text-xs font-medium transition-all"
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              color: active === "contact" ? TEAL : MUTED,
-              background: active === "contact" ? TEAL_BG : "transparent",
-            }}>
-            Contact
-          </button>
-        </div>
-
-        {/* Right side: Hire Me (desktop) + hamburger (mobile) */}
-        <div className="flex items-center gap-2">
+          <a href="https://drive.google.com/file/d/1YUEj0JdPnqMBuJJHHRNHGGrpVuNOOFGp/view" target="_blank" rel="noopener noreferrer"
+            style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, padding: "0.35rem 0.75rem", textDecoration: "none" }}>
+            CV ↗
+          </a>
           <a href="mailto:m.winters@me.com"
-            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-all"
-            style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: TEAL }}>
+            style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, color: BG, background: ACCENT, padding: "0.5rem 1rem", borderRadius: 4, textDecoration: "none", textAlign: "center" }}>
             Hire Me
           </a>
-
-          {/* Hamburger — mobile only */}
-          <button
-            className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
-            onClick={() => setMobileOpen(o => !o)}
-            aria-label="Toggle menu">
-            <span className="block w-5 h-0.5 transition-all"
-              style={{ background: mobileOpen ? TEAL : MUTED,
-                transform: mobileOpen ? "translateY(8px) rotate(45deg)" : "none" }} />
-            <span className="block w-5 h-0.5 transition-all"
-              style={{ background: mobileOpen ? TEAL : MUTED,
-                opacity: mobileOpen ? 0 : 1 }} />
-            <span className="block w-5 h-0.5 transition-all"
-              style={{ background: mobileOpen ? TEAL : MUTED,
-                transform: mobileOpen ? "translateY(-8px) rotate(-45deg)" : "none" }} />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile dropdown menu */}
-      {mobileOpen && (
-        <div className="md:hidden fixed top-[49px] left-0 right-0 z-40"
-          style={{ background: "oklch(0.16 0.038 240 / 0.97)", backdropFilter: "blur(12px)", borderBottom: "1px solid oklch(1 0 0 / 10%)" }}>
-          {allNavItems.map(({ id, label }) => (
-            <button key={id} onClick={() => scrollTo(id)}
-              className="w-full text-left px-6 py-3.5 text-sm font-medium transition-all border-b"
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                color: (active === id || (id === "chelsea" && active === "chelsea") || (id === "pokemon" && active === "pokemon")) ? TEAL : MUTED,
-                background: active === id ? TEAL_BG : "transparent",
-                borderColor: "oklch(1 0 0 / 6%)",
-              }}>
-              {label}
-            </button>
-          ))}
-          <div className="px-6 py-4">
-            <a href="mailto:m.winters@me.com"
-              className="block w-full text-center py-2.5 rounded text-sm font-semibold"
-              style={{ background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: TEAL }}>
-              Hire Me
-            </a>
-          </div>
         </div>
       )}
-    </>
+    </nav>
   );
 }
-// ── Dashboard lightbox ────────────────────────────────
+
+// ── Dashboard lightbox ─────────────────────────────────
 function DashboardLightbox({ dash, onClose }: { dash: typeof DASHBOARDS[0]; onClose: () => void }) {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handler);
-    document.body.style.overflow = "hidden";
-    return () => { document.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+    return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      style={{ background: "oklch(0.08 0.02 240 / 0.95)", backdropFilter: "blur(8px)" }}
-      onClick={onClose}>
-      <div className="relative max-w-6xl w-full" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose}
-          className="absolute -top-10 right-0 text-sm px-3 py-1 rounded transition-colors"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.72 0.13 195)", background: "oklch(0.65 0.14 195 / 0.12)", border: "1px solid oklch(0.65 0.14 195 / 0.3)" }}>
-          ✕ close
-        </button>
-        <div className="section-label mb-2 text-center">{dash.subtitle}</div>
-        <h3 className="text-xl font-bold text-center mb-4" style={{ fontFamily: "'DM Serif Display', serif", color: "oklch(0.94 0.008 220)" }}>{dash.title}</h3>
-        <img src={dash.image} alt={dash.title} className="w-full rounded-lg" style={{ border: "1px solid oklch(1 0 0 / 12%)", boxShadow: "0 24px 80px oklch(0 0 0 / 0.6)", maxHeight: "72vh", objectFit: "contain" }} />
-        <p className="text-sm mt-4 text-center" style={{ color: "oklch(0.70 0.012 220)" }}>{dash.description}</p>
+    <div onClick={onClose} style={{
+      position: "fixed", inset: 0, zIndex: 999,
+      background: "rgba(0,0,0,0.92)", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem", cursor: "pointer",
+    }}>
+      <button onClick={onClose} style={{
+        position: "absolute", top: "1.5rem", right: "1.5rem",
+        fontFamily: MONO, fontSize: "0.7rem", color: TEXT3, background: BG3,
+        border: `1px solid ${BORDER}`, padding: "0.4rem 0.8rem", borderRadius: 4, cursor: "pointer",
+      }}>✕ close</button>
+      <div onClick={e => e.stopPropagation()} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", maxWidth: "90vw" }}>
+        <img src={dash.image} alt={dash.title}
+          style={{ maxWidth: "90vw", maxHeight: "80vh", borderRadius: 8, border: `1px solid ${BORDER2}`, boxShadow: "0 24px 80px rgba(0,0,0,0.8)", objectFit: "contain" }} />
+        <p style={{ fontFamily: MONO, fontSize: "0.65rem", color: TEXT3, textAlign: "center" }}>{dash.title} — {dash.subtitle}</p>
       </div>
     </div>
   );
@@ -352,39 +302,40 @@ function DashboardCard({ dash, index }: { dash: typeof DASHBOARDS[0]; index: num
   return (
     <>
       {lightboxOpen && <DashboardLightbox dash={dash} onClose={() => setLightboxOpen(false)} />}
-      <div ref={ref} className="panel overflow-hidden transition-all duration-500"
-        style={{ opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(30px)", transitionDelay: `${index * 120}ms` }}>
-        {/* Screenshot — fixed aspect ratio, click opens lightbox */}
-        <div className="relative overflow-hidden cursor-pointer group" style={{ background: "oklch(0.13 0.03 240)", aspectRatio: "16/9" }}
-          onClick={() => setLightboxOpen(true)}>
-          <img src={dash.image} alt={dash.title} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: "oklch(0.08 0.02 240 / 0.55)" }}>
-            <span className="px-4 py-2 rounded text-sm font-semibold"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.72 0.13 195)", background: "oklch(0.65 0.14 195 / 0.15)", border: "1px solid oklch(0.65 0.14 195 / 0.4)" }}>
-              ⤢ view full size
-            </span>
+      <div ref={ref} className="transition-all duration-500"
+        style={{
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translateY(0)" : "translateY(30px)",
+          transitionDelay: `${index * 120}ms`,
+          background: BG3,
+          border: `1px solid ${BORDER}`,
+          borderRadius: "0.625rem",
+          overflow: "hidden",
+        }}>
+        {/* Screenshot */}
+        <div className="group" onClick={() => setLightboxOpen(true)}
+          style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden", background: "#0d0d10", cursor: "pointer" }}>
+          <img src={dash.image} alt={dash.title}
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", transition: "transform 0.5s ease", display: "block" }}
+            className="group-hover:scale-[1.03]" />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, rgba(10,10,11,0.85) 100%)", pointerEvents: "none" }} />
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ position: "absolute", top: "0.6rem", right: "0.6rem", background: "rgba(10,10,11,0.75)", border: `1px solid ${BORDER2}`, borderRadius: 4, padding: "0.3rem 0.5rem", fontFamily: MONO, fontSize: "0.58rem", color: TEXT3 }}>
+            ⤢ expand
           </div>
         </div>
         {/* Info */}
-        <div className="p-5">
-          <div className="flex items-start justify-between gap-3 mb-2">
-            <div>
-              <div className="section-label mb-1">{dash.subtitle}</div>
-              <h3 className="text-lg font-bold text-foreground">{dash.title}</h3>
-            </div>
-          </div>
-          <p className="text-sm mb-4" style={{ color: "oklch(0.70 0.012 220)", lineHeight: "1.65" }}>{dash.description}</p>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {dash.metrics.map(m => <span key={m} className="metric-pill">{m}</span>)}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {dash.tags.map(t => (
-              <span key={t} className="text-xs px-2 py-0.5 rounded"
-                style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.65 0.015 220)" }}>
-                {t}
-              </span>
+        <div style={{ padding: "1.25rem 1.5rem 1.5rem" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{dash.subtitle}</div>
+          <h3 style={{ fontFamily: DISPLAY, fontSize: "1.05rem", fontWeight: 400, color: TEXT, marginBottom: "0.4rem", letterSpacing: "-0.01em" }}>{dash.title}</h3>
+          <p style={{ fontSize: "0.8rem", color: TEXT2, lineHeight: 1.7, marginBottom: "0.9rem" }}>{dash.description}</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "0.75rem" }}>
+            {dash.metrics.map(m => (
+              <span key={m} style={{ fontFamily: MONO, fontSize: "0.6rem", color: ACCENT2, background: GLOW2, border: `1px solid rgba(124,106,255,0.15)`, padding: "0.2rem 0.5rem", borderRadius: 3 }}>{m}</span>
             ))}
+          </div>
+          <div style={{ fontFamily: MONO, fontSize: "0.62rem", color: TEXT3, marginTop: "0.75rem", paddingTop: "0.75rem", borderTop: `1px solid ${BORDER}` }}>
+            {dash.tags.join(" · ")}
           </div>
         </div>
       </div>
@@ -397,44 +348,133 @@ function QuerySection({ query, index }: { query: typeof SQL_QUERIES[0]; index: n
   const { ref, inView } = useInView();
   const [tab, setTab] = useState<"sql" | "output">("sql");
   return (
-    <div ref={ref} className="panel overflow-hidden transition-all duration-500"
-      style={{ opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(30px)", transitionDelay: `${index * 100}ms` }}>
-      <div className="p-5 border-b" style={{ borderColor: "oklch(1 0 0 / 8%)" }}>
-        <div className="section-label mb-1">Query {index + 1} · {query.panel}</div>
-        <h3 className="text-base font-bold text-foreground mb-2">{query.title}</h3>
-        <p className="text-sm mb-3" style={{ color: "oklch(0.70 0.012 220)", lineHeight: "1.6" }}>{query.description}</p>
-        <div className="flex flex-wrap gap-1.5">
+    <div ref={ref} className="transition-all duration-500"
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(30px)",
+        transitionDelay: `${index * 100}ms`,
+        background: BG3,
+        border: `1px solid ${BORDER}`,
+        borderRadius: "0.625rem",
+        overflow: "hidden",
+      }}>
+      <div style={{ padding: "1.25rem 1.5rem", borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>
+          Query {index + 1} · {query.panel}
+        </div>
+        <h3 style={{ fontFamily: DISPLAY, fontSize: "1rem", fontWeight: 400, color: TEXT, marginBottom: "0.5rem" }}>{query.title}</h3>
+        <p style={{ fontSize: "0.8rem", color: TEXT2, lineHeight: 1.65, marginBottom: "0.75rem" }}>{query.description}</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
           {query.patterns.map(p => (
-            <span key={p} className="text-xs px-2 py-0.5 rounded"
-              style={{ background: "oklch(0.65 0.14 195 / 0.08)", border: "1px solid oklch(0.65 0.14 195 / 0.2)", color: "oklch(0.72 0.13 195)", fontFamily: "'JetBrains Mono', monospace" }}>
-              {p}
-            </span>
+            <span key={p} style={{ fontFamily: MONO, fontSize: "0.6rem", color: ACCENT2, background: GLOW2, border: `1px solid rgba(124,106,255,0.2)`, padding: "0.2rem 0.5rem", borderRadius: 3 }}>{p}</span>
           ))}
         </div>
       </div>
       {/* Tab switcher */}
-      <div className="flex border-b" style={{ borderColor: "oklch(1 0 0 / 8%)" }}>
+      <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}` }}>
         {(["sql", "output"] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className="px-5 py-2.5 text-xs font-semibold transition-all"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              color: tab === t ? "oklch(0.72 0.13 195)" : "oklch(0.55 0.015 220)",
-              borderBottom: tab === t ? "2px solid oklch(0.65 0.14 195)" : "2px solid transparent",
-              background: "transparent",
+              padding: "0.6rem 1.25rem",
+              fontFamily: MONO, fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+              background: "transparent", border: "none", cursor: "pointer",
+              color: tab === t ? ACCENT2 : TEXT3,
+              borderBottom: tab === t ? `2px solid ${ACCENT}` : "2px solid transparent",
+              transition: "all 0.2s",
             }}>
-            {t === "sql" ? "SQL Query" : "Sample Output"}
+            {t === "sql" ? "</> SQL" : "▶ Sample Output"}
           </button>
         ))}
       </div>
-      <div className="p-4">
+      <div style={{ padding: "1.25rem 1.5rem" }}>
         {tab === "sql" ? (
           <SqlBlock code={query.code} />
         ) : (
-          <SampleTable rows={query.sampleOutput} columns={query.outputColumns} />
+          <SampleTable rows={query.sampleOutput as Record<string, string>[]} columns={query.outputColumns} />
         )}
       </div>
     </div>
+  );
+}
+
+// ── Unified Projects section (tabbed) ──────────────────
+function ProjectsSection() {
+  const [activeProject, setActiveProject] = useState<"chelsea" | "pokemon" | "portfolio">("chelsea");
+
+  const projectTabs = [
+    { id: "chelsea",   label: "⚽ Chelsea FC Analytics",    sub: "EPL data · R projection model" },
+    { id: "pokemon",   label: "🎮 Pokémon Stat Analysis",   sub: "Python · pandas · matplotlib" },
+    { id: "portfolio", label: "💻 This Portfolio",          sub: "React · TypeScript · Tailwind" },
+  ] as const;
+
+  return (
+    <section id="projects" style={{ padding: "6rem 2rem", background: BG }}>
+      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+        {/* Eyebrow + title */}
+        <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
+          // personal projects
+        </div>
+        <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "0.75rem", lineHeight: 1.2 }}>
+          Data Projects
+        </h2>
+        <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "2.5rem" }}>
+          Personal analytics projects applying the same tools used in production — R, Python, SQL — to real datasets I care about.
+        </p>
+
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: "0.25rem", flexWrap: "wrap", marginBottom: "2rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0" }}>
+          {projectTabs.map(t => (
+            <button key={t.id} onClick={() => setActiveProject(t.id)}
+              style={{
+                fontFamily: MONO, fontSize: "0.7rem", fontWeight: 500, letterSpacing: "0.06em",
+                background: "transparent", border: "none", cursor: "pointer",
+                color: activeProject === t.id ? ACCENT2 : TEXT3,
+                padding: "0.6rem 1rem",
+                borderBottom: activeProject === t.id ? `2px solid ${ACCENT}` : "2px solid transparent",
+                transition: "all 0.2s",
+                marginBottom: "-1px",
+              }}>
+              {t.label}
+              <span style={{ display: "block", fontSize: "0.55rem", color: activeProject === t.id ? TEXT3 : "transparent", marginTop: "0.15rem" }}>
+                {t.sub}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Panel content */}
+        <div key={activeProject} style={{ animation: "obsReveal 0.35s ease forwards" }}>
+          {activeProject === "chelsea" && <ChelseaSection embedded />}
+          {activeProject === "pokemon" && <PokemonSection embedded />}
+          {activeProject === "portfolio" && (
+            <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "2rem" }}>
+              <h3 style={{ fontFamily: DISPLAY, fontSize: "1.4rem", fontWeight: 300, color: TEXT, marginBottom: "0.75rem" }}>This Portfolio</h3>
+              <p style={{ fontSize: "0.875rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem" }}>
+                Built from scratch as a working demonstration of front-end engineering alongside the data work. The goal was a portfolio that <strong style={{ color: TEXT }}>shows</strong> technical depth rather than just describing it — every section is a live, interactive artifact.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
+                {[
+                  { label: "Stack", value: "React 19 + TypeScript" },
+                  { label: "Styling", value: "Tailwind CSS v4" },
+                  { label: "Build", value: "Vite + pnpm" },
+                  { label: "Deploy", value: "Netlify via GitHub" },
+                ].map(item => (
+                  <div key={item.label} style={{ background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.5rem", padding: "1rem" }}>
+                    <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{item.label}</div>
+                    <div style={{ fontFamily: MONO, fontSize: "0.85rem", color: ACCENT2 }}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {["Intersection Observer API", "Animated counters", "SQL syntax highlighting", "SVG radar charts", "Responsive design", "Lightbox gallery"].map(f => (
+                  <span key={f} style={{ fontFamily: MONO, fontSize: "0.65rem", color: TEXT2, background: GLOW2, border: `1px solid rgba(124,106,255,0.15)`, padding: "0.25rem 0.6rem", borderRadius: 3 }}>{f}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -443,91 +483,128 @@ export default function Home() {
   const { ref: heroRef, inView: heroInView } = useInView(0.1);
 
   return (
-    <div className="min-h-screen grid-bg" style={{ background: "oklch(0.16 0.038 240)" }}>
+    <div style={{ background: BG, color: TEXT, fontFamily: SANS, minHeight: "100vh" }}>
       <Nav />
 
       {/* ── HERO ── */}
-      <section id="hero" className="min-h-screen flex flex-col justify-center pt-16"
-        style={{ background: "linear-gradient(135deg, oklch(0.16 0.038 240) 0%, oklch(0.19 0.045 230) 100%)" }}>
-        <div className="container max-w-5xl mx-auto px-6 py-24">
-          <div ref={heroRef} className="transition-all duration-700" style={{ opacity: heroInView ? 1 : 0, transform: heroInView ? "translateY(0)" : "translateY(40px)" }}>
-            <div className="section-label mb-4">// data analytics portfolio</div>
-            <h1 className="mb-4 leading-none" style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", color: "oklch(0.94 0.008 220)" }}>
-              Mike<br /><span style={{ color: "oklch(0.72 0.13 195)" }}>Winters</span>
-            </h1>
-            <p className="text-lg mb-8 max-w-xl" style={{ color: "oklch(0.70 0.012 220)", lineHeight: "1.7" }}>
-              Building <strong style={{ color: "oklch(0.88 0.008 220)" }}>production data systems from scratch</strong> — SQL pipelines, real-time dashboards, statistical validation, and the operational frameworks around them.
-            </p>
-            <div className="flex flex-wrap gap-3 mb-10">
-              <a href="mailto:m.winters@me.com" className="px-5 py-2.5 rounded font-semibold text-sm transition-all hover:opacity-90"
-                style={{ background: "oklch(0.65 0.14 195)", color: "oklch(0.12 0.03 240)" }}>
-                Get in Touch
-              </a>
-              <a href="https://www.linkedin.com/in/mwinters123" target="_blank" rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
-                style={{ background: "transparent", border: "1px solid oklch(0.65 0.14 195 / 0.4)", color: "oklch(0.72 0.13 195)" }}>
-                LinkedIn ↗
-              </a>
-              <a href="https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/MikeWinters_CV_External_5f6fbeae.pdf"
-                download="MikeWinters_CV.pdf"
-                target="_blank" rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
-                style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.82 0.008 220)" }}>
-                Download CV ↓
-              </a>
-              <button onClick={() => document.getElementById("dashboards")?.scrollIntoView({ behavior: "smooth" })}
-                className="px-5 py-2.5 rounded font-semibold text-sm transition-all"
-                style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(1 0 0 / 10%)", color: "oklch(0.82 0.008 220)" }}>
-                View Work ↓
-              </button>
+      <section id="hero" style={{
+        minHeight: "100vh", display: "flex", alignItems: "center",
+        padding: "6rem 2rem 4rem", position: "relative", overflow: "hidden",
+      }}>
+        {/* Glow orb */}
+        <div style={{
+          position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)",
+          width: 600, height: 600, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(124,106,255,0.12) 0%, transparent 70%)",
+          pointerEvents: "none", animation: "obsPulse 4s ease-in-out infinite",
+        }} />
+        <div ref={heroRef} style={{ maxWidth: 1100, margin: "0 auto", width: "100%", position: "relative", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}
+          className="grid-cols-1 md:grid-cols-2">
+          {/* Left column */}
+          <div style={{ opacity: heroInView ? 1 : 0, transform: heroInView ? "translateY(0)" : "translateY(30px)", transition: "all 0.7s ease" }}>
+            <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "1rem" }}>
+              Data Analytics · Operations · Engineering
             </div>
-            {/* Inline tech stack */}
-            <div className="flex flex-wrap gap-2">
-              {["SQL · Presto/Trino", "Python", "R", "Tableau", "Looker", "ETL Pipelines", "Dashboard Design", "LLM-augmented Dev"].map(t => (
-                <span key={t} className="text-xs px-2.5 py-1 rounded"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", background: "oklch(1 0 0 / 4%)", border: "1px solid oklch(1 0 0 / 8%)", color: "oklch(0.65 0.015 220)" }}>
-                  {t}
-                </span>
+            <h1 style={{ fontFamily: DISPLAY, fontSize: "clamp(3.5rem, 8vw, 6rem)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1rem" }}>
+              <span style={{ color: TEXT }}>Mike</span><br />
+              <em style={{ color: ACCENT2, fontStyle: "italic" }}>Winters</em>
+            </h1>
+            <p style={{ fontFamily: SANS, fontSize: "1.1rem", fontWeight: 300, color: TEXT2, marginBottom: "1rem" }}>
+              Data Analyst &amp; Operations Lead
+            </p>
+            <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: 480 }}>
+              15+ years building production data systems from scratch — dashboards, SQL pipelines, statistical validation, and the operational frameworks that make them scale.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
+              {["SQL · Presto · Trino", "Python · pandas", "R · ggplot2", "Dashboard Design", "Statistical Analysis", "Program Management", "Meta · Kikoff · Figure"].map(t => (
+                <span key={t} style={{ fontFamily: MONO, fontSize: "0.68rem", color: TEXT2, background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, padding: "0.25rem 0.6rem", borderRadius: 3 }}>{t}</span>
               ))}
             </div>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              <button onClick={() => document.getElementById("dashboards")?.scrollIntoView({ behavior: "smooth" })}
+                style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "#fff", background: ACCENT, border: "none", padding: "0.75rem 1.5rem", borderRadius: 4, cursor: "pointer", transition: "all 0.2s" }}>
+                View Work
+              </button>
+              <a href="https://drive.google.com/file/d/1YUEj0JdPnqMBuJJHHRNHGGrpVuNOOFGp/view" target="_blank" rel="noopener noreferrer"
+                style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: TEXT2, background: "transparent", border: `1px solid ${BORDER2}`, padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", transition: "all 0.2s" }}>
+                Download CV ↗
+              </a>
+            </div>
+          </div>
+
+          {/* Right column — competency blocks */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", opacity: heroInView ? 1 : 0, transform: heroInView ? "translateY(0)" : "translateY(30px)", transition: "all 0.7s ease 0.2s" }}
+            className="hidden md:flex">
+            {[
+              {
+                label: "Core Competency",
+                title: "Data Analytics & Visualization",
+                desc: "5 production dashboards · 100+ widgets · daily-refresh pipelines used by 20+ team leads across 6 global regions.",
+                tags: ["Presto SQL", "Enterprise BI", "ggplot2", "pandas"],
+              },
+              {
+                label: "Core Competency",
+                title: "SQL Engineering & ETL",
+                desc: "50+ production SQL queries · 7+ source tables · complex CTEs, window functions, and VALUES-based task mapping.",
+                tags: ["Presto / Trino", "CTEs", "Window functions", "ETL"],
+              },
+              {
+                label: "Core Competency",
+                title: "Operations & Program Management",
+                desc: "400+ contractors · 6 global regions · 100+ hrs/week saved in manual reporting. Built the operational frameworks that scale with headcount.",
+                tags: ["Workforce analytics", "Capacity planning", "Statistical validation"],
+              },
+            ].map(block => (
+              <div key={block.title} style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.25rem", transition: "all 0.3s" }}>
+                <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.4rem" }}>{block.label}</div>
+                <div style={{ fontFamily: DISPLAY, fontSize: "0.95rem", fontWeight: 400, color: TEXT, marginBottom: "0.4rem" }}>{block.title}</div>
+                <div style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.65, marginBottom: "0.75rem" }}>{block.desc}</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
+                  {block.tags.map(tag => (
+                    <span key={tag} style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, padding: "0.15rem 0.5rem", borderRadius: 3 }}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── METRICS ── */}
-      <section className="py-16" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-6 text-center">// by the numbers</div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div style={{ background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 2rem" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "1.5rem", textAlign: "center" }}>
+            // by the numbers
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1rem" }}>
             {METRICS.map((m, i) => <MetricCard key={m.label} {...m} index={i} />)}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* ── ABOUT ── */}
-      <section id="about" className="py-20">
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-3">// about</div>
-          <h2 className="text-2xl font-bold text-foreground mb-8" style={{ fontFamily: "'DM Serif Display', serif" }}>Background & Approach</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <p className="text-sm mb-4" style={{ color: "oklch(0.75 0.012 220)", lineHeight: "1.8" }}>
-                Data analytics professional who builds <strong style={{ color: "oklch(0.88 0.008 220)" }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the operational frameworks around them. In the past year: built 5 active production dashboards (100+ widgets), authored 50+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
+      <section id="about" style={{ padding: "6rem 2rem" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// about</div>
+          <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
+            Background &amp; Approach
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-cols-1 md:grid-cols-[2fr_1fr]">
+            <div>
+              <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85, marginBottom: "1.25rem" }}>
+                Data analytics professional who builds <strong style={{ color: TEXT }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the operational frameworks around them. In the past year: built 5 active production dashboards (100+ widgets), authored 50+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
               </p>
-              <p className="text-sm" style={{ color: "oklch(0.75 0.012 220)", lineHeight: "1.8" }}>
-                15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: "oklch(0.88 0.008 220)" }}>Data Analytics, Data Science, Program Management, and Data Engineering</strong>.
+              <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
+                15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: TEXT }}>Data Analytics, Data Science, Program Management, and Data Engineering</strong>.
               </p>
             </div>
-            <div className="space-y-4">
+            <div>
               {Object.entries(SKILLS).map(([cat, skills]) => (
-                <div key={cat}>
-                  <div className="section-label mb-2" style={{ fontSize: "0.6rem" }}>{cat}</div>
-                  <div className="flex flex-wrap gap-1.5">
+                <div key={cat} style={{ marginBottom: "1.5rem" }}>
+                  <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.6rem" }}>{cat}</div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
                     {skills.map(s => (
-                      <span key={s} className="text-xs px-2 py-0.5 rounded"
-                        style={{ background: "oklch(1 0 0 / 4%)", border: "1px solid oklch(1 0 0 / 8%)", color: "oklch(0.72 0.012 220)" }}>
-                        {s}
-                      </span>
+                      <span key={s} style={{ fontSize: "0.72rem", color: TEXT2, background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, padding: "0.25rem 0.6rem", borderRadius: 3 }}>{s}</span>
                     ))}
                   </div>
                 </div>
@@ -538,60 +615,63 @@ export default function Home() {
       </section>
 
       {/* ── DASHBOARDS ── */}
-      <section id="dashboards" className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-3">// dashboard work</div>
-          <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>Production Dashboards</h2>
-          <p className="text-sm mb-10 max-w-2xl" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
-            5 active production dashboards built from scratch on an enterprise BI platform — 100+ total widgets covering productivity, quality, and capacity metrics. Used daily by 20+ team leads across 6 global regions. Sample views shown below with anonymized data.
+      <section id="dashboards" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// dashboard work</div>
+          <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
+            Production Dashboards
+          </h2>
+          <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "3rem" }}>
+            5 active production dashboards built from scratch — 100+ total widgets covering productivity, quality, and capacity metrics. Used daily by 20+ team leads across 6 global regions. Click any image to expand.
           </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {DASHBOARDS.slice(0, 2).map((d, i) => <DashboardCard key={d.id} dash={d} index={i} />)}
-          </div>
-          <div className="grid grid-cols-1 gap-6">
-            {DASHBOARDS.slice(2).map((d, i) => <DashboardCard key={d.id} dash={d} index={i + 2} />)}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: "1.5rem" }}>
+            {DASHBOARDS.map((d, i) => <DashboardCard key={d.id} dash={d} index={i} />)}
           </div>
         </div>
       </section>
 
       {/* ── SQL SHOWCASE ── */}
-      <section id="sql" className="py-20">
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-3">// sql engineering</div>
-          <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>SQL Query Showcase</h2>
-          <p className="text-sm mb-10 max-w-2xl" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
+      <section id="sql" style={{ padding: "6rem 2rem" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// sql engineering</div>
+          <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
+            Production SQL Queries
+          </h2>
+          <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "3rem" }}>
             Production-grade queries written in Presto/Trino SQL. Table and column names are generalized; the query architecture, CTE patterns, and JOIN logic are exactly as deployed. Toggle between SQL and sample output for each query.
           </p>
-          <div className="space-y-6">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             {SQL_QUERIES.map((q, i) => <QuerySection key={q.id} query={q} index={i} />)}
           </div>
         </div>
       </section>
 
       {/* ── TECHNICAL PATTERNS ── */}
-      <section id="patterns" className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-3">// architecture</div>
-          <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>Technical Patterns</h2>
-          <p className="text-sm mb-8 max-w-2xl" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
+      <section id="patterns" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// architecture</div>
+          <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
+            Technical Patterns
+          </h2>
+          <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "3rem" }}>
             Recurring design patterns applied across all production queries — built for maintainability, scalability, and debuggability.
           </p>
-          <div className="panel overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+          <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", overflow: "hidden" }}>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", fontSize: "0.85rem", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ background: "oklch(0.24 0.035 240)", borderBottom: "1px solid oklch(1 0 0 / 8%)" }}>
-                    <th className="px-5 py-3 text-left font-semibold" style={{ color: "oklch(0.65 0.14 195)", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", letterSpacing: "0.08em" }}>Pattern</th>
-                    <th className="px-5 py-3 text-left font-semibold" style={{ color: "oklch(0.65 0.14 195)", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", letterSpacing: "0.08em" }}>Used In</th>
-                    <th className="px-5 py-3 text-left font-semibold" style={{ color: "oklch(0.65 0.14 195)", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", letterSpacing: "0.08em" }}>Why</th>
+                  <tr style={{ background: BG2, borderBottom: `1px solid ${BORDER}` }}>
+                    {["Pattern", "Used In", "Why"].map(h => (
+                      <th key={h} style={{ padding: "0.75rem 1.25rem", textAlign: "left", fontFamily: MONO, fontSize: "0.65rem", color: ACCENT2, letterSpacing: "0.08em", textTransform: "uppercase" }}>{h}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {TECHNICAL_PATTERNS.map((p, i) => (
-                    <tr key={p.pattern} style={{ background: i % 2 === 0 ? "transparent" : "oklch(1 0 0 / 2%)", borderBottom: "1px solid oklch(1 0 0 / 5%)" }}>
-                      <td className="px-5 py-3 font-medium" style={{ color: "oklch(0.88 0.008 220)", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.78rem" }}>{p.pattern}</td>
-                      <td className="px-5 py-3" style={{ color: "oklch(0.65 0.14 195)", fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem" }}>{p.usage}</td>
-                      <td className="px-5 py-3" style={{ color: "oklch(0.68 0.012 220)" }}>{p.why}</td>
+                    <tr key={p.pattern} style={{ background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)", borderBottom: `1px solid ${BORDER}` }}>
+                      <td style={{ padding: "0.75rem 1.25rem", fontFamily: MONO, fontSize: "0.78rem", color: TEXT }}>{p.pattern}</td>
+                      <td style={{ padding: "0.75rem 1.25rem", fontFamily: MONO, fontSize: "0.75rem", color: ACCENT2 }}>{p.usage}</td>
+                      <td style={{ padding: "0.75rem 1.25rem", fontSize: "0.82rem", color: TEXT2 }}>{p.why}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -601,37 +681,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CHELSEA FC ANALYTICS ── */}
-      <div><ChelseaSection /></div>
-      {/* ── POKÉMON ANALYSIS ── */}
-      <div><PokemonSection /></div>
+      {/* ── PROJECTS (unified tabbed) ── */}
+      <ProjectsSection />
 
       {/* ── CONTACT ── */}
-      <section id="contact" className="py-20" style={{ background: "oklch(0.18 0.04 240)", borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
-        <div className="container max-w-5xl mx-auto px-6">
-          <div className="section-label mb-3">// contact</div>
-          <h2 className="text-2xl font-bold text-foreground mb-3" style={{ fontFamily: "'DM Serif Display', serif" }}>Get in Touch</h2>
-          <p className="text-sm mb-8 max-w-lg" style={{ color: "oklch(0.65 0.012 220)", lineHeight: "1.7" }}>
-            Open to Data Analyst, Data Scientist, Program Manager, and Project Manager roles in tech. Based in Seattle, WA — open to remote.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <a href="mailto:m.winters@me.com" className="flex items-center gap-2 px-5 py-3 rounded font-semibold text-sm transition-all hover:opacity-90"
-              style={{ background: "oklch(0.65 0.14 195)", color: "oklch(0.12 0.03 240)" }}>
-              m.winters@me.com
-            </a>
-            <a href="https://www.linkedin.com/in/mwinters123" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-3 rounded font-semibold text-sm transition-all"
-              style={{ background: "oklch(1 0 0 / 5%)", border: "1px solid oklch(0.65 0.14 195 / 0.3)", color: "oklch(0.72 0.13 195)" }}>
-              LinkedIn ↗
-            </a>
+      <section id="contact" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}` }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// contact</div>
+          <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
+            Get in Touch
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-cols-1 md:grid-cols-2">
+            {/* Links */}
+            <div>
+              <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "2rem" }}>
+                Open to Data Analyst, Data Engineer, Analytics Engineer, and Program Manager roles. Based in Seattle, WA — open to remote.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                {[
+                  { icon: "✉", label: "m.winters@me.com", href: "mailto:m.winters@me.com" },
+                  { icon: "in", label: "linkedin.com/in/mwinters123", href: "https://www.linkedin.com/in/mwinters123/" },
+                  { icon: "⌥", label: "github.com/Darkwind01100111...", href: "https://github.com/Darkwind01100111-01101001-01110100" },
+                  { icon: "◈", label: "mikewinters.netlify.app", href: "https://mikewinters.netlify.app" },
+                ].map(link => (
+                  <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
+                    style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1rem", background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.5rem", textDecoration: "none", transition: "all 0.2s", color: TEXT2, fontSize: "0.85rem" }}>
+                    <span style={{ fontFamily: MONO, fontSize: "0.7rem", color: ACCENT, width: 20, textAlign: "center" }}>{link.icon}</span>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+            {/* Availability */}
+            <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
+                <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 8px #4ade80" }} />
+                <span style={{ fontFamily: MONO, fontSize: "0.65rem", color: "#4ade80", letterSpacing: "0.1em", textTransform: "uppercase" }}>Available for new roles</span>
+              </div>
+              <div style={{ fontFamily: DISPLAY, fontSize: "1.1rem", fontWeight: 400, color: TEXT, marginBottom: "0.5rem" }}>Currently at Meta</div>
+              <div style={{ fontSize: "0.85rem", color: TEXT2, lineHeight: 1.7, marginBottom: "1.25rem" }}>
+                15+ years in data and operations. Open to the right opportunity — remote or Seattle-based.
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                {["Data Analyst", "Data Engineer", "Analytics Engineer", "Program Manager, Data"].map(role => (
+                  <div key={role} style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, background: GLOW2, border: `1px solid rgba(124,106,255,0.15)`, padding: "0.4rem 0.75rem", borderRadius: 3 }}>
+                    {role}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="py-6 text-center" style={{ borderTop: "1px solid oklch(1 0 0 / 8%)" }}>
-        <p className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "oklch(0.45 0.012 220)" }}>
-          © 2026 Mike Winters · Data Analytics Portfolio · Seattle, WA
+      <footer style={{ padding: "1.5rem 2rem", borderTop: `1px solid ${BORDER}`, textAlign: "center" }}>
+        <p style={{ fontFamily: MONO, fontSize: "0.65rem", color: TEXT3 }}>
+          Mike Winters · Data Analytics Portfolio · <a href="https://mikewinters.netlify.app" style={{ color: ACCENT, textDecoration: "none" }}>mikewinters.netlify.app</a>
         </p>
       </footer>
     </div>

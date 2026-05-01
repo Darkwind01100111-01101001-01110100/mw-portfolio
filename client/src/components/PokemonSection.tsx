@@ -179,7 +179,7 @@ print(corr)
 };
 
 // ── Main component ─────────────────────────────────────
-export default function PokemonSection() {
+export default function PokemonSection({ embedded = false }: { embedded?: boolean }) {
   const [tab, setTab] = useState<"types" | "stats" | "eevee" | "code">("types");
   const [codeTab, setCodeTab] = useState<"load" | "analysis" | "eevee">("load");
   const [showTypesCode, setShowTypesCode] = useState(false);

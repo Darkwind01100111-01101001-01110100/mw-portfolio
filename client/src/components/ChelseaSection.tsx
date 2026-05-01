@@ -238,7 +238,7 @@ async function fetchLiveEplTable(): Promise<EplRow[] | null> {
 }
 
 // -- Main component -------------------------------------
-export default function ChelseaSection() {
+export default function ChelseaSection({ embedded = false }: { embedded?: boolean }) {
   const [activeTab, setActiveTab] = useState<"epl" | "chelsea">("epl");
   const [sortCol, setSortCol] = useState<"pts" | "gf" | "gd" | "projected">("pts");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
