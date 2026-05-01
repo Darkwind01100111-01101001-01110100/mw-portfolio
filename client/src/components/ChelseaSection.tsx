@@ -239,7 +239,7 @@ async function fetchLiveEplTable(): Promise<EplRow[] | null> {
 
 // -- Main component -------------------------------------
 export default function ChelseaSection() {
-  const [activeTab, setActiveTab] = useState<"epl" | "chelsea" | "ucl">("epl");
+  const [activeTab, setActiveTab] = useState<"epl" | "chelsea">("epl");
   const [sortCol, setSortCol] = useState<"pts" | "gf" | "gd" | "projected">("pts");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [showProjectionCode, setShowProjectionCode] = useState(false);
@@ -260,7 +260,6 @@ export default function ChelseaSection() {
   const tabs = [
     { id: "epl",     label: "// EPL Table",       sub: "snapshot · end of MW34" },
     { id: "chelsea", label: "// Chelsea Deep-Dive", sub: "2025-26 Season" },
-    { id: "ucl",     label: "// UCL",              sub: "QF Bracket" },
   ] as const;
 
   return (
@@ -437,9 +436,9 @@ export default function ChelseaSection() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
                 { label: "Position",    value: "8th",    sub: "48 pts · MW34" },
-                { label: "Top Scorer",  value: "14",     sub: "João Pedro (PL)" },
+                { label: "Proj. Finish", value: "8th",   sub: "~54 pts · PPG model" },
                 { label: "Goals For",   value: "53",     sub: "4th in league" },
-                { label: "UCL",         value: "R16",    sub: "Out vs PSG 8-2" },
+                { label: "Top Scorer",  value: "14",     sub: "João Pedro (PL)" },
               ].map(c => (
                 <div key={c.label} className="panel p-4 text-center">
                   <div className="text-xs mb-1" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem" }}>{c.label}</div>
@@ -623,7 +622,7 @@ export default function ChelseaSection() {
                   <strong style={{ color: FG }}>Methodology:</strong> Points-per-game projection (48 pts ÷ 34 MW × 38) gives a raw estimate of <strong style={{ color: TEAL }}>~54 pts</strong>. Adjusted range of <strong style={{ color: TEAL }}>52–56 pts</strong> reflects poor recent form (1W 1D 3L in last 5 MW) and a remaining schedule that includes Brentford (H), Man City (A), Newcastle (H), and Tottenham (A).
                 </p>
                 <p className="text-xs" style={{ color: MUTED, lineHeight: "1.75" }}>
-                  <strong style={{ color: FG }}>Key risk factors:</strong> Chelsea have dropped from 6th (48 pts, MW31) to 8th (48 pts, MW34) — same points, worse position as teams around them picked up form. Brighton (50 pts) and Bournemouth (49 pts) have pulled ahead. With 4 games left, Europa League qualification is likely but not guaranteed — Brentford (48 pts) and Fulham (48 pts) are level on points.
+                  <strong style={{ color: FG }}>Key risk factors:</strong> Chelsea have dropped from 6th (48 pts, MW31) to 8th (48 pts, MW34) — same points, worse position as teams around them picked up form. Brighton (50 pts) and Bournemouth (49 pts) have pulled ahead. Chelsea's 8th-place finish is confirmed by goal difference (+8 vs Brentford +3 vs Fulham −2) — EPL tiebreaker order is Points → GD → GF, so this is not a coin flip. Europa League qualification is likely but not guaranteed with 4 games left.
                 </p>
                 <p className="text-xs" style={{ color: MUTED, lineHeight: "1.75" }}>
                   <strong style={{ color: FG }}>Comparable seasons:</strong> Chelsea's current trajectory (48 pts, MW34) is tracking closer to their 2022-23 season under Potter/Lampard (12th, 44 pts) than the 2020-21 comp (67 pts, 4th). A final finish of 7th–9th on 52–56 pts would be a disappointing but not disastrous outcome given the mid-season manager change.
@@ -642,8 +641,8 @@ export default function ChelseaSection() {
           </div>
         )}
 
-        {/* -- TAB 3: UCL -- */}
-        {activeTab === "ucl" && (
+        {/* -- UCL tab removed (no longer needed) -- */}
+        {false && (
           <div className="space-y-6">
             {/* Chelsea UCL summary */}
             <div className="p-4 rounded" style={{ background: "oklch(0.22 0.06 25 / 0.15)", border: "1px solid oklch(0.65 0.22 25 / 0.25)" }}>
