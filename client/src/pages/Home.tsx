@@ -478,6 +478,120 @@ function ProjectsSection() {
   );
 }
 
+// ── Contact Form ─────────────────────────────────────
+function ContactForm() {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [values, setValues] = useState({ name: "", email: "", message: "" });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "contact",
+          ...values,
+        }).toString(),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setValues({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%", background: BG, border: `1px solid ${BORDER2}`,
+    borderRadius: 4, padding: "0.65rem 0.85rem",
+    fontFamily: SANS, fontSize: "0.85rem", color: TEXT,
+    outline: "none", transition: "border-color 0.2s",
+  };
+  const labelStyle: React.CSSProperties = {
+    fontFamily: MONO, fontSize: "0.6rem", letterSpacing: "0.1em",
+    textTransform: "uppercase", color: TEXT3, display: "block", marginBottom: "0.4rem",
+  };
+
+  return (
+    <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.25rem" }}>
+        <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 8px #4ade80" }} />
+        <span style={{ fontFamily: MONO, fontSize: "0.65rem", color: "#4ade80", letterSpacing: "0.1em", textTransform: "uppercase" }}>Available for new roles</span>
+      </div>
+      {status === "success" ? (
+        <div style={{ textAlign: "center", padding: "2rem 0" }}>
+          <div style={{ fontFamily: DISPLAY, fontSize: "1.2rem", color: TEXT, marginBottom: "0.5rem" }}>Message sent.</div>
+          <div style={{ fontFamily: MONO, fontSize: "0.72rem", color: TEXT3 }}>I'll be in touch shortly.</div>
+        </div>
+      ) : (
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p style={{ display: "none" }}><input name="bot-field" /></p>
+          <div>
+            <label style={labelStyle}>Name</label>
+            <input
+              type="text" name="name" required
+              value={values.name}
+              onChange={e => setValues(v => ({ ...v, name: e.target.value }))}
+              placeholder="Your name"
+              style={inputStyle}
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Email</label>
+            <input
+              type="email" name="email" required
+              value={values.email}
+              onChange={e => setValues(v => ({ ...v, email: e.target.value }))}
+              placeholder="your@email.com"
+              style={inputStyle}
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Message</label>
+            <textarea
+              name="message" required rows={4}
+              value={values.message}
+              onChange={e => setValues(v => ({ ...v, message: e.target.value }))}
+              placeholder="What's on your mind?"
+              style={{ ...inputStyle, resize: "vertical", minHeight: 90 }}
+            />
+          </div>
+          {status === "error" && (
+            <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: "#f87171" }}>Something went wrong — try emailing directly.</div>
+          )}
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            style={{
+              fontFamily: MONO, fontSize: "0.72rem", fontWeight: 700,
+              letterSpacing: "0.08em", textTransform: "uppercase",
+              color: BG, background: status === "sending" ? TEXT3 : ACCENT,
+              border: "none", borderRadius: 4, padding: "0.7rem 1.25rem",
+              cursor: status === "sending" ? "not-allowed" : "pointer",
+              transition: "background 0.2s", alignSelf: "flex-start",
+            }}
+          >
+            {status === "sending" ? "Sending..." : "Send Message"}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
 // ── Main page ──────────────────────────────────────────
 const CV_GDRIVE_VIEW = "https://drive.google.com/file/d/1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr/view?usp=sharing";
 const CV_GDRIVE_EMBED = "https://drive.google.com/file/d/1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr/preview";
@@ -728,24 +842,8 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            {/* Availability */}
-            <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
-                <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 8px #4ade80" }} />
-                <span style={{ fontFamily: MONO, fontSize: "0.65rem", color: "#4ade80", letterSpacing: "0.1em", textTransform: "uppercase" }}>Available for new roles</span>
-              </div>
-              <div style={{ fontFamily: DISPLAY, fontSize: "1.1rem", fontWeight: 400, color: TEXT, marginBottom: "0.5rem" }}>Currently at Meta</div>
-              <div style={{ fontSize: "0.85rem", color: TEXT2, lineHeight: 1.7, marginBottom: "1.25rem" }}>
-                15+ years in data and operations. Open to the right opportunity — remote or Seattle-based.
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                {["Data Analyst", "Data Engineer", "Analytics Engineer", "Program Manager, Data"].map(role => (
-                  <div key={role} style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, background: GLOW2, border: `1px solid rgba(124,106,255,0.15)`, padding: "0.4rem 0.75rem", borderRadius: 3 }}>
-                    {role}
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Contact Form */}
+            <ContactForm />
           </div>
         </div>
       </section>
