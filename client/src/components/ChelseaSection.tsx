@@ -129,7 +129,7 @@ function PointsChart() {
   const data = CHELSEA_SEASON.pointsProgression;
   const maxPts = 55;
   const w = 400, h = 100;
-  const pad = { l: 30, r: 10, t: 10, b: 20 };
+  const pad = { l: 30, r: 60, t: 10, b: 20 };  // r=60 to contain proj label
   const chartW = w - pad.l - pad.r;
   const chartH = h - pad.t - pad.b;
 
@@ -154,7 +154,7 @@ function PointsChart() {
       <div className="text-xs mb-2" style={{ color: MUTED, fontFamily: "'JetBrains Mono', monospace" }}>
         Cumulative Points -- MW1 to MW34
       </div>
-      <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{ overflow: "visible" }}>
+      <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{ overflow: "hidden" }}>
         {/* Y-axis gridlines */}
         {[10, 20, 30, 40, 50].map(v => (
           <g key={v}>
@@ -176,7 +176,7 @@ function PointsChart() {
         <text x={lastX + 6} y={yScale(48) - 4} fontSize="8" fill={TEAL}
           fontFamily="'JetBrains Mono', monospace">48</text>
         {/* Projected label */}
-        <text x={endX - 2} y={projY - 4} textAnchor="end" fontSize="7.5"
+        <text x={endX + 4} y={projY - 4} textAnchor="start" fontSize="7.5"
           fill={TEAL} fillOpacity="0.6" fontFamily="'JetBrains Mono', monospace">~54 proj.</text>
         {/* Manager change marker */}
         <line x1={xScale(19)} y1={pad.t} x2={xScale(19)} y2={pad.t + chartH}
