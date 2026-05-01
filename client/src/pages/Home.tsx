@@ -232,10 +232,10 @@ function Nav() {
 
       {/* Right: Hire Me + hamburger */}
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <a href="mailto:m.winters@me.com" className="hidden md:block"
-          style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: BG, background: ACCENT, textDecoration: "none", padding: "0.4rem 1rem", borderRadius: 4, transition: "all 0.2s" }}>
+        <button onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} className="hidden md:block"
+          style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, color: BG, background: ACCENT, padding: "0.5rem 1.1rem", borderRadius: 4, border: "none", cursor: "pointer", transition: "background 0.2s" }}>
           Hire Me
-        </a>
+        </button>
         <button className="md:hidden" onClick={() => setMobileOpen(o => !o)}
           style={{ background: "none", border: "none", color: TEXT, cursor: "pointer", fontSize: "1.2rem" }}>
           {mobileOpen ? "✕" : "☰"}
@@ -259,10 +259,10 @@ function Nav() {
             style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, padding: "0.35rem 0.75rem", background: "none", border: "none", cursor: "pointer" }}>
             CV ↗
           </button>
-          <a href="mailto:m.winters@me.com"
-            style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, color: BG, background: ACCENT, padding: "0.5rem 1rem", borderRadius: 4, textDecoration: "none", textAlign: "center" }}>
+          <button onClick={() => { document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+            style={{ fontFamily: MONO, fontSize: "0.72rem", fontWeight: 600, color: BG, background: ACCENT, padding: "0.5rem 1rem", borderRadius: 4, border: "none", cursor: "pointer", textAlign: "center" }}>
             Hire Me
-          </a>
+          </button>
         </div>
       )}
     </nav>
