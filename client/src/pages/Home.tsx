@@ -224,7 +224,7 @@ function Nav() {
         {navItems.map(({ id, label }) => (
           <button key={id} onClick={() => scrollTo(id)} style={navLinkStyle(id)}>{label}</button>
         ))}
-        <a href="https://drive.google.com/file/d/1YUEj0JdPnqMBuJJHHRNHGGrpVuNOOFGp/view" target="_blank" rel="noopener noreferrer"
+        <a href="/manus-storage/MikeWinters_CV_Final_1812cfac.pdf" target="_blank" rel="noopener noreferrer"
           style={{ ...navLinkStyle("cv"), color: ACCENT2 }}>
           CV ↗
         </a>
@@ -255,7 +255,7 @@ function Nav() {
               {label}
             </button>
           ))}
-          <a href="https://drive.google.com/file/d/1YUEj0JdPnqMBuJJHHRNHGGrpVuNOOFGp/view" target="_blank" rel="noopener noreferrer"
+          <a href="/manus-storage/MikeWinters_CV_Final_1812cfac.pdf" target="_blank" rel="noopener noreferrer"
             style={{ fontFamily: MONO, fontSize: "0.72rem", color: ACCENT2, padding: "0.35rem 0.75rem", textDecoration: "none" }}>
             CV ↗
           </a>
@@ -390,7 +390,7 @@ function QuerySection({ query, index }: { query: typeof SQL_QUERIES[0]; index: n
         {tab === "sql" ? (
           <SqlBlock code={query.code} />
         ) : (
-          <SampleTable rows={query.sampleOutput as Record<string, string>[]} columns={query.outputColumns} />
+          <SampleTable rows={(query as any).sampleOutput as Record<string, string>[]} columns={(query as any).outputColumns as string[]} />
         )}
       </div>
     </div>
@@ -525,7 +525,7 @@ export default function Home() {
                 style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "#fff", background: ACCENT, border: "none", padding: "0.75rem 1.5rem", borderRadius: 4, cursor: "pointer", transition: "all 0.2s" }}>
                 View Work
               </button>
-              <a href="https://drive.google.com/file/d/1YUEj0JdPnqMBuJJHHRNHGGrpVuNOOFGp/view" target="_blank" rel="noopener noreferrer"
+              <a href="/manus-storage/MikeWinters_CV_Final_1812cfac.pdf" target="_blank" rel="noopener noreferrer"
                 style={{ fontFamily: MONO, fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: TEXT2, background: "transparent", border: `1px solid ${BORDER2}`, padding: "0.75rem 1.5rem", borderRadius: 4, textDecoration: "none", transition: "all 0.2s" }}>
                 Download CV ↗
               </a>
