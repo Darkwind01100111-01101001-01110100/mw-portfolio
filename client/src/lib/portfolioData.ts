@@ -5,8 +5,8 @@
 
 export const METRICS = [
   { value: "15+", label: "Years Experience", sublabel: "Data & Operations" },
-  { value: "29+", label: "Dashboard Widgets", sublabel: "5 Production Dashboards" },
-  { value: "30+", label: "SQL Queries", sublabel: "Production-Grade" },
+  { value: "100+", label: "Dashboard Widgets", sublabel: "5 Production Dashboards" },
+  { value: "50+", label: "SQL Queries", sublabel: "Production-Grade" },
   { value: "100+", label: "Hrs/Week Saved", sublabel: "Program-Wide" },
   { value: "400+", label: "Contractors Managed", sublabel: "6 Global Regions" },
 ];
@@ -47,6 +47,15 @@ export const DASHBOARDS = [
     tags: ["KPI Tracking", "Heatmap", "Multi-metric", "Target Benchmarking"],
     metrics: ["8 teams tracked", "5 KPIs", "Daily granularity", "Target benchmarks"],
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/OperationalPerformanceMatrix-Sample_765413d8.png",
+  },
+  {
+    id: "capacity",
+    title: "Capacity & Workforce Dashboard",
+    subtitle: "Anonymized Sample",
+    description: "Workforce analytics covering occupancy tracking (97\u2013100% achieved), utilization metrics, and capacity planning across 400+ contractors and 6 global regions. Enables proactive staffing decisions before bottlenecks form.",
+    tags: ["Presto SQL", "Workforce analytics", "Real-time", "Capacity planning"],
+    metrics: ["400+ contractors", "6 regions", "Occupancy tracking", "Capacity planning"],
+    image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663377531044/Mk9CrzRFiqrFcvXzQxxR5r/capacity_dashboard_mockup-XRjfnp6f8ybXTuJtTexXUh.png",
   },
 ];
 
