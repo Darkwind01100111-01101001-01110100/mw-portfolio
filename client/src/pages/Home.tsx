@@ -630,7 +630,7 @@ export default function Home() {
           pointerEvents: "none", animation: "obsPulse 4s ease-in-out infinite",
         }} />
         <div ref={heroRef} style={{ maxWidth: 1100, margin: "0 auto", width: "100%", position: "relative", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}
-          className="grid-cols-1 md:grid-cols-2">
+          className="grid-mobile-stack">
           {/* Left column */}
           <div style={{ opacity: heroInView ? 1 : 0, transform: heroInView ? "translateY(0)" : "translateY(30px)", transition: "all 0.7s ease" }}>
             <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "1rem" }}>
@@ -720,7 +720,7 @@ export default function Home() {
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Background &amp; Approach
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-cols-1 md:grid-cols-[2fr_1fr]">
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-mobile-stack">
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85, marginBottom: "1.25rem" }}>
                 Data analytics professional who builds <strong style={{ color: TEXT }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the operational frameworks around them. In the past year: built 5 active production dashboards (100+ widgets), authored 50+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
@@ -755,7 +755,7 @@ export default function Home() {
           <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "3rem" }}>
             5 active production dashboards built from scratch — 100+ total widgets covering productivity, quality, and capacity metrics. Used daily by 20+ team leads across 6 global regions. Click any image to expand.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: "1.5rem" }} className="grid-dashboard-cards">
             {DASHBOARDS.map((d, i) => <DashboardCard key={d.id} dash={d} index={i} />)}
           </div>
         </div>
@@ -822,7 +822,7 @@ export default function Home() {
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Get in Touch
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-cols-1 md:grid-cols-2">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-mobile-stack">
             {/* Links */}
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "2rem" }}>
