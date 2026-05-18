@@ -43,8 +43,8 @@ const TOP_COMPANIES = [
 ];
 
 const QUARTERLY_2026 = [
-  { q: "Q1 2026", people: 81700, note: "Highest quarterly since Q1 2023" },
-  { q: "Q2 2026*", people: 57300, note: "YTD through May 18" },
+  { q: "Q1 2026", people: 81706, note: "Jan 27K · Feb 25K · Mar 49K — highest Q1 since 2023" },
+  { q: "Q2 2026 (partial)", people: 37641, note: "Apr 20K · May 18K through May 18 — Q2 closes Jun 30" },
 ];
 
 const SECTOR_DATA = [
@@ -225,7 +225,7 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
       {/* ── 2026 callout ── */}
       <div style={{ background: "rgba(255,107,107,0.06)", border: "1px solid rgba(255,107,107,0.2)", borderRadius: "0.625rem", padding: "1.25rem", marginBottom: "1.5rem" }}>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: "#ff9b9b", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
-          // 2026 snapshot · data as of May 18, 2026
+          // 2026 snapshot · verified figures · source: trueup.io · as of May 18, 2026
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="grid-mobile-stack">
           {QUARTERLY_2026.map(q => (
@@ -237,7 +237,7 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
           ))}
         </div>
         <p style={{ fontSize: "0.8rem", color: TEXT2, lineHeight: 1.7, marginTop: "0.75rem", marginBottom: 0 }}>
-          At 1,007 people per day, 2026 is tracking above the 2023 peak rate of ~712/day — driven by a combination of AI-driven restructuring (replacing roles with automation), post-ZIRP cost normalization continuing into its fourth year, and a second wave of consumer tech contraction.
+          At 1,007 people per day YTD, 2026 is tracking above the 2023 peak rate of ~712/day — driven by AI-driven restructuring, post-ZIRP cost normalization continuing into its fourth year, and a second wave of consumer tech contraction. Q2 figures are partial through May 18; full quarterly data available after June 30.
         </p>
       </div>
 
