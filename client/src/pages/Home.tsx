@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { METRICS, SKILLS, DASHBOARDS, SQL_QUERIES, TECHNICAL_PATTERNS } from "@/lib/portfolioData";
 import LayoffsSection from "@/components/LayoffsSection";
 import LinkLineSection from "@/components/LinkLineSection";
-import PokemonSection from "@/components/PokemonSection";
 
 // ── Design tokens ──────────────────────────────────────
 const BG   = "#0a0a0b";
@@ -401,11 +400,10 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
 
 // ── Unified Projects section (tabbed) ──────────────────
 function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState<"layoffs" | "link" | "pokemon" | "portfolio">("layoffs");
+  const [activeProject, setActiveProject] = useState<"layoffs" | "link" | "portfolio">("layoffs");
   const projectTabs = [
     { id: "layoffs",   label: "📉 Tech Layoffs 2022–2026",  sub: "Python · SQL · trueup.io" },
-    { id: "link",     label: "🚇 Link 1 Line Analysis",    sub: "R · ggplot2 · Sound Transit" },
-    { id: "pokemon",  label: "🎮 Pokémon Stat Analysis",   sub: "Python · pandas · matplotlib" },
+    { id: "link",     label: "🚇 Seattle Link Light Rail",  sub: "R · ggplot2 · Sound Transit" },
     { id: "portfolio",label: "💻 This Portfolio",          sub: "React · TypeScript · Tailwind" },
   ] as const;
 
@@ -420,7 +418,7 @@ function ProjectsSection() {
           Data Projects
         </h2>
         <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "2.5rem" }}>
-          Personal analytics projects applying the same tools used in production — R, Python, SQL — to real datasets with real questions.
+          Personal analytics projects applying the same tools used in production — R, Python, SQL — to questions I actually wanted answered.
         </p>
 
         {/* Tab bar */}
@@ -448,7 +446,6 @@ function ProjectsSection() {
         <div key={activeProject} style={{ animation: "obsReveal 0.35s ease forwards" }}>
           {activeProject === "layoffs" && <LayoffsSection embedded />}
           {activeProject === "link" && <LinkLineSection embedded />}
-          {activeProject === "pokemon" && <PokemonSection embedded />}
           {activeProject === "portfolio" && (
             <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "2rem" }}>
               <h3 style={{ fontFamily: DISPLAY, fontSize: "1.4rem", fontWeight: 300, color: TEXT, marginBottom: "0.75rem" }}>This Portfolio</h3>
