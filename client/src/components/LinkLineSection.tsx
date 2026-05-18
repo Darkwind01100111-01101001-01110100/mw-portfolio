@@ -123,13 +123,13 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       {/* ── Header ── */}
       <div style={{ marginBottom: "2rem" }}>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEAL, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
-          // data analysis · r · ggplot2 · sound transit · psrc
+          // data analysis · r · ggplot2 · seattle · sound transit · psrc
         </div>
         <h3 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 300, color: TEXT, marginBottom: "0.5rem", letterSpacing: "-0.02em" }}>
-          Link 1 Line: Two Recoveries
+          Seattle Link Light Rail: Two Recoveries
         </h3>
         <p style={{ fontSize: "0.875rem", color: TEXT2, lineHeight: 1.8, maxWidth: 680, marginBottom: "0.5rem" }}>
-          Sound Transit's commuter rail and express buses are stuck at ~59% of their 2019 ridership. The Link 1 Line is at 130% — and climbing. This isn't a recovery story. It's a transformation: from a downtown commuter tool to a regional lifestyle infrastructure layer serving events, students, and transit-dependent communities who were always there.
+          Sound Transit's commuter rail and express buses are stuck at ~59% of their 2019 ridership. Seattle's Link 1 Line — the light rail spine running from Lynnwood through downtown to the airport — is at 130% and climbing. This isn't a recovery story. It's a transformation: from a downtown commuter tool to a regional lifestyle infrastructure layer serving events, students, and transit-dependent communities who were always there.
         </p>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3 }}>
           Data as of 2025 annual figures · Sources: Sound Transit Annual Reports, PSRC Regional Transportation Plan 2025
