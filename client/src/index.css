@@ -116,6 +116,59 @@
   @media (min-width: 640px) {
     .grid-dashboard-cards { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)) !important; }
   }
+  /* Mobile section padding — reduce 6rem top/bottom to 3.5rem on small screens */
+  .section-mobile-pad {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+  @media (min-width: 768px) {
+    .section-mobile-pad { padding-top: unset !important; padding-bottom: unset !important; padding-left: unset !important; padding-right: unset !important; }
+  }
+  /* SQL query card — reduce inner padding on mobile */
+  .query-card-pad {
+    padding: 1rem 1rem !important;
+  }
+  @media (min-width: 640px) {
+    .query-card-pad { padding: 1.25rem 1.5rem !important; }
+  }
+  /* SQL code block — reduce font size on mobile for readability */
+  .sql-pre-mobile {
+    font-size: 0.65rem !important;
+    padding: 0.75rem !important;
+  }
+  @media (min-width: 640px) {
+    .sql-pre-mobile { font-size: 0.75rem !important; padding: 1rem !important; }
+  }
+  /* Patterns table — ensure horizontal scroll on mobile */
+  .patterns-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .patterns-table-wrap table {
+    min-width: 560px;
+  }
+  /* Project tabs — allow wrapping and reduce font on mobile */
+  .project-tabs-mobile {
+    gap: 0 !important;
+  }
+  .project-tabs-mobile button {
+    font-size: 0.62rem !important;
+    padding: 0.5rem 0.65rem !important;
+  }
+  @media (min-width: 640px) {
+    .project-tabs-mobile { gap: 0.25rem !important; }
+    .project-tabs-mobile button { font-size: 0.7rem !important; padding: 0.6rem 1rem !important; }
+  }
+  /* Hero section — reduce horizontal padding on small screens */
+  .hero-mobile-pad {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .hero-mobile-pad { padding-left: unset !important; padding-right: unset !important; }
+  }
 
   /* Panel — Obsidian card style */
   .panel {

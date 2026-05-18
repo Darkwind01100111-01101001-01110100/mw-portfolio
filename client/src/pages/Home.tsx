@@ -6,7 +6,8 @@
 // ═══════════════════════════════════════════════════════
 import { useEffect, useRef, useState } from "react";
 import { METRICS, SKILLS, DASHBOARDS, SQL_QUERIES, TECHNICAL_PATTERNS } from "@/lib/portfolioData";
-import ChelseaSection from "@/components/ChelseaSection";
+import LayoffsSection from "@/components/LayoffsSection";
+import LinkLineSection from "@/components/LinkLineSection";
 import PokemonSection from "@/components/PokemonSection";
 
 // ── Design tokens ──────────────────────────────────────
@@ -112,7 +113,7 @@ function SqlBlock({ code }: { code: string }) {
           {copied ? "✓ copied" : "copy"}
         </button>
       </div>
-      <pre style={{ padding: "1rem", overflowX: "auto", fontSize: "0.75rem", lineHeight: 1.7, color: TEXT, maxHeight: 420, margin: 0 }}
+      <pre style={{ padding: "1rem", overflowX: "auto", fontSize: "0.75rem", lineHeight: 1.7, color: TEXT, maxHeight: 420, margin: 0 }} className="sql-pre-mobile"
         dangerouslySetInnerHTML={{ __html: highlighted }} />
     </div>
   );
@@ -359,7 +360,7 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
         borderRadius: "0.625rem",
         overflow: "hidden",
       }}>
-      <div style={{ padding: "1.25rem 1.5rem", borderBottom: `1px solid ${BORDER}` }}>
+      <div style={{ padding: "1.25rem 1.5rem", borderBottom: `1px solid ${BORDER}` }} className="query-card-pad">
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>
           Query {index + 1} · {query.panel}
         </div>
@@ -387,7 +388,7 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
           </button>
         ))}
       </div>
-      <div style={{ padding: "1.25rem 1.5rem" }}>
+      <div style={{ padding: "1.25rem 1.5rem" }} className="query-card-pad">
         {tab === "sql" ? (
           <SqlBlock code={query.code} />
         ) : (
@@ -400,12 +401,12 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
 
 // ── Unified Projects section (tabbed) ──────────────────
 function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState<"chelsea" | "pokemon" | "portfolio">("chelsea");
-
+  const [activeProject, setActiveProject] = useState<"layoffs" | "link" | "pokemon" | "portfolio">("layoffs");
   const projectTabs = [
-    { id: "chelsea",   label: "⚽ Chelsea FC Analytics",    sub: "EPL data · R projection model" },
-    { id: "pokemon",   label: "🎮 Pokémon Stat Analysis",   sub: "Python · pandas · matplotlib" },
-    { id: "portfolio", label: "💻 This Portfolio",          sub: "React · TypeScript · Tailwind" },
+    { id: "layoffs",   label: "📉 Tech Layoffs 2022–2026",  sub: "Python · SQL · trueup.io" },
+    { id: "link",     label: "🚇 Link 1 Line Analysis",    sub: "R · ggplot2 · Sound Transit" },
+    { id: "pokemon",  label: "🎮 Pokémon Stat Analysis",   sub: "Python · pandas · matplotlib" },
+    { id: "portfolio",label: "💻 This Portfolio",          sub: "React · TypeScript · Tailwind" },
   ] as const;
 
   return (
@@ -419,11 +420,11 @@ function ProjectsSection() {
           Data Projects
         </h2>
         <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "2.5rem" }}>
-          Personal analytics projects applying the same tools used in production — R, Python, SQL — to real datasets I care about.
+          Personal analytics projects applying the same tools used in production — R, Python, SQL — to real datasets with real questions.
         </p>
 
         {/* Tab bar */}
-        <div style={{ display: "flex", gap: "0.25rem", flexWrap: "wrap", marginBottom: "2rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0" }}>
+        <div style={{ display: "flex", gap: "0.25rem", flexWrap: "wrap", marginBottom: "2rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0" }} className="project-tabs-mobile">
           {projectTabs.map(t => (
             <button key={t.id} onClick={() => setActiveProject(t.id)}
               style={{
@@ -445,7 +446,8 @@ function ProjectsSection() {
 
         {/* Panel content */}
         <div key={activeProject} style={{ animation: "obsReveal 0.35s ease forwards" }}>
-          {activeProject === "chelsea" && <ChelseaSection embedded />}
+          {activeProject === "layoffs" && <LayoffsSection embedded />}
+          {activeProject === "link" && <LinkLineSection embedded />}
           {activeProject === "pokemon" && <PokemonSection embedded />}
           {activeProject === "portfolio" && (
             <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "2rem" }}>
@@ -621,7 +623,7 @@ export default function Home() {
       <section id="hero" style={{
         minHeight: "100vh", display: "flex", alignItems: "center",
         padding: "6rem 2rem 4rem", position: "relative", overflow: "hidden",
-      }}>
+      }} className="hero-mobile-pad">
         {/* Glow orb */}
         <div style={{
           position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)",
@@ -714,7 +716,7 @@ export default function Home() {
       </div>
 
       {/* ── ABOUT ── */}
-      <section id="about" style={{ padding: "6rem 2rem" }}>
+      <section id="about" style={{ padding: "6rem 2rem" }} className="section-mobile-pad">
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// about</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
@@ -762,7 +764,7 @@ export default function Home() {
       </section>
 
       {/* ── SQL SHOWCASE ── */}
-      <section id="sql" style={{ padding: "6rem 2rem" }}>
+      <section id="sql" style={{ padding: "6rem 2rem" }} className="section-mobile-pad">
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// sql engineering</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
@@ -778,7 +780,7 @@ export default function Home() {
       </section>
 
       {/* ── TECHNICAL PATTERNS ── */}
-      <section id="patterns" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
+      <section id="patterns" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }} className="section-mobile-pad">
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// architecture</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
@@ -788,7 +790,7 @@ export default function Home() {
             Recurring design patterns applied across all production queries — built for maintainability, scalability, and debuggability.
           </p>
           <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", overflow: "hidden" }}>
-            <div style={{ overflowX: "auto" }}>
+            <div className="patterns-table-wrap">
               <table style={{ width: "100%", fontSize: "0.85rem", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ background: BG2, borderBottom: `1px solid ${BORDER}` }}>
@@ -816,7 +818,7 @@ export default function Home() {
       <ProjectsSection />
 
       {/* ── CONTACT ── */}
-      <section id="contact" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}` }}>
+      <section id="contact" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}` }} className="section-mobile-pad">
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// contact</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>

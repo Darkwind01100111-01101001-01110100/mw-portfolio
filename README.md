@@ -45,6 +45,10 @@ All dashboard and SQL examples use anonymized data. No internal Meta systems, pr
 
 ## Changelog
 
+### May 12, 2026
+- Mobile responsive layout fix: hero, about, contact, and dashboard grids now collapse correctly on small screens
+- Added `.grid-mobile-stack`, `.grid-contact-mobile`, `.grid-dashboard-mobile` utility classes to global CSS
+
 ### May 1, 2026
 - Added inline CV preview modal — "View CV" opens a full-height Google Drive embed with Download PDF button and Escape key support
 - Updated all CV links (nav, mobile menu, hero) to Google Drive hosted PDF (Charcoal/Amber sidebar layout)
