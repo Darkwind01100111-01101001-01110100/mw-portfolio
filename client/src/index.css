@@ -115,16 +115,21 @@
   @media (min-width: 640px) {
     .grid-dashboard-cards { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)) !important; }
   }
-  /* Mobile section padding — reduce 6rem top/bottom to 3.5rem on small screens */
+  /* Section padding: 3.5rem on mobile, 6rem on desktop */
   .section-mobile-pad {
     padding-top: 3.5rem !important;
     padding-bottom: 3.5rem !important;
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
   }
+  /* Desktop: restore full 6rem vertical + fluid horizontal */
   @media (min-width: 768px) {
-    /* Remove the mobile overrides so the inline style's 6rem top/bottom is respected */
-    .section-mobile-pad { padding: revert !important; }
+    .section-mobile-pad {
+      padding-top: 6rem !important;
+      padding-bottom: 6rem !important;
+      padding-left: clamp(2rem, 5vw, 6rem) !important;
+      padding-right: clamp(2rem, 5vw, 6rem) !important;
+    }
   }
   /* SQL query card — reduce inner padding on mobile */
   .query-card-pad {
