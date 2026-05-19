@@ -619,7 +619,7 @@ export default function Home() {
       {/* ── HERO ── */}
       <section id="hero" style={{
         minHeight: "100vh", display: "flex", alignItems: "center",
-        padding: "6rem 2rem 4rem", position: "relative", overflow: "hidden",
+        padding: "6rem clamp(2rem, 5vw, 6rem) 4rem", position: "relative", overflow: "hidden",
       }} className="hero-mobile-pad">
         {/* Glow orb */}
         <div style={{
