@@ -408,8 +408,8 @@ function ProjectsSection() {
   ] as const;
 
   return (
-    <section id="projects" style={{ padding: "6rem 2rem", background: BG }}>
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+    <section id="projects" style={{ padding: "6rem clamp(2rem, 5vw, 6rem)", background: BG }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Eyebrow + title */}
         <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
           // personal projects
@@ -593,8 +593,8 @@ function ContactForm() {
 }
 
 // ── Main page ──────────────────────────────────────────
-const CV_GDRIVE_VIEW = "https://drive.google.com/file/d/1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr/view?usp=sharing";
-const CV_GDRIVE_EMBED = "https://drive.google.com/file/d/1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr/preview";
+const CV_GDRIVE_VIEW = "https://drive.google.com/file/d/16C-GWR30bSoW-bLM4d5xttqLHBZZv8XM/view?usp=drive_link";
+const CV_GDRIVE_EMBED = "https://drive.google.com/file/d/16C-GWR30bSoW-bLM4d5xttqLHBZZv8XM/preview";
 
 export default function Home() {
   const { ref: heroRef, inView: heroInView } = useInView(0.1);
@@ -701,8 +701,8 @@ export default function Home() {
       </section>
 
       {/* ── METRICS ── */}
-      <div style={{ background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, padding: "3rem 2rem" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <div style={{ background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, padding: "3rem clamp(2rem, 5vw, 6rem)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "1.5rem", textAlign: "center" }}>
             // by the numbers
           </div>
@@ -713,8 +713,8 @@ export default function Home() {
       </div>
 
       {/* ── ABOUT ── */}
-      <section id="about" style={{ padding: "6rem 2rem" }} className="section-mobile-pad">
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <section id="about" style={{ padding: "6rem clamp(2rem, 5vw, 6rem)" }} className="section-mobile-pad">
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// about</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Background &amp; Approach
@@ -745,8 +745,8 @@ export default function Home() {
       </section>
 
       {/* ── DASHBOARDS ── */}
-      <section id="dashboards" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <section id="dashboards" style={{ padding: "6rem clamp(2rem, 5vw, 6rem)", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// dashboard work</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Production Dashboards
@@ -761,8 +761,8 @@ export default function Home() {
       </section>
 
       {/* ── SQL SHOWCASE ── */}
-      <section id="sql" style={{ padding: "6rem 2rem" }} className="section-mobile-pad">
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <section id="sql" style={{ padding: "6rem clamp(2rem, 5vw, 6rem)" }} className="section-mobile-pad">
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// sql engineering</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Production SQL Queries
@@ -777,8 +777,8 @@ export default function Home() {
       </section>
 
       {/* ── TECHNICAL PATTERNS ── */}
-      <section id="patterns" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }} className="section-mobile-pad">
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <section id="patterns" style={{ padding: "6rem clamp(2rem, 5vw, 6rem)", background: BG2, borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }} className="section-mobile-pad">
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// architecture</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Technical Patterns
@@ -815,8 +815,8 @@ export default function Home() {
       <ProjectsSection />
 
       {/* ── CONTACT ── */}
-      <section id="contact" style={{ padding: "6rem 2rem", background: BG2, borderTop: `1px solid ${BORDER}` }} className="section-mobile-pad">
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <section id="contact" style={{ padding: "6rem clamp(2rem, 5vw, 6rem)", background: BG2, borderTop: `1px solid ${BORDER}` }} className="section-mobile-pad">
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.75rem" }}>// contact</div>
           <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 300, color: TEXT, letterSpacing: "-0.02em", marginBottom: "1rem", lineHeight: 1.2 }}>
             Get in Touch
@@ -882,7 +882,7 @@ export default function Home() {
               </div>
               <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                 <a
-                  href={`https://drive.google.com/uc?export=download&id=1ceD9a5I2pzzz6HyqWArLHP1EWWYPLPVr`}
+                  href={`https://drive.google.com/uc?export=download&id=16C-GWR30bSoW-bLM4d5xttqLHBZZv8XM`}
                   download="MikeWinters_CV.pdf"
                   style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT2, border: `1px solid rgba(124,106,255,0.3)`, padding: "0.3rem 0.75rem", borderRadius: 3, textDecoration: "none", letterSpacing: "0.06em", textTransform: "uppercase" }}
                 >
