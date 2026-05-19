@@ -643,7 +643,7 @@ export default function Home() {
               Data Analyst &amp; Operations Lead
             </p>
             <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: 480 }}>
-              15+ years building production data systems from scratch — dashboards, SQL pipelines, statistical validation, and the operational frameworks that make them scale.
+              15+ years building production data systems — automated pipelines, SQL engineering, and the operational layer that keeps large annotation programs running.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
               {["SQL · Presto · Trino", "Python · pandas", "R · ggplot2", "Dashboard Design", "Statistical Analysis", "Program Management", "Meta · Kikoff · Figure"].map(t => (
@@ -722,10 +722,10 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-mobile-stack">
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85, marginBottom: "1.25rem" }}>
-                Data analytics professional who builds <strong style={{ color: TEXT }}>production data systems from scratch</strong> — dashboards, automated pipelines, SQL, and the operational frameworks around them. In the past year: built 10+ production dashboards and automated reporting pipelines (100+ widgets), authored 50+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
+                I build <strong style={{ color: TEXT }}>production data systems</strong> — dashboards, automated pipelines, SQL, and the operational layer around them. In the past year: 10+ production dashboards and automated reporting pipelines (100+ widgets), 50+ production SQL queries, ETL across 7+ source tables, and roughly 100+ hrs/week saved in manual reporting across a 400-person annotation program.
               </p>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
-                15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: TEXT }}>Data Analytics, Data Science, Program Management, and Data Engineering</strong>.
+                15 years across AI, fintech, gaming, and lending — turning messy operational data into systems people actually use. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics, Data Engineering, and Program Management</strong>.
               </p>
             </div>
             <div>
