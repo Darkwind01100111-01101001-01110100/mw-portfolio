@@ -12,8 +12,8 @@ const BG3  = "#16161a";
 const BORDER  = "rgba(255,255,255,0.07)";
 const BORDER2 = "rgba(255,255,255,0.12)";
 const TEXT  = "#e8e6f0";
-const TEXT2 = "#9b97b0";
-const TEXT3 = "#6b6880";
+const TEXT2 = "#b8b4cc";
+const TEXT3 = "#8a8699";
 const ACCENT  = "#7c6aff";
 const ACCENT2 = "#a594ff";
 const MONO    = "'JetBrains Mono', monospace";
@@ -31,15 +31,27 @@ const ANNUAL_DATA = [
 
 const TOP_COMPANIES = [
   { company: "Amazon",     year: 2023, count: 27000 },
+  { company: "Intel",      year: 2024, count: 15000 },
   { company: "Google",     year: 2023, count: 12000 },
   { company: "Meta",       year: 2023, count: 11000 },
   { company: "Microsoft",  year: 2023, count: 10000 },
   { company: "Salesforce", year: 2023, count: 10090 },
   { company: "Cisco",      year: 2024, count: 9000  },
-  { company: "Intel",      year: 2024, count: 15000 },
   { company: "Dell",       year: 2023, count: 6650  },
   { company: "Uber",       year: 2022, count: 7585  },
-  { company: "Stripe",     year: 2022, count: 1100  },
+  { company: "Oracle",     year: 2026, count: 30000 },
+];
+// 2026 Big Tech breakdown — sourced from image (May 15, 2026)
+// Sources: TrueUp, TechCrunch, Bloomberg, Reuters
+const BIG_TECH_2026 = [
+  { company: "Oracle",           category: "Enterprise", count: 30000, pct: "~18%",  driver: "AI restructuring (YTD)" },
+  { company: "Amazon",           category: "Big Tech",   count: 30000, pct: "Large", driver: "Corporate restructuring since Oct 2025" },
+  { company: "Meta",             category: "Big Tech",   count: 8000,  pct: "~10%",  driver: "AI infra reallocation (starts May 20)" },
+  { company: "Microsoft",        category: "Big Tech",   count: 8750,  pct: "~7%",   driver: "\"Rule of 70\" voluntary separation" },
+  { company: "Cloudflare",       category: "Enterprise", count: 1100,  pct: "~20%",  driver: "Internal AI usage up 600% in 3 months" },
+  { company: "PayPal",           category: "FinTech",    count: 4760,  pct: "~20%",  driver: "AI automation (over 2\u20133 years)" },
+  { company: "LinkedIn (MSFT)",  category: "Big Tech",   count: 875,   pct: "~5%",   driver: "Revenue slowdown + org flattening" },
+  { company: "BILL",             category: "FinTech",    count: 0,     pct: "~30%",  driver: "AI adoption + profitability push" },
 ];
 
 const QUARTERLY_2026 = [
@@ -236,9 +248,34 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
             </div>
           ))}
         </div>
-        <p style={{ fontSize: "0.8rem", color: TEXT2, lineHeight: 1.7, marginTop: "0.75rem", marginBottom: 0 }}>
+        <p style={{ fontSize: "0.8rem", color: TEXT2, lineHeight: 1.7, marginTop: "0.75rem", marginBottom: "1rem" }}>
           At 1,007 people per day YTD, 2026 is tracking above the 2023 peak rate of ~712/day — driven by AI-driven restructuring, post-ZIRP cost normalization continuing into its fourth year, and a second wave of consumer tech contraction. Q2 figures are partial through May 18; full quarterly data available after June 30.
         </p>
+        {/* Big Tech 2026 breakdown table */}
+        <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: "#ff9b9b", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
+          // notable 2026 events · sources: trueup, techcrunch, bloomberg, reuters · as of may 15, 2026
+        </div>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+          <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse", fontSize: "0.72rem" }}>
+            <thead>
+              <tr style={{ borderBottom: `1px solid rgba(255,107,107,0.25)` }}>
+                {["Company", "Category", "% WF", "Driver"].map(h => (
+                  <th key={h} style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.08em", padding: "0.4rem 0.5rem", textAlign: "left", fontWeight: 400 }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {BIG_TECH_2026.map((r, i) => (
+                <tr key={r.company} style={{ borderBottom: `1px solid ${BORDER}`, background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)" }}>
+                  <td style={{ fontFamily: MONO, fontSize: "0.7rem", color: TEXT, padding: "0.4rem 0.5rem", whiteSpace: "nowrap" }}>{r.company}</td>
+                  <td style={{ fontFamily: MONO, fontSize: "0.65rem", color: r.category === "Big Tech" ? ACCENT2 : r.category === "Enterprise" ? "#60a5fa" : "#34d399", padding: "0.4rem 0.5rem", whiteSpace: "nowrap" }}>{r.category}</td>
+                  <td style={{ fontFamily: MONO, fontSize: "0.7rem", color: "#ff9b9b", padding: "0.4rem 0.5rem" }}>{r.pct}</td>
+                  <td style={{ fontSize: "0.7rem", color: TEXT2, padding: "0.4rem 0.5rem", lineHeight: 1.4 }}>{r.driver}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* ── Code section ── */}
