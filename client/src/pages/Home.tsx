@@ -669,7 +669,7 @@ export default function Home() {
               {
                 label: "Core Competency",
                 title: "Data Analytics & Visualization",
-                desc: "5 production dashboards · 100+ widgets · daily-refresh pipelines used by 20+ team leads across 6 global regions.",
+                desc: "10+ production dashboards & automated pipelines · 100+ widgets · daily-refresh and cron-driven reporting used by 20+ team leads across 6 global regions.",
                 tags: ["Presto SQL", "Enterprise BI", "ggplot2", "pandas"],
               },
               {
@@ -722,7 +722,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-mobile-stack">
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85, marginBottom: "1.25rem" }}>
-                Data analytics professional who builds <strong style={{ color: TEXT }}>production data systems from scratch</strong> — dashboards, SQL pipelines, statistical validation, and the operational frameworks around them. In the past year: built 5 active production dashboards (100+ widgets), authored 50+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
+                Data analytics professional who builds <strong style={{ color: TEXT }}>production data systems from scratch</strong> — dashboards, automated pipelines, SQL, and the operational frameworks around them. In the past year: built 10+ production dashboards and automated reporting pipelines (100+ widgets), authored 50+ production SQL queries, built ETL workflows across 7+ source tables, and saved an estimated 100+ hrs/week in manual reporting across a 400-person AI program.
               </p>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
                 15 years translating operational ambiguity into scalable, data-driven systems across AI, fintech, gaming, and lending. Currently focused on roles in <strong style={{ color: TEXT }}>Data Analytics, Data Science, Program Management, and Data Engineering</strong>.
@@ -752,7 +752,7 @@ export default function Home() {
             Production Dashboards
           </h2>
           <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "3rem" }}>
-            5 active production dashboards built from scratch — 100+ total widgets covering productivity, quality, and capacity metrics. Used daily by 20+ team leads across 6 global regions. Click any image to expand.
+            10+ production dashboards and automated reporting pipelines built from scratch — 100+ total widgets covering productivity, quality, and capacity metrics. Used daily by 20+ team leads across 6 global regions. Click any image to expand.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(380px, 1fr))", gap: "1.5rem" }} className="grid-dashboard-cards">
             {DASHBOARDS.map((d, i) => <DashboardCard key={d.id} dash={d} index={i} />)}
