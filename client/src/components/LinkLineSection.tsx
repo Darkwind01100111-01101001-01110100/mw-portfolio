@@ -153,7 +153,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       </div>
 
       {/* ── View toggle ── */}
-      <div style={{ display: "flex", gap: "0.25rem", marginBottom: "1.25rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: 0 }}>
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
         {([
           { id: "recovery", label: "Recovery Divergence" },
           { id: "stations", label: "Station Character" },
@@ -161,13 +161,15 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
         ] as const).map(v => (
           <button key={v.id} onClick={() => setView(v.id)}
             style={{
-              fontFamily: MONO, fontSize: "0.65rem",
-              background: "transparent", border: "none", cursor: "pointer",
-              color: view === v.id ? TEAL2 : TEXT3,
-              padding: "0.5rem 0.9rem",
-              borderBottom: view === v.id ? `2px solid ${TEAL}` : "2px solid transparent",
-              marginBottom: "-1px",
+              fontFamily: MONO, fontSize: "0.68rem", fontWeight: 600,
+              background: view === v.id ? TEAL : "rgba(255,255,255,0.06)",
+              border: `1px solid ${view === v.id ? TEAL : "rgba(255,255,255,0.15)"}`,
+              borderRadius: "0.375rem",
+              cursor: "pointer",
+              color: view === v.id ? "#0a0a0b" : TEXT,
+              padding: "0.5rem 1.1rem",
               transition: "all 0.15s",
+              letterSpacing: "0.02em",
             }}>
             {v.label}
           </button>
@@ -177,7 +179,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       {/* ── Recovery divergence chart ── */}
       {view === "recovery" && (
         <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>
             Recovery Index vs 2019 Baseline (100% = pre-pandemic)
           </div>
           {/* Chart */}
@@ -240,7 +242,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       {/* ── Station character ── */}
       {view === "stations" && (
         <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1rem" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1rem" }}>
             1 Line Station Character — Angle Lake → Lynnwood City Center
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
@@ -276,7 +278,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       {/* ── Fare compliance ── */}
       {view === "fare" && (
         <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1rem" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1rem" }}>
             Fare Compliance Rate — Link Light Rail (% of boardings with valid fare media)
           </div>
           <div style={{ display: "flex", alignItems: "flex-end", gap: "0.75rem", height: 120, marginBottom: "0.75rem" }}>

@@ -103,12 +103,11 @@
     .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; }
   }
   /* Responsive grid helpers — override inline styles at mobile breakpoints */
-  .grid-mobile-stack {
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
-  }
-  @media (min-width: 768px) {
-    .grid-mobile-stack { grid-template-columns: unset !important; gap: unset !important; }
+  @media (max-width: 767px) {
+    .grid-mobile-stack {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
   }
   .grid-dashboard-cards {
     grid-template-columns: 1fr !important;
