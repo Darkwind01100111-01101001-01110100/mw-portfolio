@@ -5,7 +5,7 @@
 
 export const METRICS = [
   { value: "15+", label: "Years Experience", sublabel: "Data & Operations" },
-  { value: "100+", label: "Dashboard Widgets", sublabel: "5 Production Dashboards" },
+  { value: "100+", label: "Dashboard Widgets", sublabel: "10+ Production Dashboards" },
   { value: "50+", label: "SQL Queries", sublabel: "Production-Grade" },
   { value: "100+", label: "Hrs/Week Saved", sublabel: "Program-Wide" },
   { value: "400+", label: "Contractors Managed", sublabel: "6 Global Regions" },
@@ -16,7 +16,7 @@ export const SKILLS = {
   "Data Engineering": ["ETL Pipelines", "Data Modeling", "Multi-source Integration", "Dev→Prod Workflows"],
   "BI & Visualization": ["Tableau", "Looker", "Dashboard Design", "Plotly", "Google Sheets"],
   "Analytics": ["Statistical Testing", "KPI Tracking", "Anomaly Detection", "Capacity Planning"],
-  "AI & Automation": ["Prompt Engineering", "LLM-augmented Dev", "Automated Reporting"],
+  "AI & Automation": ["GenAI Data Operations", "Multi-modal Annotation", "LLM Workflow Design", "Automated Reporting"],
   "Operations": ["Program Management", "Workforce Management", "QA Frameworks", "Cross-functional Leadership"],
 };
 

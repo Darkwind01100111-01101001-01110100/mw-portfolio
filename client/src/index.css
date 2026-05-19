@@ -148,6 +148,12 @@
   .patterns-table-wrap table {
     min-width: 560px;
   }
+  @media (min-width: 768px) {
+    .patterns-table-wrap table {
+      min-width: unset;
+      width: 100%;
+    }
+  }
   /* Project tabs — allow wrapping and reduce font on mobile */
   .project-tabs-mobile {
     gap: 0 !important;
