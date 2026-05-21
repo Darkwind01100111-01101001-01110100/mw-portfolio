@@ -422,7 +422,7 @@ function ProjectsSection() {
         </p>
 
         {/* Tab bar */}
-        <div style={{ display: "flex", gap: "0.25rem", flexWrap: "wrap", marginBottom: "2rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0" }} className="project-tabs-mobile">
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0" }} className="project-tabs-mobile">
           {projectTabs.map(t => (
             <button key={t.id} onClick={() => setActiveProject(t.id)}
               style={{
@@ -435,7 +435,7 @@ function ProjectsSection() {
                 marginBottom: "-1px",
               }}>
               {t.label}
-              <span style={{ display: "block", fontSize: "0.55rem", color: activeProject === t.id ? TEXT3 : "transparent", marginTop: "0.15rem" }}>
+              <span style={{ display: "block", fontSize: "0.55rem", color: activeProject === t.id ? TEXT3 : "transparent", marginTop: "0.35rem", letterSpacing: "0.04em" }}>
                 {t.sub}
               </span>
             </button>
