@@ -92,12 +92,15 @@ function SqlBlock({ code }: { code: string }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  // Apply highlights in order: numbers first (before any HTML is injected),
+  // then template vars, then comments, then keywords — so injected attribute
+  // values like font-weight:600 are never re-matched by the number regex.
   const highlighted = code
+    .replace(/\b(\d+)\b/g, m => `<span style="color:#f97316">${m}</span>`)
+    .replace(/\{\{[^}]+\}\}/g, m => `<span style="color:#f59e0b">${m}</span>`)
     .replace(/--[^\n]*/g, m => `<span style="color:${TEXT3}">${m}</span>`)
     .replace(/\b(WITH|SELECT|FROM|WHERE|JOIN|LEFT JOIN|GROUP BY|ORDER BY|HAVING|AND|OR|NOT|IN|AS|ON|CASE|WHEN|THEN|ELSE|END|DISTINCT|COUNT|SUM|AVG|ROUND|CAST|NULLIF|COALESCE|VALUES|NULL|TRUE|FALSE)\b/g,
-      m => `<span style="color:${ACCENT2};font-weight:600">${m}</span>`)
-    .replace(/\{\{[^}]+\}\}/g, m => `<span style="color:#f59e0b">${m}</span>`)
-    .replace(/\b(\d+)\b/g, m => `<span style="color:#f97316">${m}</span>`);
+      m => `<span style="color:${ACCENT2};font-weight:600">${m}</span>`);
   return (
     <div style={{ background: "#0d0d10", border: `1px solid rgba(124,106,255,0.2)`, borderRadius: "0.5rem", fontFamily: MONO }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.5rem 1rem", borderBottom: `1px solid ${BORDER}` }}>
@@ -400,10 +403,10 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
 
 // ── Unified Projects section (tabbed) ──────────────────
 function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState<"layoffs" | "link">("layoffs");
+  const [activeProject, setActiveProject] = useState<"layoffs" | "link">("link");
   const projectTabs = [
-    { id: "layoffs", label: "📉 Tech Layoffs 2022–2026", sub: "SQL · Python · trueup.io" },
     { id: "link",    label: "🚇 Seattle Link Light Rail", sub: "SQL · R · Sound Transit" },
+    { id: "layoffs", label: "📉 Tech Layoffs 2022–2026", sub: "SQL · Python · trueup.io" },
   ] as const;
 
   return (

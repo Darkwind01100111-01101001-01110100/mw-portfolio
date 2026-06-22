@@ -2,7 +2,7 @@
 // Project: Tech Layoffs 2022–2026 — The Wave, The Lull, and the Return
 // Design: Obsidian V3 — matches portfolio theme
 // Data sources: trueup.io, Crunchbase, layoffs.fyi (cited inline)
-// Data as of: May 18, 2026
+// Data as of: June 22, 2026
 
 import { useState } from "react";
 
@@ -26,7 +26,7 @@ const ANNUAL_DATA = [
   { year: "2023", people: 260000, events: 1200, color: "#a594ff", note: "Peak wave" },
   { year: "2024", people: 150000, events: 900,  color: "#7c6aff", note: "Cooling period" },
   { year: "2025", people: 246000, events: 783,  color: "#c4b8ff", note: "Second wave" },
-  { year: "2026*",people: 139000, events: 325,  color: "#ff6b6b", note: "YTD — pacing above 2023" },
+  { year: "2026*",people: 154995, events: 407,  color: "#ff6b6b", note: "YTD — pacing above 2023" },
 ];
 
 const TOP_COMPANIES = [
@@ -56,7 +56,7 @@ const BIG_TECH_2026 = [
 
 const QUARTERLY_2026 = [
   { q: "Q1 2026", people: 81706, note: "Jan 27K · Feb 25K · Mar 49K — highest Q1 since 2023" },
-  { q: "Q2 2026 (partial)", people: 37641, note: "Apr 20K · May 18K through May 18 — Q2 closes Jun 30" },
+  { q: "Q2 2026 (partial)", people: 73289, note: "Apr–Jun partial — Q2 closes Jun 30 · pacing above Q1" },
 ];
 
 const SECTOR_DATA = [
@@ -133,7 +133,7 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
           A snapshot analysis of tech industry layoffs from 2022 through mid-2026. Three distinct phases emerge from the data: the 2022–2023 Big Tech correction, a 2024 cooling period, and a resurgent second wave in 2025–2026 that is pacing above the 2023 peak on a per-day basis.
         </p>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3 }}>
-          Data as of May 18, 2026 · Sources: trueup.io, Crunchbase, layoffs.fyi
+          Data as of June 22, 2026 · Sources: trueup.io, Crunchbase, layoffs.fyi
         </div>
       </div>
 
@@ -141,7 +141,7 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
         {[
           { label: "Peak Year", value: "2023", sub: "260,000 impacted" },
-          { label: "2026 Daily Rate", value: "1,007", sub: "people/day YTD" },
+          { label: "2026 Daily Rate", value: "896", sub: "people/day YTD (Jun 22)" },
           { label: "Q1 2026", value: "81,700", sub: "highest Q1 since 2023" },
           { label: "2024 Low", value: "150K", sub: "cooling period" },
         ].map(s => (
@@ -237,7 +237,7 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
       {/* ── 2026 callout ── */}
       <div style={{ background: "rgba(255,107,107,0.06)", border: "1px solid rgba(255,107,107,0.2)", borderRadius: "0.625rem", padding: "1.25rem", marginBottom: "1.5rem" }}>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: "#ff9b9b", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
-          // 2026 snapshot · verified figures · source: trueup.io · as of May 18, 2026
+          // 2026 snapshot · verified figures · source: trueup.io · as of June 22, 2026
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }} className="grid-mobile-stack">
           {QUARTERLY_2026.map(q => (
@@ -249,11 +249,11 @@ export default function LayoffsSection({ embedded }: { embedded?: boolean }) {
           ))}
         </div>
         <p style={{ fontSize: "0.8rem", color: TEXT2, lineHeight: 1.7, marginTop: "0.75rem", marginBottom: "1rem" }}>
-          At 1,007 people per day YTD, 2026 is tracking above the 2023 peak rate of ~712/day — driven by AI-driven restructuring, post-ZIRP cost normalization continuing into its fourth year, and a second wave of consumer tech contraction. Q2 figures are partial through May 18; full quarterly data available after June 30.
+          At 896 people per day YTD (as of June 22), 2026 is tracking well above the 2023 peak rate of ~712/day — driven by AI-driven restructuring, post-ZIRP cost normalization continuing into its fourth year, and a second wave of consumer tech contraction. Q2 figures are partial through June 22; full quarterly data available after June 30.
         </p>
         {/* Big Tech 2026 breakdown table */}
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: "#ff9b9b", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
-          // notable 2026 events · sources: trueup, techcrunch, bloomberg, reuters · as of may 15, 2026
+          // notable 2026 events · sources: trueup, techcrunch, bloomberg, reuters · as of june 22, 2026
         </div>
         <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
           <table style={{ width: "100%", minWidth: 520, borderCollapse: "collapse", fontSize: "0.72rem" }}>
