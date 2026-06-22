@@ -1,8 +1,8 @@
 // LinkLineSection.tsx
-// Project: Link 1 Line — Two Recoveries
+// Project: Seattle Link Light Rail — From Recovery to #1 in the US
 // Design: Obsidian V3 — matches portfolio theme
-// Data sources: Sound Transit Annual Reports, PSRC, Queen Anne News
-// Data as of: May 2026 (2025 annual figures)
+// Data sources: Sound Transit Annual Reports, National Transit Database, Sound Transit press releases
+// Data as of: June 2026
 
 import { useState } from "react";
 
@@ -22,16 +22,16 @@ const DISPLAY = "'Fraunces', serif";
 const SANS    = "'Space Grotesk', sans-serif";
 
 // ── Data ──────────────────────────────────────────────
-// Sound Transit systemwide boardings (millions) — annual
-// Source: Sound Transit Annual Reports + PSRC 2025
+// Sound Transit Link light rail boardings (millions) — annual
+// Source: Sound Transit Annual Reports + National Transit Database
 const RIDERSHIP = [
-  { year: 2019, total: 46.9,  link: 23.1, commuter: 23.8, baseline: true },
-  { year: 2020, total: 15.5,  link: 8.2,  commuter: 7.3  },
-  { year: 2021, total: 17.4,  link: 9.8,  commuter: 7.6  },
-  { year: 2022, total: 31.8,  link: 19.2, commuter: 12.6 },
-  { year: 2023, total: 37.3,  link: 23.4, commuter: 13.9 },
-  { year: 2024, total: 41.4,  link: 27.6, commuter: 13.8 },
-  { year: 2025, total: 44.2,  link: 30.1, commuter: 14.1 },
+  { year: 2019, link: 23.1, commuter: 23.8, baseline: true },
+  { year: 2020, link: 8.2,  commuter: 7.3  },
+  { year: 2021, link: 9.8,  commuter: 7.6  },
+  { year: 2022, link: 19.2, commuter: 12.6 },
+  { year: 2023, link: 23.4, commuter: 13.9 },
+  { year: 2024, link: 27.6, commuter: 13.8 },
+  { year: 2025, link: 37.8, commuter: 14.1 },
 ];
 
 // Recovery % vs 2019 baseline
@@ -41,29 +41,63 @@ const RECOVERY = [
   { year: 2022, link: 83,  commuter: 53 },
   { year: 2023, link: 101, commuter: 58 },
   { year: 2024, link: 119, commuter: 58 },
-  { year: 2025, link: 130, commuter: 59 },
+  { year: 2025, link: 164, commuter: 59 },
 ];
 
-// Key 1 Line stations with ridership character
-const STATIONS = [
-  { name: "SeaTac / Airport", type: "Airport", character: "Leisure + essential travel", trend: "Fully recovered" },
-  { name: "Rainier Beach",    type: "Residential", character: "Transit-dependent community", trend: "Above 2019" },
-  { name: "Columbia City",   type: "Residential", character: "Gentrifying corridor", trend: "Above 2019" },
-  { name: "Capitol Hill",    type: "Urban core", character: "Nightlife, events, residents", trend: "Significantly above 2019" },
-  { name: "UW / Husky",      type: "Institutional", character: "Students + medical center", trend: "Above 2019" },
-  { name: "Northgate",       type: "Suburban hub", character: "Park & ride + mall", trend: "Mixed recovery" },
-  { name: "Lynnwood CC",     type: "New (2024)", character: "Suburban extension", trend: "New station" },
+// Top ridership days in Link history (verified)
+const RECORD_DAYS = [
+  { rank: 1, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "~225K", color: TEAL2 },
+  { rank: 2, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
+  { rank: 3, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "~210K", color: ACCENT2 },
 ];
 
-// Fare compliance — proxy for rider demographics shift
-const FARE_COMPLIANCE = [
-  { year: 2019, pct: 86 },
-  { year: 2020, pct: 52 },
-  { year: 2021, pct: 48 },
-  { year: 2022, pct: 51 },
-  { year: 2023, pct: 56 },
-  { year: 2024, pct: 61 },
+// Monthly milestones
+const MONTHLY_MILESTONES = [
+  { month: "Mar 2026", event: "2 Line opens — Bellevue↔Seattle", riders: "3.4M", note: "Pre-2-Line baseline" },
+  { month: "Apr 2026", event: "First full month with 2 Line", riders: "4.8M", note: "+44% vs March · US #1" },
 ];
+
+const SQL_CODE = `-- Monthly ridership growth and US ranking context
+-- Source: National Transit Database (NTD), April 2026 report
+SELECT
+  agency,
+  month,
+  unlinked_trips_millions,
+  RANK() OVER (
+    PARTITION BY month
+    ORDER BY unlinked_trips_millions DESC
+  ) AS national_rank,
+  ROUND(
+    100.0 * unlinked_trips_millions
+      / LAG(unlinked_trips_millions)
+          OVER (PARTITION BY agency ORDER BY month) - 100,
+    1
+  ) AS mom_growth_pct
+FROM light_rail_ridership
+WHERE month = '2026-04'
+  AND agency IN (
+    'Sound Transit',
+    'LA Metro Rail',
+    'Boston MBTA Green Line',
+    'San Diego MTS'
+  )
+ORDER BY national_rank;`;
+
+const SQL_RECOVERY = `-- Recovery index: Link vs commuter rail, 2019–2025
+SELECT
+  year,
+  mode,
+  boardings_millions,
+  ROUND(
+    100.0 * boardings_millions
+      / FIRST_VALUE(boardings_millions)
+          OVER (PARTITION BY mode ORDER BY year),
+    1
+  ) AS recovery_pct_vs_2019
+FROM transit_ridership
+WHERE year BETWEEN 2019 AND 2025
+  AND mode IN ('Link light rail', 'Commuter rail + Express')
+ORDER BY mode, year;`;
 
 const R_CODE = `library(tidyverse)
 
@@ -97,52 +131,35 @@ recovery %>%
        x = NULL, y = "Recovery Index (2019 = 100%)") +
   theme_minimal()`;
 
-const SQL_CODE = `-- Recovery index by mode and year
-SELECT
-  year,
-  mode,
-  boardings_millions,
-  ROUND(
-    100.0 * boardings_millions
-      / FIRST_VALUE(boardings_millions)
-          OVER (PARTITION BY mode ORDER BY year),
-    1
-  ) AS recovery_pct_vs_2019
-FROM transit_ridership
-WHERE year BETWEEN 2019 AND 2025
-ORDER BY mode, year;`;
-
 export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
-  const [codeTab, setCodeTab] = useState<"r" | "sql">("r");
-  const [view, setView] = useState<"recovery" | "stations" | "fare">("recovery");
-
-  const maxTotal = Math.max(...RIDERSHIP.map(d => d.total));
+  const [codeTab, setCodeTab] = useState<"sql" | "sql_recovery" | "r">("sql");
+  const [view, setView] = useState<"growth" | "recovery" | "records">("growth");
 
   return (
     <div style={{ fontFamily: SANS }}>
       {/* ── Header ── */}
       <div style={{ marginBottom: "2rem" }}>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEAL, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
-          // data analysis · r · ggplot2 · seattle · sound transit · psrc
+          // sql · data analysis · r · seattle · sound transit · national transit database
         </div>
         <h3 style={{ fontFamily: DISPLAY, fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 300, color: TEXT, marginBottom: "0.5rem", letterSpacing: "-0.02em" }}>
-          Seattle Link Light Rail: Two Recoveries
+          Seattle Link Light Rail: From Recovery to #1 in the US
         </h3>
-        <p style={{ fontSize: "0.875rem", color: TEXT2, lineHeight: 1.8, maxWidth: 680, marginBottom: "0.5rem" }}>
-          Sound Transit's commuter rail and express buses are stuck at ~59% of their 2019 ridership. Seattle's Link 1 Line — the light rail spine running from Lynnwood through downtown to the airport — is at 130% and climbing. This isn't a recovery story. It's a transformation: from a downtown commuter tool to a regional lifestyle infrastructure layer serving events, students, and transit-dependent communities who were always there.
+        <p style={{ fontSize: "0.875rem", color: TEXT2, lineHeight: 1.8, maxWidth: 720, marginBottom: "0.5rem" }}>
+          In March 2026, Sound Transit opened the 2 Line across Lake Washington — connecting Seattle and Bellevue for the first time. April ridership hit 4.8 million, a 44% single-month jump, making Seattle the most-ridden light rail system in the United States. This is a city of 4 million people outrunning Los Angeles, Boston, and San Diego on transit. The data tells a story about infrastructure investment, urban density, and what happens when you build the system people actually want to use.
         </p>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3 }}>
-          Data as of 2025 annual figures · Sources: Sound Transit Annual Reports, PSRC Regional Transportation Plan 2025
+          Data as of June 2026 · Sources: Sound Transit Annual Reports, National Transit Database, Sound Transit press releases
         </div>
       </div>
 
       {/* ── Key stats ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
         {[
-          { label: "Link Recovery", value: "130%", sub: "of 2019 baseline (2025)", color: TEAL2 },
-          { label: "Commuter Rail", value: "59%",  sub: "of 2019 baseline (2025)", color: ACCENT2 },
-          { label: "Oct 2024 Record", value: "106K", sub: "avg weekday boardings",  color: TEAL2 },
-          { label: "Lynnwood Ext.", value: "Aug '24", sub: "+8.5 mi, 4 stations",  color: ACCENT2 },
+          { label: "US Ranking", value: "#1",      sub: "light rail ridership (Apr 2026)", color: TEAL2 },
+          { label: "Apr 2026",   value: "4.8M",    sub: "monthly riders (+44% vs March)",  color: TEAL },
+          { label: "Daily Avg",  value: "~160K",   sub: "boardings post-2-Line opening",   color: TEAL2 },
+          { label: "World Cup",  value: "~210K",   sub: "Jun 15 boardings · 3rd all-time", color: ACCENT2 },
         ].map(s => (
           <div key={s.label} style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.5rem", padding: "1rem" }}>
             <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>{s.label}</div>
@@ -155,9 +172,9 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       {/* ── View toggle ── */}
       <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
         {([
+          { id: "growth",   label: "2 Line Growth Story" },
           { id: "recovery", label: "Recovery Divergence" },
-          { id: "stations", label: "Station Character" },
-          { id: "fare",     label: "Fare Compliance" },
+          { id: "records",  label: "Record Days" },
         ] as const).map(v => (
           <button key={v.id} onClick={() => setView(v.id)}
             style={{
@@ -176,34 +193,83 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
         ))}
       </div>
 
+      {/* ── 2 Line Growth Story ── */}
+      {view === "growth" && (
+        <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
+          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>
+            Annual Link Boardings (millions) — 2019 to 2025
+          </div>
+          {/* Bar chart */}
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: 160, marginBottom: "0.75rem" }}>
+            {RIDERSHIP.map(d => {
+              const maxVal = 40;
+              const pct = (d.link / maxVal) * 140;
+              return (
+                <div key={d.year} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.3rem" }}>
+                  <div style={{ fontFamily: MONO, fontSize: "0.48rem", color: d.year >= 2026 ? TEAL2 : d.year === 2025 ? TEAL2 : TEXT3, marginBottom: 2 }}>
+                    {d.link}M
+                  </div>
+                  <div style={{
+                    width: "100%",
+                    height: `${pct}px`,
+                    background: d.baseline
+                      ? "rgba(255,255,255,0.12)"
+                      : d.year === 2025
+                      ? `linear-gradient(to top, ${TEAL}, ${TEAL2})`
+                      : d.year >= 2023
+                      ? `linear-gradient(to top, rgba(45,212,191,0.6), rgba(94,234,212,0.6))`
+                      : `linear-gradient(to top, rgba(45,212,191,0.25), rgba(94,234,212,0.25))`,
+                    borderRadius: "2px 2px 0 0",
+                    transition: "height 0.3s ease",
+                  }} />
+                  <div style={{ fontFamily: MONO, fontSize: "0.52rem", color: TEXT3 }}>{d.year}</div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Monthly milestone callout */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginTop: "1rem" }}>
+            {MONTHLY_MILESTONES.map(m => (
+              <div key={m.month} style={{ background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.4rem", padding: "0.75rem" }}>
+                <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, marginBottom: "0.2rem" }}>{m.month}</div>
+                <div style={{ fontFamily: MONO, fontSize: "1.1rem", fontWeight: 700, color: TEAL2, lineHeight: 1 }}>{m.riders}</div>
+                <div style={{ fontSize: "0.7rem", color: TEXT2, marginTop: "0.2rem" }}>{m.event}</div>
+                <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEAL, marginTop: "0.15rem" }}>{m.note}</div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
+            The 2 Line's crosslake connection — opening March 28, 2026 — was the single largest ridership catalyst in Link history. April 2026's 4.8M monthly figure surpassed Los Angeles, Boston, and San Diego to make Seattle the most-ridden light rail system in the US. Seattle is the 15th largest metro by population, but now ranks 8th nationally across all rail modes.
+          </p>
+        </div>
+      )}
+
       {/* ── Recovery divergence chart ── */}
       {view === "recovery" && (
         <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>
             Recovery Index vs 2019 Baseline (100% = pre-pandemic)
           </div>
-          {/* Chart */}
-          <div style={{ position: "relative", height: 180 }}>
+          <div style={{ position: "relative", height: 200 }}>
             {/* 100% line */}
-            <div style={{ position: "absolute", left: 0, right: 0, top: "33%", borderTop: "1px dashed rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+            <div style={{ position: "absolute", left: 0, right: 0, top: "38%", borderTop: "1px dashed rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
               <span style={{ fontFamily: MONO, fontSize: "0.5rem", color: TEXT3, paddingRight: "0.25rem" }}>100%</span>
             </div>
-            {/* Bars side by side */}
             <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: "100%", paddingBottom: "1.5rem" }}>
               {RECOVERY.map(r => (
                 <div key={r.year} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.2rem", height: "100%", justifyContent: "flex-end" }}>
-                  <div style={{ width: "100%", display: "flex", gap: "2px", alignItems: "flex-end", height: 140 }}>
+                  <div style={{ width: "100%", display: "flex", gap: "2px", alignItems: "flex-end", height: 160 }}>
                     {/* Link bar */}
                     <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", height: "100%" }}>
                       <div style={{ fontFamily: MONO, fontSize: "0.45rem", color: TEAL2, marginBottom: 2 }}>{r.link}%</div>
                       <div style={{
                         width: "100%",
-                        height: `${Math.min(r.link, 140)}px`,
+                        height: `${Math.min(r.link * 0.8, 155)}px`,
                         background: r.link >= 100
                           ? `linear-gradient(to top, ${TEAL}, ${TEAL2})`
                           : `linear-gradient(to top, rgba(45,212,191,0.4), rgba(94,234,212,0.4))`,
                         borderRadius: "2px 2px 0 0",
-                        maxHeight: 140,
+                        maxHeight: 155,
                       }} />
                     </div>
                     {/* Commuter bar */}
@@ -211,14 +277,14 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
                       <div style={{ fontFamily: MONO, fontSize: "0.45rem", color: ACCENT2, marginBottom: 2 }}>{r.commuter}%</div>
                       <div style={{
                         width: "100%",
-                        height: `${Math.min(r.commuter, 140)}px`,
+                        height: `${Math.min(r.commuter * 0.8, 155)}px`,
                         background: `linear-gradient(to top, rgba(124,106,255,0.4), rgba(165,148,255,0.4))`,
                         borderRadius: "2px 2px 0 0",
-                        maxHeight: 140,
+                        maxHeight: 155,
                       }} />
                     </div>
                   </div>
-                  <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3 }}>{r.year}</div>
+                  <div style={{ fontFamily: MONO, fontSize: "0.52rem", color: TEXT3 }}>{r.year}</div>
                 </div>
               ))}
             </div>
@@ -234,94 +300,76 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            Link crossed 100% recovery in 2023 and has continued climbing — driven by the Lynnwood extension, East Link opening, and a structural shift toward non-commute trips (events, airport, students). Commuter modes remain at ~59%, reflecting the permanent reduction in downtown office density.
+            Link crossed 100% recovery in 2023 and reached 164% of its 2019 baseline by 2025 — driven by the Northgate, Lynnwood, and Federal Way extensions, plus the 2 Line. Commuter modes remain at ~59%, reflecting the permanent reduction in downtown office density post-pandemic. Two systems, two very different futures.
           </p>
         </div>
       )}
 
-      {/* ── Station character ── */}
-      {view === "stations" && (
+      {/* ── Record Days ── */}
+      {view === "records" && (
         <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1rem" }}>
-            1 Line Station Character — Angle Lake → Lynnwood City Center
+            Top Ridership Days in Link History
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            {STATIONS.map((s, i) => (
-              <div key={s.name} style={{
-                display: "grid", gridTemplateColumns: "1fr 1fr 1fr",
-                gap: "0.5rem", padding: "0.75rem",
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1.25rem" }}>
+            {RECORD_DAYS.map(d => (
+              <div key={d.rank} style={{
+                display: "grid", gridTemplateColumns: "2rem 1fr auto",
+                gap: "1rem", padding: "0.875rem 1rem",
                 background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.4rem",
                 alignItems: "center",
               }}>
+                <div style={{ fontFamily: MONO, fontSize: "1rem", fontWeight: 700, color: d.color, textAlign: "center" }}>#{d.rank}</div>
                 <div>
-                  <div style={{ fontFamily: MONO, fontSize: "0.7rem", color: TEXT }}>{s.name}</div>
-                  <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, marginTop: "0.15rem" }}>{s.type}</div>
+                  <div style={{ fontSize: "0.82rem", color: TEXT, fontWeight: 500 }}>{d.event}</div>
+                  <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEXT3, marginTop: "0.15rem" }}>{d.date}</div>
                 </div>
-                <div style={{ fontSize: "0.75rem", color: TEXT2 }}>{s.character}</div>
-                <div style={{
-                  fontFamily: MONO, fontSize: "0.6rem",
-                  color: s.trend.includes("above") || s.trend.includes("Significantly") ? TEAL2
-                       : s.trend === "New station" ? ACCENT2
-                       : s.trend === "Mixed recovery" ? "#f59e0b"
-                       : TEXT2,
-                  textAlign: "right",
-                }}>{s.trend}</div>
+                <div style={{ fontFamily: MONO, fontSize: "1rem", fontWeight: 700, color: d.color, textAlign: "right" }}>{d.boardings}</div>
               </div>
             ))}
+          </div>
+          {/* World Cup callout */}
+          <div style={{ background: "rgba(124,106,255,0.08)", border: `1px solid rgba(124,106,255,0.2)`, borderRadius: "0.5rem", padding: "1rem" }}>
+            <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: ACCENT2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>World Cup Deployment — June 15, 2026</div>
+            <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+              {[
+                { label: "Trains deployed", value: "46" },
+                { label: "Railcars", value: "174" },
+                { label: "2-Line 3-car trains", value: "First time ever" },
+              ].map(item => (
+                <div key={item.label}>
+                  <div style={{ fontFamily: MONO, fontSize: "0.9rem", fontWeight: 700, color: ACCENT2 }}>{item.value}</div>
+                  <div style={{ fontSize: "0.68rem", color: TEXT3 }}>{item.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The Rainier Valley corridor (Rainier Beach → Columbia City → Beacon Hill) serves Seattle's most transit-dependent communities and has recovered fastest — these riders never had the option to work from home. Capitol Hill and UW stations reflect the lifestyle and institutional demand that now drives the line's above-baseline performance.
-          </p>
-        </div>
-      )}
-
-      {/* ── Fare compliance ── */}
-      {view === "fare" && (
-        <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1rem" }}>
-            Fare Compliance Rate — Link Light Rail (% of boardings with valid fare media)
-          </div>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.75rem", height: 120, marginBottom: "0.75rem" }}>
-            {FARE_COMPLIANCE.map(f => (
-              <div key={f.year} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.3rem" }}>
-                <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: f.pct >= 80 ? TEAL2 : f.pct >= 60 ? ACCENT2 : "#f59e0b" }}>
-                  {f.pct}%
-                </div>
-                <div style={{
-                  width: "100%", height: `${f.pct}px`,
-                  background: f.pct >= 80
-                    ? `linear-gradient(to top, ${TEAL}, ${TEAL2})`
-                    : f.pct >= 60
-                    ? `linear-gradient(to top, ${ACCENT}, ${ACCENT2})`
-                    : "linear-gradient(to top, #f59e0b, #fbbf24)",
-                  borderRadius: "2px 2px 0 0",
-                  maxHeight: 100,
-                }} />
-                <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3 }}>{f.year}</div>
-              </div>
-            ))}
-          </div>
-          <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginBottom: 0 }}>
-            Fare compliance dropped from 86% in 2019 to 48% at the pandemic nadir — reflecting both suspended enforcement and a shift toward more transit-dependent riders who face greater financial barriers. The Fare Ambassador program launched in 2022 has driven recovery to 61% by 2024, but the gap from 2019 remains a proxy for the changed demographic composition of the ridership base.
+            The World Cup's Egypt vs. Belgium match on June 15 drew ~210,000 boardings — the third highest day in Link history, behind the Seahawks Super Bowl Parade and the 2 Line's opening day. Sound Transit deployed 46 trains with 174 railcars, the most vehicles ever run simultaneously on the system. Seattle was described as the most transit-accessible World Cup venue in the entire tournament.
           </p>
         </div>
       )}
 
       {/* ── Code section ── */}
       <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", overflow: "hidden" }}>
-        <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}` }}>
-          {(["r", "sql"] as const).map(t => (
-            <button key={t} onClick={() => setCodeTab(t)}
+        <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
+          {([
+            { id: "sql",          label: "SQL — national ranking query" },
+            { id: "sql_recovery", label: "SQL — recovery index" },
+            { id: "r",            label: "R — ggplot2 divergence chart" },
+          ] as const).map(t => (
+            <button key={t.id} onClick={() => setCodeTab(t.id)}
               style={{
                 fontFamily: MONO, fontSize: "0.65rem", fontWeight: 500,
                 background: "transparent", border: "none", cursor: "pointer",
-                color: codeTab === t ? TEAL2 : TEXT3,
+                color: codeTab === t.id ? TEAL2 : TEXT3,
                 padding: "0.6rem 1.25rem",
-                borderBottom: codeTab === t ? `2px solid ${TEAL}` : "2px solid transparent",
+                borderBottom: codeTab === t.id ? `2px solid ${TEAL}` : "2px solid transparent",
                 marginBottom: "-1px",
                 transition: "all 0.15s",
+                whiteSpace: "nowrap",
               }}>
-              {t === "r" ? "R — ggplot2 divergence chart" : "SQL — recovery index"}
+              {t.label}
             </button>
           ))}
         </div>
@@ -331,16 +379,18 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             margin: 0, overflowX: "auto", lineHeight: 1.7,
             whiteSpace: "pre",
           }}>
-            <code>{codeTab === "r" ? R_CODE : SQL_CODE}</code>
+            <code>
+              {codeTab === "sql" ? SQL_CODE : codeTab === "sql_recovery" ? SQL_RECOVERY : R_CODE}
+            </code>
           </pre>
         </div>
       </div>
 
       {/* ── Methodology ── */}
       <div style={{ marginTop: "1.25rem", padding: "1rem", background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.5rem" }}>
-        <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>Methodology</div>
+        <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>Methodology & Sources</div>
         <p style={{ fontSize: "0.75rem", color: TEXT3, lineHeight: 1.7, margin: 0 }}>
-          Ridership figures from Sound Transit Annual Reports (2019–2025) and PSRC Puget Sound Trends (June 2025). "Commuter rail + ST Express" aggregates Sounder commuter rail and ST Express bus boardings. Fare compliance data from Sound Transit Fare Revenue Reports. Station character classifications are qualitative, based on Sound Transit ridership pattern reports and Seattle Transit Blog analysis. 2025 figures are preliminary annual estimates.
+          Annual ridership figures from Sound Transit Annual Reports (2019–2025) and the National Transit Database (NTD). April 2026 monthly figure (4.8M) from Urban Institute researcher Yonah Freemark via NTD rapid release data. World Cup ridership (210K, June 15 2026) from Sound Transit official press release dated June 17, 2026 — preliminary APC-based estimate. Recovery index compares Link light rail to Sounder commuter rail + ST Express bus boardings. "Commuter rail + ST Express" aggregates both modes for the divergence analysis. 2025 annual figures are from Sound Transit's published annual report.
         </p>
       </div>
     </div>
