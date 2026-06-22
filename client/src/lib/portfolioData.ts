@@ -13,11 +13,9 @@ export const METRICS = [
 
 export const SKILLS = {
   "Languages": ["SQL (Presto/Trino)", "Python", "R"],
-  "Data Engineering": ["ETL Pipelines", "Data Modeling", "Multi-source Integration", "Dev→Prod Workflows"],
   "BI & Visualization": ["Tableau", "Looker", "Dashboard Design", "Plotly", "Google Sheets"],
-  "Analytics": ["Statistical Testing", "KPI Tracking", "Anomaly Detection", "Capacity Planning"],
-  "AI & Automation": ["GenAI Data Operations", "Multi-modal Annotation", "LLM Workflow Design", "Automated Reporting"],
-  "Operations": ["Program Management", "Workforce Management", "QA Frameworks", "Cross-functional Leadership"],
+  "Data Engineering": ["ETL Pipelines", "Data Modeling", "Multi-source Integration", "Dev→Prod Workflows"],
+  "Analytics": ["KPI Tracking", "Statistical Testing", "Anomaly Detection", "Capacity Planning"],
 };
 
 export const DASHBOARDS = [

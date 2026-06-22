@@ -400,11 +400,10 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
 
 // ── Unified Projects section (tabbed) ──────────────────
 function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState<"layoffs" | "link" | "portfolio">("layoffs");
+  const [activeProject, setActiveProject] = useState<"layoffs" | "link">("layoffs");
   const projectTabs = [
-    { id: "layoffs",   label: "📉 Tech Layoffs 2022–2026",  sub: "Python · SQL · trueup.io" },
-    { id: "link",     label: "🚇 Seattle Link Light Rail",  sub: "R · ggplot2 · Sound Transit" },
-    { id: "portfolio",label: "💻 This Portfolio",          sub: "React · TypeScript · Tailwind" },
+    { id: "layoffs", label: "📉 Tech Layoffs 2022–2026", sub: "SQL · Python · trueup.io" },
+    { id: "link",    label: "🚇 Seattle Link Light Rail", sub: "SQL · R · Sound Transit" },
   ] as const;
 
   return (
@@ -418,7 +417,7 @@ function ProjectsSection() {
           Data Projects
         </h2>
         <p style={{ fontSize: "0.9rem", color: TEXT2, maxWidth: 600, lineHeight: 1.8, marginBottom: "2.5rem" }}>
-          Personal analytics projects applying the same tools used in production — R, Python, SQL — to questions I actually wanted answered.
+          Personal analytics projects applying the same SQL and analytical methods used in production — to questions I actually wanted answered.
         </p>
 
         {/* Tab bar */}
@@ -446,32 +445,7 @@ function ProjectsSection() {
         <div key={activeProject} style={{ animation: "obsReveal 0.35s ease forwards" }}>
           {activeProject === "layoffs" && <LayoffsSection embedded />}
           {activeProject === "link" && <LinkLineSection embedded />}
-          {activeProject === "portfolio" && (
-            <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "2rem" }}>
-              <h3 style={{ fontFamily: DISPLAY, fontSize: "1.4rem", fontWeight: 300, color: TEXT, marginBottom: "0.75rem" }}>This Portfolio</h3>
-              <p style={{ fontSize: "0.875rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem" }}>
-                Built from scratch as a working demonstration of front-end engineering alongside the data work. The goal was a portfolio that <strong style={{ color: TEXT }}>shows</strong> technical depth rather than just describing it — every section is a live, interactive artifact.
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-                {[
-                  { label: "Stack", value: "React 19 + TypeScript" },
-                  { label: "Styling", value: "Tailwind CSS v4" },
-                  { label: "Build", value: "Vite + pnpm" },
-                  { label: "Deploy", value: "Netlify via GitHub" },
-                ].map(item => (
-                  <div key={item.label} style={{ background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.5rem", padding: "1rem" }}>
-                    <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{item.label}</div>
-                    <div style={{ fontFamily: MONO, fontSize: "0.85rem", color: ACCENT2 }}>{item.value}</div>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {["Intersection Observer API", "Animated counters", "SQL syntax highlighting", "SVG radar charts", "Responsive design", "Lightbox gallery"].map(f => (
-                  <span key={f} style={{ fontFamily: MONO, fontSize: "0.65rem", color: TEXT2, background: GLOW2, border: `1px solid rgba(124,106,255,0.15)`, padding: "0.25rem 0.6rem", borderRadius: 3 }}>{f}</span>
-                ))}
-              </div>
-            </div>
-          )}
+
         </div>
       </div>
     </section>
@@ -633,20 +607,20 @@ export default function Home() {
           {/* Left column */}
           <div style={{ opacity: heroInView ? 1 : 0, transform: heroInView ? "translateY(0)" : "translateY(30px)", transition: "all 0.7s ease" }}>
             <div style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "1rem" }}>
-              Data Analytics · Operations · Engineering
+              Data Analytics · SQL Engineering · BI
             </div>
             <h1 style={{ fontFamily: DISPLAY, fontSize: "clamp(3.5rem, 8vw, 6rem)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1rem" }}>
               <span style={{ color: TEXT }}>Mike</span><br />
               <em style={{ color: ACCENT2, fontStyle: "italic" }}>Winters</em>
             </h1>
             <p style={{ fontFamily: SANS, fontSize: "1.1rem", fontWeight: 300, color: TEXT2, marginBottom: "1rem" }}>
-              Data Analyst &amp; Operations Lead
+              Data Analyst
             </p>
             <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: 480 }}>
               15+ years building production data systems — automated pipelines, SQL engineering, and the operational layer that keeps large annotation programs running.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
-              {["SQL · Presto · Trino", "Python · pandas", "R · ggplot2", "Dashboard Design", "Statistical Analysis", "Program Management", "Meta · Kikoff · Figure"].map(t => (
+              {["SQL · Presto · Trino", "Dashboard Design", "ETL Pipelines", "Python · pandas", "Meta · Kikoff · Figure"].map(t => (
                 <span key={t} style={{ fontFamily: MONO, fontSize: "0.68rem", color: TEXT2, background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, padding: "0.25rem 0.6rem", borderRadius: 3 }}>{t}</span>
               ))}
             </div>
@@ -680,9 +654,9 @@ export default function Home() {
               },
               {
                 label: "Core Competency",
-                title: "Operations & Program Management",
-                desc: "400+ contractors · 6 global regions · 100+ hrs/week saved in manual reporting. Built the operational frameworks that scale with headcount.",
-                tags: ["Workforce analytics", "Capacity planning", "Statistical validation"],
+                title: "Analytics Engineering & Automation",
+                desc: "100+ hrs/week saved in manual reporting · automated cron pipelines · ETL across 7+ source tables. Built the data infrastructure that keeps a 400-person program running.",
+                tags: ["ETL", "Automated reporting", "Data modeling", "Cron pipelines"],
               },
             ].map(block => (
               <div key={block.title} style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.25rem", transition: "all 0.3s" }}>
@@ -725,7 +699,7 @@ export default function Home() {
                 I build <strong style={{ color: TEXT }}>production data systems</strong> — dashboards, automated pipelines, SQL, and the operational layer around them. In the past year: 10+ production dashboards and automated reporting pipelines (100+ widgets), 50+ production SQL queries, ETL across 7+ source tables, and roughly 100+ hrs/week saved in manual reporting across a 400-person annotation program.
               </p>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
-                15 years across AI, fintech, gaming, and lending — turning messy operational data into systems people actually use. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics, Data Engineering, and Program Management</strong>.
+                15 years across AI, fintech, gaming, and lending — turning messy operational data into systems people actually use. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics and Data Engineering</strong>.
               </p>
             </div>
             <div>
@@ -825,7 +799,7 @@ export default function Home() {
             {/* Links */}
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "2rem" }}>
-                Open to Data Analyst, Data Engineer, Analytics Engineer, and Program Manager roles. Based in Seattle, WA — open to remote.
+                Open to Data Analyst, Analytics Engineer, and Data Engineer roles. Based in Seattle, WA — open to remote.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {[
