@@ -239,7 +239,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             ))}
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The 2 Line's crosslake connection — opening March 28, 2026 — was the single largest ridership catalyst in Link history. April 2026's 4.8M monthly figure surpassed Los Angeles, Boston, and San Diego to make Seattle the most-ridden light rail system in the US. Seattle is the 15th largest metro by population — now the #1 light rail system in the country.
+            The 2 Line's crosslake connection — opening March 28, 2026 — was the single largest ridership catalyst in Link history. April 2026's 4.8M monthly figure surpassed Los Angeles, Boston, and San Diego to make Seattle the most-ridden light rail system in the US. Seattle is the 15th largest metro by population, but now ranks 8th nationally across all rail modes.
           </p>
         </div>
       )}

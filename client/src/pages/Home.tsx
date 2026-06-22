@@ -623,7 +623,7 @@ export default function Home() {
               15+ years building production data systems — automated pipelines, SQL engineering, and the operational layer that keeps large annotation programs running.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
-              {["SQL · Presto · Trino", "Dashboard Design", "ETL Pipelines", "Python · pandas", "Meta · Kikoff · Figure"].map(t => (
+              {["SQL · Presto · Trino", "Tableau · Looker", "dbt · ETL", "Python · pandas", "Meta · Kikoff · Figure"].map(t => (
                 <span key={t} style={{ fontFamily: MONO, fontSize: "0.68rem", color: TEXT2, background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, padding: "0.25rem 0.6rem", borderRadius: 3 }}>{t}</span>
               ))}
             </div>
