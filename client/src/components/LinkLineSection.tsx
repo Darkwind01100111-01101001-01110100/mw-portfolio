@@ -25,6 +25,9 @@ const SANS    = "'Space Grotesk', sans-serif";
 // Sound Transit Link light rail boardings (millions) — annual
 // Source: Sound Transit Annual Reports + National Transit Database
 const RIDERSHIP = [
+  { year: 2016, link: 13.9, commuter: 21.2 },
+  { year: 2017, link: 16.5, commuter: 22.1 },
+  { year: 2018, link: 20.6, commuter: 23.2 },
   { year: 2019, link: 23.1, commuter: 23.8, baseline: true },
   { year: 2020, link: 8.2,  commuter: 7.3  },
   { year: 2021, link: 9.8,  commuter: 7.6  },
@@ -197,7 +200,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       {view === "growth" && (
         <div style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.5rem", marginBottom: "1.5rem" }}>
           <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>
-            Annual Link Boardings (millions) — 2019 to 2025
+            Annual Link Boardings (millions) — 2016 to 2025
           </div>
           {/* Bar chart */}
           <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: 160, marginBottom: "0.75rem" }}>
@@ -239,7 +242,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             ))}
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The 2 Line's crosslake connection — opening March 28, 2026 — was the single largest ridership catalyst in Link history. April 2026's 4.8M monthly figure surpassed Los Angeles, Boston, and San Diego to make Seattle the most-ridden light rail system in the US. Seattle is the 15th largest metro by population, but now ranks 8th nationally across all rail modes.
+            The 2 Line's crosslake connection — opening March 28, 2026 — was the single largest ridership catalyst in Link history. Notably, Link was already up ~20% in early 2026 before the 2 Line opened, meaning the April 44% surge was additive to an already-accelerating baseline. April 2026's 4.8M monthly figure surpassed Los Angeles, Boston, and San Diego to make Seattle the most-ridden light rail system in the US — the strongest ridership growth of any major metro area. Seattle is the 15th largest metro by population, but now ranks 8th nationally across all rail modes.
           </p>
         </div>
       )}
@@ -390,7 +393,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       <div style={{ marginTop: "1.25rem", padding: "1rem", background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.5rem" }}>
         <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>Methodology & Sources</div>
         <p style={{ fontSize: "0.75rem", color: TEXT3, lineHeight: 1.7, margin: 0 }}>
-          Annual ridership figures from Sound Transit Annual Reports (2019–2025) and the National Transit Database (NTD). April 2026 monthly figure (4.8M) from Urban Institute researcher Yonah Freemark via NTD rapid release data. World Cup ridership (210K, June 15 2026) from Sound Transit official press release dated June 17, 2026 — preliminary APC-based estimate. Recovery index compares Link light rail to Sounder commuter rail + ST Express bus boardings. "Commuter rail + ST Express" aggregates both modes for the divergence analysis. 2025 annual figures are from Sound Transit's published annual report.
+          Annual ridership figures from Sound Transit Annual Reports (2016–2025) and the National Transit Database (NTD). Pre-2-Line +20% early 2026 growth figure and "strongest ridership growth of any major metro" characterization from FTA rapid release data via transit economist Joey Politano (@josephpolitano.bsky.social, April 2026). April 2026 monthly figure (4.8M) from Urban Institute researcher Yonah Freemark via NTD rapid release data. World Cup ridership (210K, June 15 2026) from Sound Transit official press release dated June 17, 2026 — preliminary APC-based estimate. Recovery index compares Link light rail to Sounder commuter rail + ST Express bus boardings. "Commuter rail + ST Express" aggregates both modes for the divergence analysis. 2025 annual figures are from Sound Transit's published annual report.
         </p>
       </div>
     </div>
