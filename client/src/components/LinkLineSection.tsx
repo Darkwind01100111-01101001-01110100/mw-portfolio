@@ -50,8 +50,8 @@ const RECOVERY = [
 // Top ridership days in Link history (verified)
 const RECORD_DAYS = [
   { rank: 1, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "~225K", color: TEAL2 },
-  { rank: 2, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
-  { rank: 3, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "~210K", color: ACCENT2 },
+  { rank: 2, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "~210K", color: ACCENT2, note: "preliminary APC estimate" },
+  { rank: 3, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
 ];
 
 // Monthly milestones
@@ -203,7 +203,8 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             Annual Link Boardings (millions) — 2016 to 2025
           </div>
           {/* Bar chart */}
-          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: 160, marginBottom: "0.75rem" }}>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: 160, marginBottom: "0.75rem", minWidth: 480 }}>
             {RIDERSHIP.map(d => {
               const maxVal = 40;
               const pct = (d.link / maxVal) * 140;
@@ -229,6 +230,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
                 </div>
               );
             })}
+          </div>
           </div>
           {/* Monthly milestone callout */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginTop: "1rem" }}>
@@ -327,7 +329,10 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
                   <div style={{ fontSize: "0.82rem", color: TEXT, fontWeight: 500 }}>{d.event}</div>
                   <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEXT3, marginTop: "0.15rem" }}>{d.date}</div>
                 </div>
-                <div style={{ fontFamily: MONO, fontSize: "1rem", fontWeight: 700, color: d.color, textAlign: "right" }}>{d.boardings}</div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontFamily: MONO, fontSize: "1rem", fontWeight: 700, color: d.color }}>{d.boardings}</div>
+                  {d.note && <div style={{ fontFamily: MONO, fontSize: "0.48rem", color: TEXT3, marginTop: 2 }}>{d.note}</div>}
+                </div>
               </div>
             ))}
           </div>
@@ -348,7 +353,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The World Cup's Egypt vs. Belgium match on June 15 drew ~210,000 boardings — the third highest day in Link history, behind the Seahawks Super Bowl Parade and the 2 Line's opening day. Sound Transit deployed 46 trains with 174 railcars, the most vehicles ever run simultaneously on the system. Seattle was described as the most transit-accessible World Cup venue in the entire tournament.
+            The World Cup's Egypt vs. Belgium match on June 15 drew ~210,000 boardings — the second highest day in Link history behind the Seahawks Super Bowl Parade, edging out the 2 Line's own opening day. Sound Transit deployed 46 trains with 174 railcars, the most vehicles ever run simultaneously on the system. Seattle was described as the most transit-accessible World Cup venue in the entire tournament.
           </p>
         </div>
       )}
