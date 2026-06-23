@@ -204,10 +204,10 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
           </div>
           {/* Bar chart */}
           <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: 160, marginBottom: "0.75rem", minWidth: 480 }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: 180, marginBottom: "0.75rem", minWidth: 480, paddingTop: "1.5rem" }}>
             {RIDERSHIP.map(d => {
               const maxVal = 40;
-              const pct = (d.link / maxVal) * 140;
+              const pct = (d.link / maxVal) * 150;
               return (
                 <div key={d.year} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.3rem" }}>
                   <div style={{ fontFamily: MONO, fontSize: "0.48rem", color: d.year >= 2026 ? TEAL2 : d.year === 2025 ? TEAL2 : TEXT3, marginBottom: 2 }}>
@@ -255,26 +255,26 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
           <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "1.25rem" }}>
             Recovery Index vs 2019 Baseline (100% = pre-pandemic)
           </div>
-          <div style={{ position: "relative", height: 200 }}>
+          <div style={{ position: "relative", height: 220 }}>
             {/* 100% line */}
-            <div style={{ position: "absolute", left: 0, right: 0, top: "38%", borderTop: "1px dashed rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-              <span style={{ fontFamily: MONO, fontSize: "0.5rem", color: TEXT3, paddingRight: "0.25rem" }}>100%</span>
+            <div style={{ position: "absolute", left: 0, right: 0, top: "38%", borderTop: "1px dashed rgba(255,255,255,0.15)" }}>
+              <span style={{ fontFamily: MONO, fontSize: "0.5rem", color: TEXT3, position: "absolute", right: 0, top: "-1rem", paddingRight: "0.25rem" }}>100%</span>
             </div>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: "100%", paddingBottom: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: "100%", paddingBottom: "1.5rem", paddingTop: "1.25rem" }}>
               {RECOVERY.map(r => (
                 <div key={r.year} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.2rem", height: "100%", justifyContent: "flex-end" }}>
-                  <div style={{ width: "100%", display: "flex", gap: "2px", alignItems: "flex-end", height: 160 }}>
+                  <div style={{ width: "100%", display: "flex", gap: "2px", alignItems: "flex-end", height: 170 }}>
                     {/* Link bar */}
                     <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", height: "100%" }}>
                       <div style={{ fontFamily: MONO, fontSize: "0.45rem", color: TEAL2, marginBottom: 2 }}>{r.link}%</div>
                       <div style={{
                         width: "100%",
-                        height: `${Math.min(r.link * 0.8, 155)}px`,
+                        height: `${Math.min(r.link * 0.85, 165)}px`,
                         background: r.link >= 100
                           ? `linear-gradient(to top, ${TEAL}, ${TEAL2})`
                           : `linear-gradient(to top, rgba(45,212,191,0.4), rgba(94,234,212,0.4))`,
                         borderRadius: "2px 2px 0 0",
-                        maxHeight: 155,
+                        maxHeight: 165,
                       }} />
                     </div>
                     {/* Commuter bar */}
@@ -282,10 +282,10 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
                       <div style={{ fontFamily: MONO, fontSize: "0.45rem", color: ACCENT2, marginBottom: 2 }}>{r.commuter}%</div>
                       <div style={{
                         width: "100%",
-                        height: `${Math.min(r.commuter * 0.8, 155)}px`,
+                        height: `${Math.min(r.commuter * 0.85, 165)}px`,
                         background: `linear-gradient(to top, rgba(124,106,255,0.4), rgba(165,148,255,0.4))`,
                         borderRadius: "2px 2px 0 0",
-                        maxHeight: 155,
+                        maxHeight: 165,
                       }} />
                     </div>
                   </div>
