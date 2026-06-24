@@ -49,8 +49,8 @@ const RECOVERY = [
 
 // Top ridership days in Link history
 const RECORD_DAYS = [
-  { rank: 1, event: "World Cup: USA vs. Australia", date: "Jun 19, 2026 (Juneteenth)", boardings: "~280K", color: TEAL2 },
-  { rank: 2, event: "World Cup: pre-match arrivals", date: "Jun 18, 2026", boardings: "~236K", color: ACCENT2 },
+  { rank: 1, event: "World Cup: USA vs. Australia", date: "Jun 19, 2026 (Juneteenth)", boardings: "est. 280K", color: TEAL2 },
+  { rank: 2, event: "World Cup: pre-match arrivals", date: "Jun 18, 2026", boardings: "est. 236K", color: ACCENT2 },
   { rank: 3, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "~220K", color: TEAL },
   { rank: 4, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "210K", color: ACCENT2 },
   { rank: 5, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
@@ -260,7 +260,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
           <div style={{ position: "relative", height: 220 }}>
             {/* 100% line */}
             <div style={{ position: "absolute", left: 0, right: 0, top: "38%", borderTop: "1px dashed rgba(255,255,255,0.15)" }}>
-              <span style={{ fontFamily: MONO, fontSize: "0.5rem", color: TEXT3, position: "absolute", right: 0, top: "-1rem", paddingRight: "0.25rem" }}>100%</span>
+              <span style={{ fontFamily: MONO, fontSize: "0.5rem", color: TEXT3, position: "absolute", left: 0, top: "-1rem", paddingLeft: "0.25rem" }}>100%</span>
             </div>
             <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem", height: "100%", paddingBottom: "1.5rem", paddingTop: "1.25rem" }}>
               {RECOVERY.map(r => (
@@ -343,8 +343,8 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEAL2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>World Cup Week — June 15–19, 2026</div>
             <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
               {[
-                { label: "Jun 19 (Juneteenth)", value: "~280K" },
-                { label: "Jun 18", value: "~236K" },
+                { label: "Jun 19 (Juneteenth)", value: "est. 280K" },
+                { label: "Jun 18", value: "est. 236K" },
                 { label: "Jun 15", value: "210K" },
                 { label: "Trains deployed", value: "46" },
                 { label: "Railcars", value: "174" },
@@ -357,7 +357,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The USA vs. Australia match on Juneteenth (June 19) drew ~280,000 boardings — a new all-time single-day record for Link, surpassing the Seahawks Super Bowl Parade (~220K, Feb 2014). The day before saw ~236,000 as fans arrived early for the Friday match. Three of Link's top five ridership days ever now belong to the 2026 World Cup. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran peak service from 6 AM to 1 AM to handle match crowds, post-match celebrations, and a sold-out Mariners game on the same day.
+            The USA vs. Australia match on Juneteenth (June 19) drew an estimated 280,000 boardings — a new all-time single-day record for Link, surpassing the Seahawks Super Bowl Parade (~220K, Feb 2014). The day before saw an estimated 236,000 as fans arrived early for the Friday match. Three of Link's top five ridership days ever now belong to the 2026 World Cup. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran peak service from 6 AM to 1 AM to handle match crowds, post-match celebrations, and a sold-out Mariners game on the same day.
           </p>
         </div>
       )}

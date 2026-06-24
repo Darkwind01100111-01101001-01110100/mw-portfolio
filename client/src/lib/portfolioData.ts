@@ -8,7 +8,7 @@ export const METRICS = [
   { value: "100+", label: "Dashboard Widgets", sublabel: "10+ Production Dashboards" },
   { value: "50+", label: "SQL Queries", sublabel: "Production-Grade" },
   { value: "100+", label: "Hrs/Week Saved", sublabel: "Program-Wide" },
-  { value: "400+", label: "Contractors Managed", sublabel: "6 Global Regions" },
+  { value: "3", label: "BI Platforms", sublabel: "Tableau · Looker · Power BI" },
 ];
 
 export const SKILLS = {
