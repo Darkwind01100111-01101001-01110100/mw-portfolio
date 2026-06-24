@@ -47,11 +47,13 @@ const RECOVERY = [
   { year: 2025, link: 164, commuter: 59 },
 ];
 
-// Top ridership days in Link history (verified)
+// Top ridership days in Link history
 const RECORD_DAYS = [
-  { rank: 1, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "~225K", color: TEAL2 },
-  { rank: 2, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "~210K", color: ACCENT2, note: "preliminary APC estimate" },
-  { rank: 3, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
+  { rank: 1, event: "World Cup: USA vs. Australia", date: "Jun 19, 2026 (Juneteenth)", boardings: "~280K", color: TEAL2 },
+  { rank: 2, event: "World Cup: pre-match arrivals", date: "Jun 18, 2026", boardings: "~236K", color: ACCENT2 },
+  { rank: 3, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "~220K", color: TEAL },
+  { rank: 4, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "210K", color: ACCENT2 },
+  { rank: 5, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
 ];
 
 // Monthly milestones
@@ -331,29 +333,31 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
                 </div>
                 <div style={{ textAlign: "right" }}>
                   <div style={{ fontFamily: MONO, fontSize: "1rem", fontWeight: 700, color: d.color }}>{d.boardings}</div>
-                  {d.note && <div style={{ fontFamily: MONO, fontSize: "0.48rem", color: TEXT3, marginTop: 2 }}>{d.note}</div>}
+
                 </div>
               </div>
             ))}
           </div>
           {/* World Cup callout */}
-          <div style={{ background: "rgba(124,106,255,0.08)", border: `1px solid rgba(124,106,255,0.2)`, borderRadius: "0.5rem", padding: "1rem" }}>
-            <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: ACCENT2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>World Cup Deployment — June 15, 2026</div>
+          <div style={{ background: "rgba(94,234,212,0.06)", border: `1px solid rgba(94,234,212,0.18)`, borderRadius: "0.5rem", padding: "1rem" }}>
+            <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEAL2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>World Cup Week — June 15–19, 2026</div>
             <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
               {[
+                { label: "Jun 19 (Juneteenth)", value: "~280K" },
+                { label: "Jun 18", value: "~236K" },
+                { label: "Jun 15", value: "210K" },
                 { label: "Trains deployed", value: "46" },
                 { label: "Railcars", value: "174" },
-                { label: "2-Line 3-car trains", value: "First time ever" },
               ].map(item => (
                 <div key={item.label}>
-                  <div style={{ fontFamily: MONO, fontSize: "0.9rem", fontWeight: 700, color: ACCENT2 }}>{item.value}</div>
+                  <div style={{ fontFamily: MONO, fontSize: "0.9rem", fontWeight: 700, color: TEAL2 }}>{item.value}</div>
                   <div style={{ fontSize: "0.68rem", color: TEXT3 }}>{item.label}</div>
                 </div>
               ))}
             </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The World Cup's Egypt vs. Belgium match on June 15 drew ~210,000 boardings — the second highest day in Link history behind the Seahawks Super Bowl Parade, edging out the 2 Line's own opening day. Sound Transit deployed 46 trains with 174 railcars, the most vehicles ever run simultaneously on the system. Seattle was described as the most transit-accessible World Cup venue in the entire tournament.
+            The USA vs. Australia match on Juneteenth (June 19) drew ~280,000 boardings — a new all-time single-day record for Link, surpassing the Seahawks Super Bowl Parade (~220K, Feb 2014). The day before saw ~236,000 as fans arrived early for the Friday match. Three of Link's top five ridership days ever now belong to the 2026 World Cup. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran peak service from 6 AM to 1 AM to handle match crowds, post-match celebrations, and a sold-out Mariners game on the same day.
           </p>
         </div>
       )}
