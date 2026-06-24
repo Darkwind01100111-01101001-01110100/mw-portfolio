@@ -658,7 +658,7 @@ export default function Home() {
               {
                 label: "Core Competency",
                 title: "Analytics Engineering & Automation",
-                desc: "100+ hrs/week saved in manual reporting · automated cron pipelines · ETL across 7+ source tables. Built the data infrastructure that keeps a 400-person program running.",
+                desc: "100+ hrs/week saved in manual reporting · automated cron pipelines · ETL across 7+ source tables. Built the data infrastructure that keeps a 400+ person program running.",
                 tags: ["ETL", "Automated reporting", "Data modeling", "Cron pipelines"],
               },
             ].map(block => (
@@ -699,7 +699,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-mobile-stack">
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85, marginBottom: "1.25rem" }}>
-                I build <strong style={{ color: TEXT }}>production data systems</strong> — dashboards, automated pipelines, SQL, and the operational layer around them. In the past year: 10+ production dashboards and automated reporting pipelines (100+ widgets), 50+ production SQL queries, ETL across 7+ source tables, and roughly 100+ hrs/week saved in manual reporting across a 400-person annotation program.
+                I build <strong style={{ color: TEXT }}>production data systems</strong> — dashboards, automated pipelines, SQL, and the operational layer around them. In the past year: 10+ production dashboards and automated reporting pipelines (100+ widgets), 50+ production SQL queries, ETL across 7+ source tables, and roughly 100+ hrs/week saved in manual reporting across a 400+ person annotation program.
               </p>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
                 15 years across AI, fintech, gaming, and lending — turning messy operational data into systems people actually use. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics and Data Engineering</strong>.
