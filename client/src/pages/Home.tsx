@@ -570,8 +570,8 @@ function ContactForm() {
 }
 
 // ── Main page ──────────────────────────────────────────
-const CV_GDRIVE_VIEW = "https://drive.google.com/file/d/1LDb8evRB3hbjSrsHH8U26sE0i_3-Mfn0/view?usp=drive_link";
-const CV_GDRIVE_EMBED = "https://drive.google.com/file/d/1LDb8evRB3hbjSrsHH8U26sE0i_3-Mfn0/preview";
+const CV_GDRIVE_VIEW = "https://drive.google.com/file/d/1eDw05PmFwA-xHodtjiICtzleRSKcoZ5y/view?usp=drive_link";
+const CV_GDRIVE_EMBED = "https://drive.google.com/file/d/1eDw05PmFwA-xHodtjiICtzleRSKcoZ5y/preview";
 
 export default function Home() {
   const { ref: heroRef, inView: heroInView } = useInView(0.1);
@@ -859,7 +859,7 @@ export default function Home() {
               </div>
               <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                 <a
-                  href={`https://drive.google.com/uc?export=download&id=1LDb8evRB3hbjSrsHH8U26sE0i_3-Mfn0`}
+                  href={`https://drive.google.com/uc?export=download&id=1eDw05PmFwA-xHodtjiICtzleRSKcoZ5y`}
                   download="MikeWinters_CV.pdf"
                   style={{ fontFamily: MONO, fontSize: "0.65rem", color: ACCENT2, border: `1px solid rgba(124,106,255,0.3)`, padding: "0.3rem 0.75rem", borderRadius: 3, textDecoration: "none", letterSpacing: "0.06em", textTransform: "uppercase" }}
                 >
