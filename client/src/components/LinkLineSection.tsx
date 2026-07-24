@@ -2,7 +2,7 @@
 // Project: Seattle Link Light Rail — From Recovery to #1 in the US
 // Design: Obsidian V3 — matches portfolio theme
 // Data sources: Sound Transit Annual Reports, National Transit Database, Sound Transit press releases
-// Data as of: June 2026
+// Data as of: July 2026
 
 import { useState } from "react";
 
@@ -49,17 +49,18 @@ const RECOVERY = [
 
 // Top ridership days in Link history
 const RECORD_DAYS = [
-  { rank: 1, event: "World Cup: USA vs. Australia", date: "Jun 19, 2026", boardings: "280K", color: TEAL2 },
-  { rank: 2, event: "World Cup: pre-match arrivals", date: "Jun 18, 2026", boardings: "236K", color: ACCENT2 },
-  { rank: 3, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "220K", color: TEAL },
-  { rank: 4, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "210K", color: ACCENT2 },
-  { rank: 5, event: "2 Line Crosslake Opening Day", date: "Mar 28, 2026", boardings: "205K", color: TEAL },
+  { rank: 1, event: "World Cup: USA vs. Belgium (Final)", date: "Jul 6, 2026", boardings: "310K", color: TEAL2 },
+  { rank: 2, event: "World Cup: USA vs. Australia", date: "Jun 19, 2026", boardings: "280K", color: ACCENT2 },
+  { rank: 3, event: "World Cup: pre-match arrivals", date: "Jun 18, 2026", boardings: "236K", color: TEAL },
+  { rank: 4, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "220K", color: ACCENT2 },
+  { rank: 5, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "210K", color: TEAL },
 ];
 
 // Monthly milestones
 const MONTHLY_MILESTONES = [
   { month: "Mar 2026", event: "2 Line opens — Bellevue↔Seattle", riders: "3.4M", note: "Pre-2-Line baseline" },
   { month: "Apr 2026", event: "First full month with 2 Line", riders: "4.8M", note: "+44% vs March · US #1" },
+  { month: "Jun 2026", event: "World Cup month — new monthly record", riders: "5.4M", note: "+13% vs April · all 6 match days > 200K" },
 ];
 
 const SQL_CODE = `-- Monthly ridership growth and US ranking context
@@ -154,7 +155,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
           In March 2026, Sound Transit opened the 2 Line across Lake Washington — connecting Seattle and Bellevue for the first time. April ridership hit 4.8 million, a 44% single-month jump, making Seattle the most-ridden light rail system in the United States. This is a city of 4 million people outrunning Los Angeles, Boston, and San Diego on transit. The data tells a story about infrastructure investment, urban density, and what happens when you build the system people actually want to use.
         </p>
         <div style={{ fontFamily: MONO, fontSize: "0.6rem", color: TEXT3 }}>
-          Data as of June 2026 · Sources: Sound Transit Annual Reports, National Transit Database, Sound Transit press releases
+          Data as of July 2026 · Sources: Sound Transit, National Transit Database, APTA
         </div>
       </div>
 
@@ -162,9 +163,9 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
         {[
           { label: "US Ranking", value: "#1",      sub: "light rail ridership (Apr 2026)", color: TEAL2 },
-          { label: "Apr 2026",   value: "4.8M",    sub: "monthly riders (+44% vs March)",  color: TEAL },
-          { label: "Daily Avg",  value: "~160K",   sub: "boardings post-2-Line opening",   color: TEAL2 },
-          { label: "World Cup",  value: "~210K",   sub: "Jun 15 boardings · 3rd all-time", color: ACCENT2 },
+          { label: "Jun 2026",   value: "5.4M",    sub: "monthly record · World Cup month",  color: TEAL },
+          { label: "Match Day",  value: "310K",   sub: "Jul 6 final · all-time record",   color: TEAL2 },
+          { label: "6 Match Days",  value: ">200K",   sub: "each · 3M+ citywide visitors", color: ACCENT2 },
         ].map(s => (
           <div key={s.label} style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.5rem", padding: "1rem" }}>
             <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>{s.label}</div>
@@ -340,9 +341,10 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
           </div>
           {/* World Cup callout */}
           <div style={{ background: "rgba(94,234,212,0.06)", border: `1px solid rgba(94,234,212,0.18)`, borderRadius: "0.5rem", padding: "1rem" }}>
-            <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEAL2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>World Cup Week — June 15–19, 2026</div>
+            <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEAL2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>2026 FIFA World Cup — Seattle Match Days</div>
             <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
               {[
+                { label: "Jul 6 (Final)", value: "310K" },
                 { label: "Jun 19", value: "280K" },
                 { label: "Jun 18", value: "236K" },
                 { label: "Jun 15", value: "210K" },
@@ -357,7 +359,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The USA vs. Australia match on June 19 drew 280,000 boardings — a new all-time single-day record for Link, surpassing the Seahawks Super Bowl Parade (220K, Feb 2014). The day before saw 236,000 as fans arrived early for the Friday match. Three of Link's top five ridership days ever now belong to the 2026 World Cup. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran peak service from 6 AM to 1 AM to handle match crowds, post-match celebrations, and a sold-out Mariners game on the same day.
+            The USA vs. Belgium final on July 6 drew approximately 310,000 boardings — a new all-time single-day record for Link. The previous record (280K, USA vs. Australia on June 19) had stood for just 17 days. All six of Seattle's World Cup match days exceeded 200,000 boardings, and four of Link's top five ridership days ever now belong to the 2026 tournament. June set a new monthly record at 5.4 million boardings. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran all-day peak service on match days for the first time in agency history. Over 3 million people visited downtown Seattle across the six match days.
           </p>
         </div>
       )}
@@ -402,7 +404,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
       <div style={{ marginTop: "1.25rem", padding: "1rem", background: BG2, border: `1px solid ${BORDER}`, borderRadius: "0.5rem" }}>
         <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>Methodology & Sources</div>
         <p style={{ fontSize: "0.75rem", color: TEXT3, lineHeight: 1.7, margin: 0 }}>
-          Annual ridership figures from Sound Transit Annual Reports (2016–2025) and the National Transit Database (NTD). Pre-2-Line +20% early 2026 growth figure and "strongest ridership growth of any major metro" characterization from FTA rapid release data via transit economist Joey Politano (@josephpolitano.bsky.social, April 2026). April 2026 monthly figure (4.8M) from Urban Institute researcher Yonah Freemark via NTD rapid release data. World Cup ridership (210K, June 15 2026) from Sound Transit official press release dated June 17, 2026 — preliminary APC-based estimate. Recovery index compares Link light rail to Sounder commuter rail + ST Express bus boardings. "Commuter rail + ST Express" aggregates both modes for the divergence analysis. 2025 annual figures are from Sound Transit's published annual report.
+          Annual ridership figures from Sound Transit Annual Reports (2016–2025) and the National Transit Database (NTD). Pre-2-Line +20% early 2026 growth figure and "strongest ridership growth of any major metro" characterization from FTA rapid release data via transit economist Joey Politano (@josephpolitano.bsky.social, April 2026). April 2026 monthly figure (4.8M) from Urban Institute researcher Yonah Freemark via NTD rapid release data. World Cup ridership figures from APTA (American Public Transportation Association, July 16 2026) and Sound Transit press releases. June 2026 monthly record (5.4M) and July 6 single-day record (~309K) from APTA. Downtown Seattle attendance (3M+ across 6 match days) from Downtown Seattle Association. Recovery index compares Link light rail to Sounder commuter rail + ST Express bus boardings. 2025 annual figures are from Sound Transit's published annual report.
         </p>
       </div>
     </div>

@@ -6,7 +6,7 @@
 // ═══════════════════════════════════════════════════════
 import { useEffect, useRef, useState } from "react";
 import { METRICS, SKILLS, DASHBOARDS, SQL_QUERIES, TECHNICAL_PATTERNS } from "@/lib/portfolioData";
-import LayoffsSection from "@/components/LayoffsSection";
+import DataIsekaiSection from "@/components/DataIsekaiSection";
 import LinkLineSection from "@/components/LinkLineSection";
 
 // ── Design tokens ──────────────────────────────────────
@@ -403,10 +403,10 @@ function QuerySection({ query, index }: { query: (typeof SQL_QUERIES)[number]; i
 
 // ── Unified Projects section (tabbed) ──────────────────
 function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState<"layoffs" | "link">("link");
+  const [activeProject, setActiveProject] = useState<"isekai" | "link">("link");
   const projectTabs = [
     { id: "link",    label: "🚇 Seattle Link Light Rail", sub: "SQL · R · Sound Transit" },
-    { id: "layoffs", label: "📉 Tech Layoffs 2022–2026", sub: "SQL · Python · trueup.io" },
+    { id: "isekai", label: "⚔️ Data Isekai: Tower of Query", sub: "SQL · React · sql.js · self-directed learning" },
   ] as const;
 
   return (
@@ -423,21 +423,26 @@ function ProjectsSection() {
           Personal analytics projects applying the same SQL and analytical methods used in production — to questions I actually wanted answered.
         </p>
 
-        {/* Tab bar */}
-        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2rem", borderBottom: `1px solid ${BORDER}`, paddingBottom: "0" }} className="project-tabs-mobile">
+        {/* Tab bar — prominent toggle */}
+        <div style={{ fontFamily: MONO, fontSize: "0.55rem", color: TEXT3, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
+          Select a project to explore ↓
+        </div>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "2.5rem" }} className="project-tabs-mobile">
           {projectTabs.map(t => (
             <button key={t.id} onClick={() => setActiveProject(t.id)}
               style={{
-                fontFamily: MONO, fontSize: "0.7rem", fontWeight: 500, letterSpacing: "0.06em",
-                background: "transparent", border: "none", cursor: "pointer",
+                fontFamily: MONO, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.04em",
+                background: activeProject === t.id ? "rgba(124,106,255,0.12)" : BG3,
+                border: activeProject === t.id ? `2px solid ${ACCENT}` : `1px solid ${BORDER}`,
+                borderRadius: "0.5rem",
+                cursor: "pointer",
                 color: activeProject === t.id ? ACCENT2 : TEXT3,
-                padding: "0.6rem 1rem",
-                borderBottom: activeProject === t.id ? `2px solid ${ACCENT}` : "2px solid transparent",
+                padding: "0.85rem 1.25rem",
                 transition: "all 0.2s",
-                marginBottom: "-1px",
+                textAlign: "left",
               }}>
               {t.label}
-              <span style={{ display: "block", fontSize: "0.55rem", color: activeProject === t.id ? TEXT3 : "transparent", marginTop: "0.35rem", letterSpacing: "0.04em" }}>
+              <span style={{ display: "block", fontSize: "0.58rem", color: activeProject === t.id ? TEXT3 : "rgba(138,134,153,0.6)", marginTop: "0.3rem", letterSpacing: "0.04em", fontWeight: 400 }}>
                 {t.sub}
               </span>
             </button>
@@ -446,7 +451,7 @@ function ProjectsSection() {
 
         {/* Panel content */}
         <div key={activeProject} style={{ animation: "obsReveal 0.35s ease forwards" }}>
-          {activeProject === "layoffs" && <LayoffsSection embedded />}
+          {activeProject === "isekai" && <DataIsekaiSection embedded />}
           {activeProject === "link" && <LinkLineSection embedded />}
 
         </div>
@@ -620,7 +625,7 @@ export default function Home() {
               Data Analyst
             </p>
             <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: 480 }}>
-              15+ years building production data systems — automated pipelines, SQL engineering, and the operational layer that keeps large annotation programs running.
+              Data analyst building toward independence in SQL, visualization, and storytelling. Currently embedded at Meta, with 15 years of operational context across AI, fintech, and gaming — learning to let the data speak without leaning on shortcuts.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
               {["SQL · Presto · Trino", "Tableau · Looker · Power BI", "dbt · ETL", "Python · pandas", "Meta · Kikoff · Figure"].map(t => (
@@ -644,22 +649,22 @@ export default function Home() {
             className="hidden md:flex">
             {[
               {
-                label: "Core Competency",
+                label: "What I Do",
                 title: "Data Analytics & Visualization",
-                desc: "10+ production dashboards & automated pipelines · 100+ widgets · daily-refresh and cron-driven reporting used by 20+ team leads across 6 global regions.",
-                tags: ["Presto SQL", "Enterprise BI", "ggplot2", "pandas"],
+                desc: "10+ dashboards serving 20+ team leads across 6 regions. Building comfort with Tableau, Looker, Power BI, and ggplot2 — translating complex data into decisions.",
+                tags: ["Tableau", "Looker", "Power BI", "ggplot2"],
               },
               {
-                label: "Core Competency",
-                title: "SQL Engineering & ETL",
-                desc: "50+ production SQL queries · 7+ source tables · complex CTEs, window functions, and VALUES-based task mapping.",
-                tags: ["Presto / Trino", "CTEs", "Window functions", "ETL"],
+                label: "What I Do",
+                title: "SQL & Data Analysis",
+                desc: "50+ production queries across 7+ source tables. Growing fluency with CTEs, window functions, and multi-table joins — actively practicing outside of AI-assisted workflows.",
+                tags: ["Presto / Trino", "CTEs", "Window functions", "JOINs"],
               },
               {
-                label: "Core Competency",
-                title: "Analytics Engineering & Automation",
-                desc: "100+ hrs/week saved in manual reporting · automated cron pipelines · ETL across 7+ source tables. Built the data infrastructure that keeps a 400+ person program running.",
-                tags: ["ETL", "Automated reporting", "Data modeling", "Cron pipelines"],
+                label: "What I’m Building",
+                title: "Data Independence",
+                desc: "Working to disconnect from AI-dependence in core data skills. Built a SQL learning game, personal transit analysis, and structured practice environments to develop real comfort.",
+                tags: ["Self-directed learning", "sql.js", "R", "Growth mindset"],
               },
             ].map(block => (
               <div key={block.title} style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.625rem", padding: "1.25rem", transition: "all 0.3s" }}>
@@ -699,10 +704,10 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "4rem", alignItems: "start" }} className="grid-mobile-stack">
             <div>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85, marginBottom: "1.25rem" }}>
-                I build <strong style={{ color: TEXT }}>production data systems</strong> — dashboards, automated pipelines, SQL, and the operational layer around them. In the past year: 10+ production dashboards and automated reporting pipelines (100+ widgets), 50+ production SQL queries, ETL across 7+ source tables, and roughly 100+ hrs/week saved in manual reporting across a 400+ person annotation program.
+                I’m a data analyst developing real fluency with SQL, visualization, and data storytelling. In the past year: 10+ dashboards, 50+ production SQL queries, and reporting that serves 20+ team leads across a 400+ person program. I’m actively working to build comfort with these tools independently — without leaning on AI to fill the gaps.
               </p>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
-                15 years across AI, fintech, gaming, and lending — turning messy operational data into systems people actually use. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics and Data Engineering</strong>.
+                15 years across AI, fintech, gaming, and lending — with a through-line of turning messy operational data into something people can actually use. Still learning, still growing. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics</strong> where curiosity and initiative matter as much as expertise.
               </p>
             </div>
             <div>
