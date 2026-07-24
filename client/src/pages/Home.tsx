@@ -625,7 +625,7 @@ export default function Home() {
               Data Analyst
             </p>
             <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: 480 }}>
-              Data-driven leader building toward independence in SQL, visualization, and storytelling. Currently at Meta, with 15 years of operational leadership experience across AI, fintech, and gaming — learning to let the data speak without leaning on shortcuts.
+              Data-driven leader building toward independence in SQL, visualization, and storytelling. Currently at Meta, with almost 20 years of operational leadership across AI, fintech, and gaming — learning to let the data speak without leaning on shortcuts.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
               {["SQL · Presto · Trino", "Tableau · Looker · Power BI", "dbt · ETL", "Python · pandas", "Meta · Kikoff · Figure"].map(t => (
@@ -707,7 +707,7 @@ export default function Home() {
                 I’m a data analyst developing real fluency with SQL, visualization, and data storytelling. In the past year: 10+ dashboards, 50+ production SQL queries, and reporting that serves 20+ team leads across a 400+ person program. I’m actively working to build comfort with these tools independently — without leaning on AI to fill the gaps.
               </p>
               <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.85 }}>
-                15 years across AI, fintech, gaming, and lending — with a through-line of turning messy operational data into something people can actually use. Still learning, still growing. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics</strong> where curiosity and initiative matter as much as expertise.
+                Almost 20 years across AI, fintech, gaming, and lending — with a through-line of turning messy operational data into something people can actually use. Still learning, still growing. Looking for roles in <strong style={{ color: TEXT }}>Data Analytics</strong> where curiosity and initiative matter as much as expertise.
               </p>
             </div>
             <div>

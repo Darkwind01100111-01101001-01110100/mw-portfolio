@@ -15,7 +15,7 @@ export const SKILLS = {
   "Languages": ["SQL (Presto/Trino)", "Python", "R"],
   "BI & Visualization": ["Tableau", "Looker", "Power BI", "Dashboard Design", "Plotly", "Google Sheets"],
   "Data Engineering": ["ETL Pipelines", "Data Modeling", "Multi-source Integration", "Dev→Prod Workflows"],
-  "Analytics": ["KPI Tracking", "Statistical Testing", "Anomaly Detection", "Capacity Planning"],
+  "Analytics": ["KPI Tracking", "Statistical Testing", "Anomaly Detection", "Root-Cause Analysis", "Capacity Planning"],
 };
 
 export const DASHBOARDS = [
