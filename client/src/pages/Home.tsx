@@ -625,7 +625,7 @@ export default function Home() {
               Data Analyst
             </p>
             <p style={{ fontSize: "0.9rem", color: TEXT2, lineHeight: 1.8, marginBottom: "1.5rem", maxWidth: 480 }}>
-              Data analyst building toward independence in SQL, visualization, and storytelling. Currently embedded at Meta, with 15 years of operational context across AI, fintech, and gaming — learning to let the data speak without leaning on shortcuts.
+              Data-driven leader building toward independence in SQL, visualization, and storytelling. Currently at Meta, with 15 years of operational leadership experience across AI, fintech, and gaming — learning to let the data speak without leaning on shortcuts.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.75rem" }}>
               {["SQL · Presto · Trino", "Tableau · Looker · Power BI", "dbt · ETL", "Python · pandas", "Meta · Kikoff · Figure"].map(t => (

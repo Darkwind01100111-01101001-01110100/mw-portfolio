@@ -49,11 +49,11 @@ const RECOVERY = [
 
 // Top ridership days in Link history
 const RECORD_DAYS = [
-  { rank: 1, event: "World Cup: USA vs. Belgium (Final)", date: "Jul 6, 2026", boardings: "310K", color: TEAL2 },
-  { rank: 2, event: "World Cup: USA vs. Australia", date: "Jun 19, 2026", boardings: "280K", color: ACCENT2 },
+  { rank: 1, event: "World Cup: USA vs. Belgium (Round of 16)", date: "Jul 6, 2026", boardings: "310K", color: TEAL2 },
+  { rank: 2, event: "World Cup: USA vs. Australia (Group Stage)", date: "Jun 19, 2026", boardings: "280K", color: ACCENT2 },
   { rank: 3, event: "World Cup: pre-match arrivals", date: "Jun 18, 2026", boardings: "236K", color: TEAL },
   { rank: 4, event: "Seahawks Super Bowl Parade", date: "Feb 2014", boardings: "220K", color: ACCENT2 },
-  { rank: 5, event: "World Cup: Egypt vs. Belgium", date: "Jun 15, 2026", boardings: "210K", color: TEAL },
+  { rank: 5, event: "World Cup: Egypt vs. Belgium (Group Stage)", date: "Jun 15, 2026", boardings: "210K", color: TEAL },
 ];
 
 // Monthly milestones
@@ -164,7 +164,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
         {[
           { label: "US Ranking", value: "#1",      sub: "light rail ridership (Apr 2026)", color: TEAL2 },
           { label: "Jun 2026",   value: "5.4M",    sub: "monthly record · World Cup month",  color: TEAL },
-          { label: "Match Day",  value: "310K",   sub: "Jul 6 final · all-time record",   color: TEAL2 },
+          { label: "Match Day",  value: "310K",   sub: "Jul 6 (R16) · all-time record",   color: TEAL2 },
           { label: "6 Match Days",  value: ">200K",   sub: "each · 3M+ citywide visitors", color: ACCENT2 },
         ].map(s => (
           <div key={s.label} style={{ background: BG3, border: `1px solid ${BORDER}`, borderRadius: "0.5rem", padding: "1rem" }}>
@@ -344,7 +344,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             <div style={{ fontFamily: MONO, fontSize: "0.58rem", color: TEAL2, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.4rem" }}>2026 FIFA World Cup — Seattle Match Days</div>
             <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
               {[
-                { label: "Jul 6 (Final)", value: "310K" },
+                { label: "Jul 6 (R16)", value: "310K" },
                 { label: "Jun 19", value: "280K" },
                 { label: "Jun 18", value: "236K" },
                 { label: "Jun 15", value: "210K" },
@@ -359,7 +359,7 @@ export default function LinkLineSection({ embedded }: { embedded?: boolean }) {
             </div>
           </div>
           <p style={{ fontSize: "0.78rem", color: TEXT2, lineHeight: 1.7, marginTop: "1rem", marginBottom: 0 }}>
-            The USA vs. Belgium final on July 6 drew approximately 310,000 boardings — a new all-time single-day record for Link. The previous record (280K, USA vs. Australia on June 19) had stood for just 17 days. All six of Seattle's World Cup match days exceeded 200,000 boardings, and four of Link's top five ridership days ever now belong to the 2026 tournament. June set a new monthly record at 5.4 million boardings. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran all-day peak service on match days for the first time in agency history. Over 3 million people visited downtown Seattle across the six match days.
+            The USA vs. Belgium Round of 16 match on July 6 drew approximately 310,000 boardings — a new all-time single-day record for Link. The previous record (280K, USA vs. Australia group stage on June 19) had stood for just 17 days. All six of Seattle's World Cup match days exceeded 200,000 boardings, and four of Link's top five ridership days ever now belong to the 2026 tournament. June set a new monthly record at 5.4 million boardings. Sound Transit deployed 46 trains with 174 railcars — the most vehicles ever run simultaneously — and ran all-day peak service on match days for the first time in agency history. Over 3 million people visited downtown Seattle across the six match days.
           </p>
         </div>
       )}

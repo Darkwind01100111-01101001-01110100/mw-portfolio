@@ -80,7 +80,7 @@ export default function DataIsekaiSection({ embedded }: { embedded?: boolean }) 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
         {[
           { label: "Floors", value: "10", sub: "progressive SQL challenges", color: TEAL2 },
-          { label: "Concepts", value: "12+", sub: "SELECT → CTEs → window fns", color: TEAL },
+          { label: "Concepts", value: "12+", sub: "SELECT → CTEs → window functions", color: TEAL },
           { label: "Engine", value: "SQLite", sub: "real execution via WebAssembly", color: TEAL2 },
           { label: "Purpose", value: "Learn", sub: "build comfort without AI", color: ACCENT2 },
         ].map(s => (
